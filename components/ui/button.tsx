@@ -1,23 +1,44 @@
 import { colors, size } from '@/const';
+import { useRouter } from 'expo-router';
 import React from 'react';
-import { StyleSheet, TouchableOpacity, TouchableOpacityProps } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity, TouchableOpacityProps, View } from 'react-native';
 
 type ButtonProps = {
-    variants?:"primary"|"secondary"|"link"
+    variants?:"primary"|"secondary"|"link"|"ghost"|"outline"
 } & TouchableOpacityProps;
 
 const Button = ({variants="primary", style, ...props}:ButtonProps) => {
 
   return (
     <TouchableOpacity
-        style={[
-            variants==="primary"?
-                styleSheet.primary:
-                (variants==="secondary"?styleSheet.secondary:styleSheet.link),
-            style]}
+        style={[styleSheet[variants],style]}
         {...props}
     />
   )
+}
+
+export function GoBackButton(){
+    const router = useRouter();
+
+    return (
+        <View>
+            <Button style={{
+                backgroundColor:colors.lightGray,
+                alignSelf:"flex-start"
+            }}
+                onPress={()=>{
+                    if(router.canGoBack()){
+                        router.back();
+                    }
+                }}
+            >
+                <Image
+                    source={require("@/assets/icons/back.png")}
+                    style={{width:20, height:20}}
+                />
+            </Button>
+        </View>
+    )
 }
 
 export default Button
@@ -27,7 +48,10 @@ const styleSheet = StyleSheet.create({
         backgroundColor:colors.primaryColor,
         borderRadius:size.md,
         paddingHorizontal:20,
-        paddingVertical:13
+        paddingVertical:13,
+        display:"flex",
+        flexDirection:"row",
+        justifyContent:'center'
     },
     secondary:{
         backgroundColor:colors.secondaryColor,
@@ -35,9 +59,29 @@ const styleSheet = StyleSheet.create({
         paddingHorizontal:20,
         paddingVertical:13,
         display:"flex",
-        justifyContent:"center"
+        justifyContent:"center",
+        flexDirection:"row"
     },
     link:{
-
+        backgroundColor:"transparent",
+        display:"flex",
+        flexDirection:"row"
+    },
+    ghost:{
+        backgroundColor:"transparent",
+        display:"flex",
+        flexDirection:"row",
+        justifyContent:'center'
+    },
+    outline:{
+        borderRadius:size.md,
+        paddingHorizontal:20,
+        paddingVertical:13,
+        display:"flex",
+        flexDirection:"row",
+        borderWidth:1,
+        borderColor:colors.lightGray,
+        justifyContent:'center',
+        alignItems:"center"
     }
 })

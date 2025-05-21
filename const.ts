@@ -1,6 +1,7 @@
 export const colors = {
     primaryColor : "#093fe0",
-    secondaryColor: "#53555c"
+    secondaryColor: "#53555c",
+    lightGray:"#d5d6de"
 };
 
 export const size = {
