@@ -1,7 +1,7 @@
-import { UserRole } from "./types/user";
+import { UserRole } from "../types/user";
 
 export const colors = {
-    primaryColor : "#093fe0",
+    primaryColor : "#3595e8",
     secondaryColor: "#53555c",
     lightGray:"#d5d6de"
 };

@@ -1,6 +1,6 @@
 import { useAuth } from "@/components/providers/AuthProvider";
 import Button from "@/components/ui/button";
-import { colors, size } from "@/const";
+import { colors, size } from "@/const/const";
 import { Session } from "@/types/user";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";

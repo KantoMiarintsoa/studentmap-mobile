@@ -1,4 +1,4 @@
-import { colors, size } from '@/const';
+import { colors, size } from '@/const/const';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { Image, StyleSheet, TouchableOpacity, TouchableOpacityProps, View } from 'react-native';

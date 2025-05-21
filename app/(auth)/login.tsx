@@ -1,7 +1,7 @@
 import { useAuth } from '@/components/providers/AuthProvider'
 import Button, { GoBackButton } from '@/components/ui/button'
 import { Input, PasswordInput } from '@/components/ui/input'
-import { ALLOWED_ROLE, colors, size } from '@/const'
+import { ALLOWED_ROLE, colors, size } from '@/const/const'
 import { loginSchema, LoginSchema } from '@/schema/auth'
 import { login } from '@/services/api'
 import { zodResolver } from "@hookform/resolvers/zod"
