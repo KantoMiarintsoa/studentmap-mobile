@@ -1,3 +1,5 @@
+import { UserRole } from "./types/user";
+
 export const colors = {
     primaryColor : "#093fe0",
     secondaryColor: "#53555c",
@@ -12,3 +14,5 @@ export const size = {
     xl:24,
     "2xl":30
 }
+
+export const ALLOWED_ROLE:UserRole[] = ["OWNER", "STUDENT"];

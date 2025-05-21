@@ -1,10 +1,12 @@
+import { useAuth } from '@/components/providers/AuthProvider'
 import Button, { GoBackButton } from '@/components/ui/button'
 import { Input, PasswordInput } from '@/components/ui/input'
-import { colors, size } from '@/const'
+import { ALLOWED_ROLE, colors, size } from '@/const'
 import { loginSchema, LoginSchema } from '@/schema/auth'
 import { login } from '@/services/api'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { AxiosError } from 'axios'
+import { useRouter } from 'expo-router'
 import React from 'react'
 import { Controller, useForm } from "react-hook-form"
 import { ActivityIndicator, Image, StyleSheet, Text, View } from 'react-native'
@@ -19,10 +21,23 @@ const LoginScreen = () => {
         resolver:zodResolver(loginSchema)
     });
 
+    const router = useRouter();
+
+    const {updateSession} = useAuth();
+
     const handleLogin = async(data:LoginSchema)=>{
         try{
             const response = await login(data);
-            console.log(response)
+
+            if(!ALLOWED_ROLE.includes(response.user.role)){
+                // show dialog
+                return;
+            }
+            await updateSession(response);
+            // redirect
+            router.push(
+                response.user.role==="STUDENT"?"/(student)/home":"/(owner)/home"
+            );
         }
         catch(error){
             const axiosError = error as AxiosError;

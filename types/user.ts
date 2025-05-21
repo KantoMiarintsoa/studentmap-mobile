@@ -1,4 +1,4 @@
-export type UserRole = "ADMIN" | "SUDENT" | "OWNER" | "ORGANIZER";
+export type UserRole = "ADMIN" | "STUDENT" | "OWNER" | "ORGANIZER";
 
 export type User = {
     id:string;
