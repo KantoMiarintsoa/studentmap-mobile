@@ -117,6 +117,20 @@ const LoginScreen = () => {
                     <Text style={{color:"#fff", textAlign:"center"}}>Connecter</Text>
                 </Button>
 
+                <View style={{
+                    display:"flex",
+                    flexDirection:"row",
+                    gap:5,
+                    marginTop:10
+                    }}>
+                    <Text style={{color:colors.secondaryColor}}>Vous n'avez pas de compte?</Text>
+                    <Button variants="link" 
+                        onPress={()=>router.push("/register")}
+                    >
+                        <Text style={{color:colors.primaryColor, fontWeight:500}}>Inscriver vous</Text>
+                    </Button>
+                    </View>
+
                 {/* separator */}
 
                 <View style={{marginVertical:10, display:'flex', flexDirection:"row", gap:10, width:"100%", alignItems:"center"}}>
