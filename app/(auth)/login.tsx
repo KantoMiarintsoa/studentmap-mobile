@@ -9,7 +9,7 @@ import { AxiosError } from 'axios'
 import { useRouter } from 'expo-router'
 import React from 'react'
 import { Controller, useForm } from "react-hook-form"
-import { ActivityIndicator, Image, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, Alert, Image, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 const LoginScreen = () => {
@@ -41,7 +41,19 @@ const LoginScreen = () => {
         }
         catch(error){
             const axiosError = error as AxiosError;
-            console.log(axiosError.request);
+            if(axiosError.status===500){
+                // dialog
+                Alert.alert("Error", "Oups, Il y a eu un erreur. Ne vous inquietez pas, on est sur le coup", [
+                    {
+                        text:"OK",
+                        style:"default"
+                    }
+                ]);
+                return;
+            }
+
+            // no corresponding user
+            form.setError("root", {message:"no user found"});
         }
     }
 
