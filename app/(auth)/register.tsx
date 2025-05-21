@@ -1,8 +1,11 @@
+import { useAuth } from '@/components/providers/AuthProvider'
 import Button, { GoBackButton } from '@/components/ui/button'
 import { Input, PasswordInput } from '@/components/ui/input'
 import { colors, size } from '@/const'
 import { registerSchema, RegisterSchema } from '@/schema/auth'
+import { login, register } from '@/services/api'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { AxiosError } from 'axios'
 import { useRouter } from 'expo-router'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
@@ -23,8 +26,26 @@ const RegisterScreen = () => {
 
   const router = useRouter();
 
+  const {updateSession} = useAuth();
+
   const handleRegister = async (data:RegisterSchema)=>{
-    console.log(data);
+    try{
+      await register(data);
+      // login if success
+      const loginResponse = await login({email:data.email, password:data.password});
+      await updateSession(loginResponse);
+      // redirect
+      router.push(
+          loginResponse.user.role==="STUDENT"?"/(student)/home":"/(owner)/home"
+      );
+    }
+    catch(error){
+      const axiosError = error as AxiosError;
+      const data = axiosError.response?.data as {message:string}|undefined
+      if(data?.message.includes("email")){
+        form.setError("email", {message:"Cet email est deja pris"});
+      }
+    }
   }
 
   return (
@@ -71,7 +92,7 @@ const RegisterScreen = () => {
                     <Text style={[{
                         color:colors.secondaryColor, fontWeight:500, fontSize:size.md
                     }, errors.email && style.textError]}>
-                        {errors.email ? "Email* invalide":"Email*"}
+                        {errors.email ? `Email* ${errors.email.message}`:"Email*"}
                     </Text>
                     <Input
                         onChangeText={onChange}
