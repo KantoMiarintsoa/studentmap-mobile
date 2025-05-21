@@ -12,9 +12,9 @@ const AuthContext = createContext<AuthProviderProps>({
     updateSession:()=>{}
 })
 
-export function AuthProvider({children}:{children:ReactNode}){
+export function AuthProvider({children, initialSession}:{children:ReactNode, initialSession?:Session}){
 
-    const [session, setSession] = useState<Session | undefined>();
+    const [session, setSession] = useState<Session | undefined>(initialSession);
 
     const updateSession =  async (session?:Session)=>{
         if(!session){
