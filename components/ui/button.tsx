@@ -51,7 +51,8 @@ const styleSheet = StyleSheet.create({
         paddingVertical:13,
         display:"flex",
         flexDirection:"row",
-        justifyContent:'center'
+        justifyContent:'center',
+        gap:10
     },
     secondary:{
         backgroundColor:colors.secondaryColor,

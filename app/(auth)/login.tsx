@@ -2,7 +2,9 @@ import Button, { GoBackButton } from '@/components/ui/button'
 import { Input, PasswordInput } from '@/components/ui/input'
 import { colors, size } from '@/const'
 import { loginSchema, LoginSchema } from '@/schema/auth'
+import { login } from '@/services/api'
 import { zodResolver } from "@hookform/resolvers/zod"
+import { AxiosError } from 'axios'
 import React from 'react'
 import { Controller, useForm } from "react-hook-form"
 import { ActivityIndicator, Image, StyleSheet, Text, View } from 'react-native'
@@ -18,7 +20,14 @@ const LoginScreen = () => {
     });
 
     const handleLogin = async(data:LoginSchema)=>{
-        console.log(data);
+        try{
+            const response = await login(data);
+            console.log(response)
+        }
+        catch(error){
+            const axiosError = error as AxiosError;
+            console.log(axiosError.request);
+        }
     }
 
   return (
@@ -85,11 +94,12 @@ const LoginScreen = () => {
 
                 <Button
                     onPress={form.handleSubmit(handleLogin)}
+                    style={{width:"100%"}}
                 >
                     {isSubmitting && (
                         <ActivityIndicator size={"small"} color={"#fff"}/>
                     )}
-                    <Text style={{color:"#fff", width:"100%", textAlign:"center"}}>Connecter</Text>
+                    <Text style={{color:"#fff", textAlign:"center"}}>Connecter</Text>
                 </Button>
 
                 {/* separator */}
