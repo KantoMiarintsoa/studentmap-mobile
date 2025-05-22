@@ -6,6 +6,7 @@ export type User = {
     lastName:string;
     email:string;
     role:UserRole;
+    profilePicture?:string;
 }
 
 export type Session = {

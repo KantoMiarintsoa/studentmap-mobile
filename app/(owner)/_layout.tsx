@@ -12,7 +12,7 @@ const OwnerLayout = () => {
     >
         <Tabs.Screen name='home' options={{title:"Accueil"}}/>
         <Tabs.Screen name='post' options={{title:"Poster"}}/>
-        <Tabs.Screen name='profile' options={{title:"Profile"}}/>
+        <Tabs.Screen name='menu' options={{title:"Menu"}}/>
     </Tabs>
   )
 }
