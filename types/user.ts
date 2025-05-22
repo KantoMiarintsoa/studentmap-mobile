@@ -7,6 +7,7 @@ export type User = {
     email:string;
     role:UserRole;
     profilePicture?:string;
+    contact:string;
 }
 
 export type Session = {
