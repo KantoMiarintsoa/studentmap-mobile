@@ -3,10 +3,12 @@ import { updatePasswordSchema, UpdatePasswordSchema } from '@/schema/user'
 import { updatePassword } from '@/services/api'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { AxiosError } from 'axios'
+import { useRouter } from 'expo-router'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import Toast from 'react-native-toast-message'
 import { useAuth } from '../providers/AuthProvider'
 import Button from '../ui/button'
 import { PasswordInput } from '../ui/input'
@@ -22,18 +24,24 @@ const SecurityForm = () => {
 
     const {session} = useAuth();
 
+    const router = useRouter();
+
     const handleChangePassword = async(data:UpdatePasswordSchema)=>{
 
         if(!session)return;
 
         try{
-            const response = await updatePassword(session.user.id, data);
-            console.log(response);
+            await updatePassword(session.user.id, data);
+            Toast.show({
+                type:"success",
+                text1:"Sécurité",
+                text2:"Mot de passe changé avec succès",
+                position:"top"
+            });
+            router.back();
         }
         catch(error){
-
             const axiosError = error as AxiosError;
-            console.log(axiosError.response?.data);
             if(axiosError.status===400){
                 form.setError("oldPassword", {message:"L'ancien mot de passe ne correspond pas"});
             }
