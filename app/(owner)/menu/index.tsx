@@ -33,7 +33,7 @@ const Menu = () => {
       <Text style={{fontWeight:600, fontSize:size['2xl']}}>Gerer votre espace</Text>
       <ScrollView style={{flex:1}}>
         <View style={style.menu}>
-          <TouchableOpacity style={style.menuItem}>
+          <TouchableOpacity style={style.menuItem} onPress={()=>router.push("/(owner)/menu/profile")}>
             <View style={style.menuItemRight}>
               <Avatar name={`${user.firstName} ${user.lastName}`} image={"https://picsum.photos/200"}/>
               <Text style={{color:colors.secondaryColor, fontWeight:600}}>{`${user.firstName} ${user.lastName}`}</Text>
