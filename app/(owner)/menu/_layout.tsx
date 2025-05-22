@@ -10,6 +10,9 @@ const MenuLayout = () => {
         <Stack.Screen name='profile' options={{
             headerTitle:"Profil"
         }}/>
+        <Stack.Screen name='security' options={{
+            headerTitle:"Sécurité"
+        }}/>
     </Stack>
   )
 }

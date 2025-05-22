@@ -41,7 +41,7 @@ const Menu = () => {
             <MaterialIcons name="keyboard-arrow-right" size={24} color={colors.secondaryColor} />
           </TouchableOpacity>
           <View style={{width:'100%', height:1, backgroundColor:colors.lightGray, marginVertical:10}}/>
-          <TouchableOpacity style={style.menuItem}>
+          <TouchableOpacity style={style.menuItem} onPress={()=>router.push("/(owner)/menu/security")}>
             <View style={style.menuItemRight}>
               <MaterialCommunityIcons name="security" size={24} color={colors.secondaryColor} />
               <Text style={{color:colors.secondaryColor, fontWeight:600}}>Securité</Text>

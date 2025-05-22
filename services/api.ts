@@ -1,6 +1,6 @@
 import { getSession } from "@/libs/utils";
 import { LoginSchema, RegisterSchema } from "@/schema/auth";
-import { UpdateUserSchema } from "@/schema/user";
+import { UpdatePasswordSchema, UpdateUserSchema } from "@/schema/user";
 import { Session, User } from "@/types/user";
 import axios from "axios";
 
@@ -65,4 +65,11 @@ export const updateUser = async (id:number, data:UpdateUserSchema, imageUri?:str
     }
 
     return (await axiosInstance.put<User>(`users/${id}/update`, formData)).data;
+}
+
+export const updatePassword = async (id:number, data:UpdatePasswordSchema)=>{
+    return (await axiosInstance.put<User>(`users/${id}/update`, {
+        oldPassword:data.oldPassword,
+        password:data.newPassword
+    })).data;
 }
