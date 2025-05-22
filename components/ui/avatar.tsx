@@ -1,10 +1,10 @@
 import { colors } from '@/const/const';
 import React from 'react';
-import { Image, Text, TouchableOpacity } from 'react-native';
+import { Image, ImageSourcePropType, Text, TouchableOpacity } from 'react-native';
 
 type AvatarProps = {
     name:string;
-    image?:string;
+    image?:ImageSourcePropType;
     size?:number;
     onPress?:()=>void;
 }
@@ -39,7 +39,7 @@ const Avatar = ({name, image, size=50, onPress}:AvatarProps) => {
         {
             image?(
                 <Image
-                    source={{uri:image}}
+                    source={image}
                     style={{width:"100%", height:"100%", borderRadius:size/2}}
                 />
             ):(

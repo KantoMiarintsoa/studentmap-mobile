@@ -35,7 +35,7 @@ const Menu = () => {
         <View style={style.menu}>
           <TouchableOpacity style={style.menuItem} onPress={()=>router.push("/(owner)/menu/profile")}>
             <View style={style.menuItemRight}>
-              <Avatar name={`${user.firstName} ${user.lastName}`} image={"https://picsum.photos/200"}/>
+              <Avatar name={`${user.firstName} ${user.lastName}`} image={{uri:"https://picsum.photos/200"}}/>
               <Text style={{color:colors.secondaryColor, fontWeight:600}}>{`${user.firstName} ${user.lastName}`}</Text>
             </View>
             <MaterialIcons name="keyboard-arrow-right" size={24} color={colors.secondaryColor} />

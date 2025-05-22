@@ -15,7 +15,8 @@ const axiosInstance = axios.create({
     baseURL:API_URL,
     headers:{
         "Content-Type":"application/json"
-    }
+    },
+    timeout:20000
 });
 
 axiosInstance.interceptors.request.use(async config=>{
@@ -39,7 +40,7 @@ export const register = async (data:RegisterSchema)=>{
     return (await axiosInstance.post<User>('users/register', data)).data;
 }
 
-export const updateUser = async (id:number, data:UpdateUserSchema)=>{
+export const updateUser = async (id:number, data:UpdateUserSchema, imageUri?:string)=>{
 
     const formData = new FormData();
     if(data.firstName){
@@ -50,6 +51,17 @@ export const updateUser = async (id:number, data:UpdateUserSchema)=>{
     }
     if(data.contact){
         formData.append("contact", data.contact);
+    }
+    if(imageUri){
+        console.log("image", imageUri);
+        // Fetch the image and convert it to a Blob
+        const filename = imageUri.split('/').pop();
+        const type = `image/${filename?.split('.').pop()}`;
+        formData.append("profilePicture", {
+            uri:imageUri,
+            name: filename,
+            type,
+        } as any);
     }
 
     return (await axiosInstance.put<User>(`users/${id}/update`, formData)).data;
