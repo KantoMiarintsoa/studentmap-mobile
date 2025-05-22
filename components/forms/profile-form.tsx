@@ -3,8 +3,10 @@ import Button from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { colors, size } from '@/const/const'
 import { updateUserSchema, UpdateUserSchema } from '@/schema/user'
+import { updateUser } from '@/services/api'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { AxiosError } from 'axios'
 import React, { useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native'
@@ -20,7 +22,7 @@ const ProfileForm = () => {
         resolver:zodResolver(updateUserSchema)
     });
 
-    const {session} = useAuth();
+    const {session, updateSession} = useAuth();
 
     if(!session)
         return null;
@@ -37,7 +39,22 @@ const ProfileForm = () => {
     }, [session]);
 
     const handleUpdate = async (data:UpdateUserSchema)=>{
-        console.log(data);
+
+        if(!session)
+            return;
+
+        const {user} = session;
+
+        try{
+            const response = await updateUser(user.id, data);
+            updateSession({...session, user:response});
+            console.log(response);
+        }
+        catch(error){
+            const axiosError = error as AxiosError;
+            console.log(error);
+            console.log(axiosError.request, 'eto')
+        }
     }
 
   return (
@@ -73,7 +90,7 @@ const ProfileForm = () => {
                             <View style={style.inputContainer}>
                                 <Text style={style.label}>Prenom</Text>
                                 <Input
-                                    onChange={onChange}
+                                    onChangeText={onChange}
                                     onBlur={onBlur}
                                     value={value}
                                 />
@@ -87,7 +104,7 @@ const ProfileForm = () => {
                             <View style={style.inputContainer}>
                                 <Text style={style.label}>Nom</Text>
                                 <Input
-                                    onChange={onChange}
+                                    onChangeText={onChange}
                                     onBlur={onBlur}
                                     value={value}
                                 />
@@ -101,7 +118,7 @@ const ProfileForm = () => {
                             <View style={style.inputContainer}>
                                 <Text style={style.label}>Contact</Text>
                                 <Input
-                                    onChange={onChange}
+                                    onChangeText={onChange}
                                     onBlur={onBlur}
                                     value={value}
                                 />

@@ -1,7 +1,7 @@
 export type UserRole = "ADMIN" | "STUDENT" | "OWNER" | "ORGANIZER";
 
 export type User = {
-    id:string;
+    id:number;
     firstName:string;
     lastName:string;
     email:string;
