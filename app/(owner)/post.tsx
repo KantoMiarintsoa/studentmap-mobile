@@ -1,11 +1,11 @@
 import React from 'react'
-import { Text, View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 const Post = () => {
   return (
-    <View>
-      <Text>Post</Text>
-    </View>
+    <SafeAreaView style={{flex:1, padding:20}}>
+
+    </SafeAreaView>
   )
 }
 

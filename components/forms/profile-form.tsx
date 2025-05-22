@@ -2,6 +2,7 @@ import { useAuth } from '@/components/providers/AuthProvider'
 import Button from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { colors, size } from '@/const/const'
+import { normalizeUrl } from '@/libs/utils'
 import { updateUserSchema, UpdateUserSchema } from '@/schema/user'
 import { updateUser } from '@/services/api'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
@@ -11,12 +12,13 @@ import React, { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { ActivityIndicator, Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import Toast from 'react-native-toast-message'
 import Avatar from '../ui/avatar'
 
 const ProfileForm = () => {
 
     const {
-        formState:{errors, isSubmitting},
+        formState:{isSubmitting},
         ...form
     } = useForm<UpdateUserSchema>({
         resolver:zodResolver(updateUserSchema)
@@ -43,10 +45,34 @@ const ProfileForm = () => {
     const updateImage = async (action?:"galery")=>{
         
         if(action==="galery"){
-
+            await selecImageFromGallery();
         }
         else{
             await selectImageFromCamera();
+        }
+    }
+
+    const selecImageFromGallery = async()=>{
+        try{
+            let result = await ImagePicker.
+                launchImageLibraryAsync({
+                    mediaTypes:["images"],
+                    allowsEditing:true,
+                    aspect:[1,1],
+                    quality:1
+                });
+            if(!result.canceled){
+                setImage(result.assets[0].uri);
+            }
+        }
+        catch{
+            Alert.alert("Error", "Oups, Il y a eu un erreur. Ne vous inquietez pas, on est sur le coup", [
+                {
+                    text:"OK",
+                    style:"default"
+                }
+            ]);
+            return;
         }
     }
 
@@ -84,17 +110,26 @@ const ProfileForm = () => {
 
         try{
             const response = await updateUser(user.id, data, image);
+            if(response.profilePicture){
+                response.profilePicture=normalizeUrl(response.profilePicture);
+            }
             updateSession({...session, user:response});
             console.log(response);
+
+            Toast.show({
+                type:"success",
+                text1:"Profil mis à jour",
+                text2:"Votre profil à été mis à jour"
+            });
         }
         catch(error){
             console.log("eto", error)
-            // Alert.alert("Error", "Oups, Il y a eu un erreur. Ne vous inquietez pas, on est sur le coup", [
-            //     {
-            //         text:"OK",
-            //         style:"default"
-            //     }
-            // ]);
+            Alert.alert("Error", "Oups, Il y a eu un erreur. Ne vous inquietez pas, on est sur le coup", [
+                {
+                    text:"OK",
+                    style:"default"
+                }
+            ]);
             return;
         }
     }
@@ -121,6 +156,7 @@ const ProfileForm = () => {
                             name={`${session.user.firstName} ${session.user.lastName}`}
                             size={200}
                             {...(image && {image:{uri:image}})}
+                            onPress={()=>updateImage("galery")}
                         />
                         <Button variants='ghost' style={style.avatarButton}
                             onPress={()=>updateImage()}

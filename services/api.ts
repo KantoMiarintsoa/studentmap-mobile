@@ -57,14 +57,23 @@ export const updateUser = async (id:number, data:UpdateUserSchema, imageUri?:str
         // Fetch the image and convert it to a Blob
         const filename = imageUri.split('/').pop();
         const type = `image/${filename?.split('.').pop()}`;
+        console.log(filename, type);
         formData.append("profilePicture", {
             uri:imageUri,
             name: filename,
             type,
         } as any);
+        // const file = await fetch(imageUri);
+        // const image = await file.blob();
+        // formData.append("profilePicture", image);
     }
 
-    return (await axiosInstance.put<User>(`users/${id}/update`, formData)).data;
+    return (await axiosInstance.put<User>(`users/${id}/update`, formData, {
+        headers:{
+            Accept: 'application/json',
+            'Content-Type': 'multipart/form-data',
+        }
+    })).data;
 }
 
 export const updatePassword = async (id:number, data:UpdatePasswordSchema)=>{

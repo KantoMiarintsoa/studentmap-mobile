@@ -6,3 +6,10 @@ export async function getSession(){
     if(!session)return null;
     return JSON.parse(session) as Session;
 }
+
+export function normalizeUrl(url:string){
+    if(!url.startsWith("http")){
+        return `${process.env.EXPO_PUBLIC_API_URL}/storage/preview/${url}`;
+    }
+    return url;
+}

@@ -2,6 +2,7 @@ import { useAuth } from '@/components/providers/AuthProvider'
 import Button, { GoBackButton } from '@/components/ui/button'
 import { Input, PasswordInput } from '@/components/ui/input'
 import { ALLOWED_ROLE, colors, size } from '@/const/const'
+import { normalizeUrl } from '@/libs/utils'
 import { loginSchema, LoginSchema } from '@/schema/auth'
 import { login } from '@/services/api'
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -33,6 +34,12 @@ const LoginScreen = () => {
                 // show dialog
                 return;
             }
+
+            // transform profile picture
+            if(response.user.profilePicture){
+                response.user.profilePicture = normalizeUrl(response.user.profilePicture);
+            }
+
             await updateSession(response);
             // redirect
             router.push(
