@@ -1,6 +1,8 @@
 import { getSession } from "@/libs/utils";
+import { AddAccomodationSchema } from "@/schema/accomodation";
 import { LoginSchema, RegisterSchema } from "@/schema/auth";
 import { UpdatePasswordSchema, UpdateUserSchema } from "@/schema/user";
+import { Accomodation } from "@/types/accomodation";
 import { Session, User } from "@/types/user";
 import axios from "axios";
 
@@ -81,4 +83,38 @@ export const updatePassword = async (id:number, data:UpdatePasswordSchema)=>{
         oldPassword:data.oldPassword,
         password:data.newPassword
     })).data;
+}
+
+// accomodation
+export const addAccomodation = async (data:AddAccomodationSchema, images:string[])=>{
+    const formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("address", data.address);
+    formData.append("area", data.area.toString());
+    formData.append("receptionCapacity", data.receptionCapacity);
+    formData.append("rentMin", data.rentMin.toString());
+    formData.append("rentMax", data.rentMax.toString());
+    formData.append("type", data.type);
+
+    for(const imageUri of images){
+        const filename = imageUri.split('/').pop();
+        const type = `image/${filename?.split('.').pop()}`;
+        console.log(filename, type);
+        formData.append("media", {
+            uri:imageUri,
+            name: filename,
+            type,
+        } as any);
+    }
+
+    console.log(formData.get("name"));
+
+    // return "hello";
+
+    return (await axiosInstance.post<Accomodation>(`accommodation/add`, formData, {
+        headers:{
+            Accept: 'application/json',
+            'Content-Type': 'multipart/form-data',
+        }
+    })).data;    
 }
