@@ -1,13 +1,20 @@
+import { useAuth } from '@/components/providers/AuthProvider'
+import Header from '@/components/ui/header'
 import React from 'react'
-import { Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 const OwnerHome = () => {
+
+  const {session} = useAuth();
+
+  if(!session)
+    return null;
+
   return (
     <SafeAreaView style={{
       flex:1
     }}>
-      <Text>OwnerHome</Text>
+      <Header user={session.user}/>
     </SafeAreaView>
   )
 }
