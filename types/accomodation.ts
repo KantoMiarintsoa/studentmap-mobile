@@ -6,6 +6,7 @@ export const accomodationTypes = {
 }
 
 export type Accomodation ={
+    id:number;
     type: keyof typeof accomodationTypes;
     name:string;
     address:string;

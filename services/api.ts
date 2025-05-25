@@ -107,14 +107,14 @@ export const addAccomodation = async (data:AddAccomodationSchema, images:string[
         } as any);
     }
 
-    console.log(formData.get("name"));
-
-    // return "hello";
-
     return (await axiosInstance.post<Accomodation>(`accommodation/add`, formData, {
         headers:{
             Accept: 'application/json',
             'Content-Type': 'multipart/form-data',
         }
     })).data;    
+}
+
+export const getOwnerAccomodation = async ()=>{
+    return (await axiosInstance.get<Accomodation[]>(`accommodation/owner`)).data;
 }
