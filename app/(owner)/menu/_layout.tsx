@@ -16,6 +16,9 @@ const MenuLayout = () => {
         <Stack.Screen name='payments' options={{
             headerTitle:"Paiements"
         }}/>
+        <Stack.Screen name='add-method' options={{
+          headerShown:false
+        }}/>
     </Stack>
   )
 }

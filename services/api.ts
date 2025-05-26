@@ -3,7 +3,7 @@ import { AddAccomodationSchema } from "@/schema/accomodation";
 import { LoginSchema, RegisterSchema } from "@/schema/auth";
 import { UpdatePasswordSchema, UpdateUserSchema } from "@/schema/user";
 import { Accomodation } from "@/types/accomodation";
-import { Session, User } from "@/types/user";
+import { PaymentMethod, Session, User } from "@/types/user";
 import axios from "axios";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
@@ -117,4 +117,13 @@ export const addAccomodation = async (data:AddAccomodationSchema, images:string[
 
 export const getOwnerAccomodation = async ()=>{
     return (await axiosInstance.get<Accomodation[]>(`accommodation/owner`)).data;
+}
+
+// payment
+export const setupIntentApi = async ()=>{
+    return (await axiosInstance.post<{clientSecret:string}>('users/payment/setup-intent', {})).data;
+}
+
+export const listPaymentMethods = async()=>{
+    return (await axiosInstance.get<PaymentMethod[]>('users/payment/payment-methods')).data;
 }

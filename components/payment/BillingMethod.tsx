@@ -14,6 +14,7 @@ type Props = {
 }
 
 const BillingMethod = ({method}:Props) => {
+
   return (
     <View style={styles.card}>
     <Text style={styles.brand}>{method.brand.toUpperCase()}</Text>
