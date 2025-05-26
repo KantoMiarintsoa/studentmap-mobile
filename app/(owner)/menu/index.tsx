@@ -50,7 +50,8 @@ const Menu = () => {
             </View>
             <MaterialIcons name="keyboard-arrow-right" size={24} color={colors.secondaryColor} />
           </TouchableOpacity>
-          <TouchableOpacity style={style.menuItem}>
+          <TouchableOpacity style={style.menuItem}
+            onPress={()=>router.push("/(owner)/menu/payments")}>
             <View style={style.menuItemRight}>
               <Entypo name="credit-card" size={24} color={colors.secondaryColor}/>
               <Text style={{color:colors.secondaryColor, fontWeight:600}}>Mes paiements</Text>

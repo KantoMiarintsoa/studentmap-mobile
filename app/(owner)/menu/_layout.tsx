@@ -13,6 +13,9 @@ const MenuLayout = () => {
         <Stack.Screen name='security' options={{
             headerTitle:"Sécurité"
         }}/>
+        <Stack.Screen name='payments' options={{
+            headerTitle:"Paiements"
+        }}/>
     </Stack>
   )
 }
