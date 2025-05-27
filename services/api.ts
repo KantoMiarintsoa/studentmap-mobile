@@ -1,6 +1,7 @@
 import { getSession } from "@/libs/utils";
 import { AddAccomodationSchema } from "@/schema/accomodation";
 import { LoginSchema, RegisterSchema } from "@/schema/auth";
+import { ConfirmPaymentSchema } from "@/schema/payment";
 import { UpdatePasswordSchema, UpdateUserSchema } from "@/schema/user";
 import { Accomodation } from "@/types/accomodation";
 import { PaymentMethod, Session, User } from "@/types/user";
@@ -134,4 +135,8 @@ export const listPaymentMethods = async()=>{
 
 export const removePaymentMethod = async (id:string)=>{
     return (await axiosInstance.delete<{message:string}>(`users/payment/payment-methods/${id}`)).data;
+}
+
+export const buyCredits = async (data:ConfirmPaymentSchema)=>{
+    return (await axiosInstance.post<{credits:number}>('users/payment/buy-credits', data)).data;
 }

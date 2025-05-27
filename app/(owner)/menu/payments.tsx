@@ -9,24 +9,6 @@ import React, { useEffect, useState } from 'react'
 import { ScrollView, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-const billingMethods = [
-  {
-    id: 'pm_1',
-    brand: 'Visa',
-    last4: '4242',
-    exp_month: 12,
-    exp_year: 2026,
-  },
-  {
-    id: 'pm_2',
-    brand: 'Mastercard',
-    last4: '4444',
-    exp_month: 8,
-    exp_year: 2025,
-  },
-  // Add more methods as needed
-]
-
 const Payments = () => {
 
     const router = useRouter();

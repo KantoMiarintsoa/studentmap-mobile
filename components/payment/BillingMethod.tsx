@@ -1,7 +1,7 @@
 import { size } from '@/const/const'
 import { removePaymentMethod } from '@/services/api'
 import React, { useState } from 'react'
-import { ActivityIndicator, Alert, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, Alert, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import Toast from 'react-native-toast-message'
 import Button from '../ui/button'
 
@@ -16,10 +16,11 @@ type BillingMethod = {
 type Props = {
   method: BillingMethod,
   showDelete?: boolean,
-  onDelete?: (id: string) => void
+  onDelete?: (id: string) => void,
+  style?:StyleProp<ViewStyle>
 }
 
-const BillingMethod = ({method, showDelete=true, onDelete}:Props) => {
+const BillingMethod = ({method, showDelete=true, onDelete, style}:Props) => {
 
     const [loading, setLoading] = useState<boolean>(false);
 
