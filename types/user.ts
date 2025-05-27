@@ -8,6 +8,7 @@ export type User = {
     role:UserRole;
     profilePicture?:string;
     contact:string;
+    serviceRemainders:number;
 }
 
 export type Session = {

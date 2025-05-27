@@ -58,6 +58,13 @@ const Menu = () => {
             </View>
             <MaterialIcons name="keyboard-arrow-right" size={24} color={colors.secondaryColor} />
           </TouchableOpacity>
+          <TouchableOpacity style={style.menuItem} onPress={()=>router.push("/(owner)/menu/credits")}>
+            <View style={style.menuItemRight}>
+              <Entypo name="credit" size={24} color={colors.secondaryColor} />
+              <Text style={{color:colors.secondaryColor, fontWeight:600}}>Credits</Text>
+            </View>
+            <MaterialIcons name="keyboard-arrow-right" size={24} color={colors.secondaryColor} />
+          </TouchableOpacity>
           <Button style={{width:"100%"}} onPress={()=>logOut()}>
             <Text style={{color:"#fff", fontSize:size.md }}>Se deconnecter</Text>
           </Button>

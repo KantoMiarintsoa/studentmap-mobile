@@ -19,6 +19,9 @@ const MenuLayout = () => {
         <Stack.Screen name='add-method' options={{
           headerShown:false
         }}/>
+        <Stack.Screen name='credits' options={{
+          headerTitle:"Crédits"
+        }}/>
     </Stack>
   )
 }

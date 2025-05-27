@@ -85,6 +85,10 @@ export const updatePassword = async (id:number, data:UpdatePasswordSchema)=>{
     })).data;
 }
 
+export const getMe = async ()=>{
+    return (await axiosInstance.get<User>('users/me')).data;
+}
+
 // accomodation
 export const addAccomodation = async (data:AddAccomodationSchema, images:string[])=>{
     const formData = new FormData();
@@ -126,4 +130,8 @@ export const setupIntentApi = async ()=>{
 
 export const listPaymentMethods = async()=>{
     return (await axiosInstance.get<PaymentMethod[]>('users/payment/payment-methods')).data;
+}
+
+export const removePaymentMethod = async (id:string)=>{
+    return (await axiosInstance.delete<{message:string}>(`users/payment/payment-methods/${id}`)).data;
 }

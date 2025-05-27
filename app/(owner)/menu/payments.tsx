@@ -48,6 +48,10 @@ const Payments = () => {
         fetchPaymentMethods();
     }, [])
 
+    const onDeletePaymentMethod = (id: string) => {
+        setPaymentMethods(prev=>prev.filter(method=>method.id !== id));
+    }
+
   return (
     <SafeAreaView style={{flex:1, padding: 20, flexDirection:'column', gap:10}}>
         <View style={{flexDirection:"row", justifyContent:"space-between", alignItems:'center'}}>
@@ -65,7 +69,9 @@ const Payments = () => {
                 <BillingMethod key={method.id} method={{
                     ...method.card,
                     id:method.id
-                }} />
+                }} 
+                    onDelete={onDeletePaymentMethod}
+                />
             ))}
             </View>
         </ScrollView>
