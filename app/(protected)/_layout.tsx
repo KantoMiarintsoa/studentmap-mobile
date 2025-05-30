@@ -1,4 +1,5 @@
 import { useAuth } from '@/components/providers/AuthProvider';
+import { SocketProvider } from '@/components/providers/SocketProvider';
 import { Session } from '@/types/user';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Stack, useRouter } from 'expo-router';
@@ -45,17 +46,19 @@ const ProtectedLayout = () => {
     return null;
     
   return (
-    <Stack>
-        <Stack.Screen name='(owner)' options={{
+    <SocketProvider>
+      <Stack>
+          <Stack.Screen name='(owner)' options={{
+              headerShown:false
+          }}/>
+          <Stack.Screen name='(student)' options={{
+              headerShown:false
+          }}/>
+          <Stack.Screen name='(message)' options={{
             headerShown:false
-        }}/>
-        <Stack.Screen name='(student)' options={{
-            headerShown:false
-        }}/>
-        <Stack.Screen name='(message)' options={{
-          headerShown:false
-        }}/>
-    </Stack>
+          }}/>
+      </Stack>
+    </SocketProvider>
   )
 }
 

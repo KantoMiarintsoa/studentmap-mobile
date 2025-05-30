@@ -44,7 +44,9 @@
     "react-native-toast-message": "^2.3.0",
     "react-native-web": "~0.20.0",
     "react-native-webview": "13.13.5",
-    "zod": "^3.25.13"
+    "socket.io-client": "^4.8.1",
+    "zod": "^3.25.13",
+    "zustand": "^5.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

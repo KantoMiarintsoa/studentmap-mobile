@@ -4,6 +4,7 @@ import { LoginSchema, RegisterSchema } from "@/schema/auth";
 import { ConfirmPaymentSchema } from "@/schema/payment";
 import { UpdatePasswordSchema, UpdateUserSchema } from "@/schema/user";
 import { Accomodation } from "@/types/accomodation";
+import { Message } from "@/types/message";
 import { PaymentMethod, Session, User } from "@/types/user";
 import axios from "axios";
 
@@ -139,4 +140,9 @@ export const removePaymentMethod = async (id:string)=>{
 
 export const buyCredits = async (data:ConfirmPaymentSchema)=>{
     return (await axiosInstance.post<{credits:number}>('users/payment/buy-credits', data)).data;
+}
+
+// chat feature
+export const getLastConversation = async ()=>{
+    return (await axiosInstance.get<Message[]>('messages/last-users-messages')).data;
 }

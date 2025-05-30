@@ -1,13 +1,16 @@
+import LastConversationComponennt from '@/components/mesage/LastConversation';
 import { useAuth } from '@/components/providers/AuthProvider';
 import Avatar from '@/components/ui/avatar';
 import { Input } from '@/components/ui/input';
 import { colors, size } from '@/const/const';
 import { normalizeUrl } from '@/libs/utils';
+import { getLastConversation } from '@/services/api';
+import { useChatStore } from '@/store/store';
 import { UserRole } from '@/types/user';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
-import { FlatList, Text, TouchableOpacity, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, FlatList, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 type UserAvatarProps = {
@@ -63,6 +66,40 @@ const MessageIndex = () => {
         }
     ]);
 
+    const {lastConversations, addLastConversations} = useChatStore();
+
+    const [loading, setLoading] = useState(false); 
+    
+    useEffect(()=>{
+        async function fetchLastConversations(){
+            if(!session)return;
+            try{
+                setLoading(true);
+                const response = await getLastConversation();
+                addLastConversations(
+                    response.map(conversation=>{
+
+                        const isSender = session.user.id===conversation.sender.id;
+                        return {
+                            user:isSender?conversation.receiver:conversation.sender,
+                            isSender:isSender,
+                            isRead:conversation.isRead,
+                            content:conversation.content,
+                            createdAt:conversation.createdAt
+                    }
+                    })
+                )
+            }
+            catch(error){
+                console.log(error)
+            }
+            finally{
+                setLoading(false);
+            }
+        }
+        fetchLastConversations();
+    }, [session])
+
   return (
     <SafeAreaView
         style={{
@@ -113,7 +150,40 @@ const MessageIndex = () => {
                 ItemSeparatorComponent={()=>(
                     <View style={{width:10}}/>
                 )}
-        />
+            />
+        </View>
+        <View style={{
+            flex:1,
+            padding:10
+        }}>
+            {loading ? (
+                <View style={{margin:'auto'}}>
+                    <ActivityIndicator size={"large"} color={colors.primaryColor}/>
+                </View>
+            ):(
+                <FlatList
+                    data={lastConversations}
+                    keyExtractor={(item, index)=>`${item.user.id}_${index}`}
+                    renderItem={({item})=>(
+                        <LastConversationComponennt conversation={item}/>
+                    )}
+                    ListEmptyComponent={()=>(
+                        <View style={{
+                            padding:10
+                        }}>
+                            <Text style={{
+                                margin:"auto",
+                                paddingVertical:10,
+                                paddingHorizontal:20,
+                                borderWidth:2,
+                                borderColor:colors.primaryColor,
+                                color:colors.primaryColor,
+                                borderRadius:30
+                            }}>Commencer a discuter</Text>
+                        </View>
+                    )}
+                />
+            )}
         </View>
     </SafeAreaView>
   )
