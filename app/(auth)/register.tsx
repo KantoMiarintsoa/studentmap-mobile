@@ -36,7 +36,7 @@ const RegisterScreen = () => {
       await updateSession(loginResponse);
       // redirect
       router.push(
-          loginResponse.user.role==="STUDENT"?"/(student)/home":"/(owner)/home"
+          loginResponse.user.role==="STUDENT"?"/(protected)/(student)":"/(protected)/(owner)"
       );
     }
     catch(error){

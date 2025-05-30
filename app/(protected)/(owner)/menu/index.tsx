@@ -22,7 +22,7 @@ const Menu = () => {
 
   const logOut = async ()=>{
     await updateSession(undefined);
-    router.push("/login");
+    router.push("/(auth)/login");
   }
 
   return (
@@ -33,7 +33,7 @@ const Menu = () => {
       <Text style={{fontWeight:600, fontSize:size['2xl']}}>Gerer votre espace</Text>
       <ScrollView style={{flex:1}}>
         <View style={style.menu}>
-          <TouchableOpacity style={style.menuItem} onPress={()=>router.push("/(owner)/menu/profile")}>
+          <TouchableOpacity style={style.menuItem} onPress={()=>router.push("/(protected)/(owner)/menu/profile")}>
             <View style={style.menuItemRight}>
               <Avatar name={`${user.firstName} ${user.lastName}`}
                 {...(user.profilePicture && {image:{uri:user.profilePicture}})}
@@ -43,7 +43,7 @@ const Menu = () => {
             <MaterialIcons name="keyboard-arrow-right" size={24} color={colors.secondaryColor} />
           </TouchableOpacity>
           <View style={{width:'100%', height:1, backgroundColor:colors.lightGray, marginVertical:10}}/>
-          <TouchableOpacity style={style.menuItem} onPress={()=>router.push("/(owner)/menu/security")}>
+          <TouchableOpacity style={style.menuItem} onPress={()=>router.push("/(protected)/(owner)/menu/security")}>
             <View style={style.menuItemRight}>
               <MaterialCommunityIcons name="security" size={24} color={colors.secondaryColor} />
               <Text style={{color:colors.secondaryColor, fontWeight:600}}>Securité</Text>
@@ -51,14 +51,14 @@ const Menu = () => {
             <MaterialIcons name="keyboard-arrow-right" size={24} color={colors.secondaryColor} />
           </TouchableOpacity>
           <TouchableOpacity style={style.menuItem}
-            onPress={()=>router.push("/(owner)/menu/payments")}>
+            onPress={()=>router.push("/(protected)/(owner)/menu/payments")}>
             <View style={style.menuItemRight}>
               <Entypo name="credit-card" size={24} color={colors.secondaryColor}/>
               <Text style={{color:colors.secondaryColor, fontWeight:600}}>Mes paiements</Text>
             </View>
             <MaterialIcons name="keyboard-arrow-right" size={24} color={colors.secondaryColor} />
           </TouchableOpacity>
-          <TouchableOpacity style={style.menuItem} onPress={()=>router.push("/(owner)/menu/credits")}>
+          <TouchableOpacity style={style.menuItem} onPress={()=>router.push("/(protected)/(owner)/menu/credits")}>
             <View style={style.menuItemRight}>
               <Entypo name="credit" size={24} color={colors.secondaryColor} />
               <Text style={{color:colors.secondaryColor, fontWeight:600}}>Credits</Text>

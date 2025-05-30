@@ -39,7 +39,7 @@ const Payments = () => {
         <View style={{flexDirection:"row", justifyContent:"space-between", alignItems:'center'}}>
             <Text style={{fontSize: 18, fontWeight: 'bold', marginBottom: 16}}>Mode de paiements</Text>
             <Button variants='primary' style={{borderColor:colors.primaryColor, borderRadius:0, alignItems:"center"}}
-                onPress={() => router.push("/(owner)/menu/add-method")}
+                onPress={() => router.push("/(protected)/(owner)/menu/add-method")}
             >
                 <FontAwesome6 name="add" size={20} color="#fff" />     
                 <Text style={{color:"#fff"}}>Ajouter</Text>

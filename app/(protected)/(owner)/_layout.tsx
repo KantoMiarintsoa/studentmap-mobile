@@ -10,7 +10,7 @@ const OwnerLayout = () => {
             headerShown:false
         }}
     >
-        <Tabs.Screen name='home' options={{title:"Accueil"}}/>
+        <Tabs.Screen name='index' options={{title:"Accueil"}}/>
         <Tabs.Screen name='post' options={{title:"Poster"}}/>
         <Tabs.Screen name='menu' options={{title:"Menu"}}/>
     </Tabs>

@@ -43,7 +43,7 @@ const LoginScreen = () => {
             await updateSession(response);
             // redirect
             router.push(
-                response.user.role==="STUDENT"?"/(student)/home":"/(owner)/home"
+                response.user.role==="STUDENT"?"/(protected)/(student)":"/(protected)/(owner)"
             );
         }
         catch(error){

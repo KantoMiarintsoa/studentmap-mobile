@@ -13,9 +13,6 @@ const OwnerHome = () => {
   const {session} = useAuth();
   const [accomodations, setAccomodations] = useState<Accomodation[]>([]);
 
-  if(!session)
-    return null;
-
   useEffect(()=>{
     async function fetchData(){
       const response = (await getOwnerAccomodation())
@@ -29,6 +26,10 @@ const OwnerHome = () => {
     }
     fetchData();
   }, [])
+
+  
+  if(!session)
+    return null;
 
   return (
     <SafeAreaView style={{
