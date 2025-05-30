@@ -52,6 +52,9 @@ const ProtectedLayout = () => {
         <Stack.Screen name='(student)' options={{
             headerShown:false
         }}/>
+        <Stack.Screen name='(message)' options={{
+          headerShown:false
+        }}/>
     </Stack>
   )
 }

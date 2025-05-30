@@ -20,7 +20,9 @@ const Header = ({user}:{user:User}) => {
       <Input
         style={{flex:1, height:40, fontSize:size.sm, borderRadius:0, borderColor:colors.lightGray}}
       />
-      <TouchableOpacity style={{position:"relative"}}>
+      <TouchableOpacity style={{position:"relative"}}
+        onPress={()=>router.push('/(protected)/(message)')}
+      >
         <Fontisto name="messenger" size={24} color={colors.secondaryColor} />
         <View style={{position:"absolute", width:20, height:20, backgroundColor:"red", top:-10, right:-10, borderRadius:10, flexDirection:'row', alignItems:'center', justifyContent:'center'}}>
             <Text style={{color:"#fff", fontSize:size.sm}}>9+</Text>
