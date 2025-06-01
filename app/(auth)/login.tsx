@@ -46,7 +46,7 @@ const LoginScreen = () => {
             setDetails(response.user);
             // redirect
             router.push(
-                response.user.role==="STUDENT"?"/(protected)/(student)":"/(protected)/(owner)"
+                response.user.role==="STUDENT"?"/(protected)/(student)/(home)":"/(protected)/(owner)"
             );
         }
         catch(error){
