@@ -146,3 +146,11 @@ export const buyCredits = async (data:ConfirmPaymentSchema)=>{
 export const getLastConversation = async ()=>{
     return (await axiosInstance.get<Message[]>('messages/last-users-messages')).data;
 }
+
+export const getUserDetails = async (id:number)=>{
+    return (await axiosInstance.get<User>(`users/${id}/details`)).data;
+}
+
+export const getConversation = async(userId:number)=>{
+    return (await axiosInstance.get<Message[]>(`messages/get/${userId}`)).data;
+}

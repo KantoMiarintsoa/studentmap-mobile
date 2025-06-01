@@ -1,6 +1,7 @@
 import { colors, size } from '@/const/const'
 import { LastConversation } from '@/types/message'
 import AntDesign from '@expo/vector-icons/AntDesign'
+import { useRouter } from 'expo-router'
 import React from 'react'
 import { Text, TouchableHighlight, View } from 'react-native'
 import Avatar from '../ui/avatar'
@@ -10,6 +11,9 @@ type LastConversationProps = {
 }
 
 const LastConversationComponennt = ({conversation}:LastConversationProps) => {
+
+    const router = useRouter();
+
   return (
     <TouchableHighlight
         underlayColor={colors.lightGray}
@@ -17,7 +21,7 @@ const LastConversationComponennt = ({conversation}:LastConversationProps) => {
             width:"100%",
             borderRadius:size.lg
         }}
-        onPress={()=>console.log('hello')}
+        onPress={()=>router.push(`/(protected)/(message)/${conversation.user.id}`)}
     >
         <View style={{
                 flexDirection:"row",

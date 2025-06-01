@@ -5,6 +5,7 @@ import { ALLOWED_ROLE, colors, size } from '@/const/const'
 import { normalizeUrl } from '@/libs/utils'
 import { loginSchema, LoginSchema } from '@/schema/auth'
 import { login } from '@/services/api'
+import { useMeStore } from '@/store/store'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { AxiosError } from 'axios'
 import { useRouter } from 'expo-router'
@@ -25,6 +26,7 @@ const LoginScreen = () => {
     const router = useRouter();
 
     const {updateSession} = useAuth();
+    const {setDetails} = useMeStore();
 
     const handleLogin = async(data:LoginSchema)=>{
         try{
@@ -41,6 +43,7 @@ const LoginScreen = () => {
             }
 
             await updateSession(response);
+            setDetails(response.user);
             // redirect
             router.push(
                 response.user.role==="STUDENT"?"/(protected)/(student)":"/(protected)/(owner)"

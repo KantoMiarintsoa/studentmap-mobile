@@ -56,17 +56,17 @@ const MessageIndex = () => {
 
     const router = useRouter();
     const {session} = useAuth();
-    const [users, setUsers] = useState<UserAvatarProps[]>([
-        {
-            id: session!.user.id,
-            firstName: session!.user.firstName,
-            lastName: session!.user.lastName,
-            role: session!.user.role,
-            profilePicture:session!.user.profilePicture
-        }
-    ]);
+    // const [users, setUsers] = useState<UserAvatarProps[]>([
+    //     {
+    //         id: session!.user.id,
+    //         firstName: session!.user.firstName,
+    //         lastName: session!.user.lastName,
+    //         role: session!.user.role,
+    //         profilePicture:session!.user.profilePicture
+    //     }
+    // ]);
 
-    const {lastConversations, addLastConversations} = useChatStore();
+    const {lastConversations, addLastConversations, addUsers, users} = useChatStore();
 
     const [loading, setLoading] = useState(false); 
     
@@ -78,7 +78,6 @@ const MessageIndex = () => {
                 const response = await getLastConversation();
                 addLastConversations(
                     response.map(conversation=>{
-
                         const isSender = session.user.id===conversation.sender.id;
                         return {
                             user:isSender?conversation.receiver:conversation.sender,
@@ -86,7 +85,16 @@ const MessageIndex = () => {
                             isRead:conversation.isRead,
                             content:conversation.content,
                             createdAt:conversation.createdAt
-                    }
+                        }
+                    })
+                );
+                addUsers(
+                    // only add users not present
+                    response.map(conversation=>{
+                        const isSender = session.user.id===conversation.sender.id;
+                        return {
+                            ...(isSender ? conversation.receiver:conversation.sender)
+                        }
                     })
                 )
             }
@@ -140,7 +148,7 @@ const MessageIndex = () => {
                 }}
                 placeholder='Rechercher une personne'
             />
-            <FlatList
+            {/* <FlatList
                 horizontal
                 keyExtractor={item=>item.id.toString()}
                 data={users}
@@ -150,7 +158,7 @@ const MessageIndex = () => {
                 ItemSeparatorComponent={()=>(
                     <View style={{width:10}}/>
                 )}
-            />
+            /> */}
         </View>
         <View style={{
             flex:1,

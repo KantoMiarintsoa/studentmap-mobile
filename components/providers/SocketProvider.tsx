@@ -1,3 +1,5 @@
+import { useChatStore, useMeStore } from "@/store/store";
+import { Message } from "@/types/message";
 import { createContext, useContext, useEffect, useRef } from "react";
 import { io, Socket } from 'socket.io-client';
 import { useAuth } from "./AuthProvider";
@@ -19,6 +21,8 @@ const SOCKET_URL = process.env.EXPO_PUBLIC_API_URL;
 export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const socketRef = useRef<Socket | null>(null);
   const {session} = useAuth();
+  const {addMessages} = useChatStore();
+  const {details} = useMeStore();
 
   useEffect(() => {
 
@@ -41,10 +45,19 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
       console.log('❌ Socket disconnected');
     });
 
+    // centralize every socket operation here
+    // listen to new message
+    socket.on("newMessage", (newMessage:Message)=>{
+      // get the other user
+      const userId = details.id===newMessage.senderId?newMessage.receiverId:newMessage.senderId;
+      console.log('called');
+      addMessages(userId, [newMessage]);
+    })
+
     return () => {
       socket.disconnect();
     };
-  }, [session]);
+  }, [session, details]);
 
   return (
     <SocketContext.Provider value={{ socket: socketRef.current }}>
