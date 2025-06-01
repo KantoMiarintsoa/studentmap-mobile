@@ -11,7 +11,7 @@ export type Message = {
     sender:User;
     receiver:User;
     createdAt:string;
-    isRead:boolean
+    isRead:boolean;
 }
 
 export type LastConversation = {

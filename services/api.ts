@@ -154,3 +154,7 @@ export const getUserDetails = async (id:number)=>{
 export const getConversation = async(userId:number)=>{
     return (await axiosInstance.get<Message[]>(`messages/get/${userId}`)).data;
 }
+
+export const getUnreadMessages = async()=>{
+    return (await axiosInstance.get<{count:number}>('messages/unread')).data;
+}

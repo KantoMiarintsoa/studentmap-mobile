@@ -21,7 +21,7 @@ const SOCKET_URL = process.env.EXPO_PUBLIC_API_URL;
 export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const socketRef = useRef<Socket | null>(null);
   const {session} = useAuth();
-  const {addMessages} = useChatStore();
+  const {addMessages, viewMessage, setUnreadMessage} = useChatStore();
   const {details} = useMeStore();
 
   useEffect(() => {
@@ -51,6 +51,18 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
       // get the other user
       const userId = details.id===newMessage.senderId?newMessage.receiverId:newMessage.senderId;
       addMessages(userId, [newMessage]);
+    });
+
+    socket.on("messageSeen", (data:Message | undefined)=>{
+      console.log(data);
+      if(!data)return;
+      const userId = details.id===data.senderId?data.receiverId:data.senderId;
+      console.log(data);
+      viewMessage(userId, data.id);
+    });
+
+    socket.on("unreadFromSenders", (data:{count:number})=>{
+      setUnreadMessage(data.count);
     })
 
     return () => {

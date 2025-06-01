@@ -30,7 +30,13 @@ type ChatStore = {
     addLastConversations:(lastConversations:LastConversation[])=>void;
     // to avoid refetch
     users:User[],
-    addUsers:(users:User[])=>void
+    addUsers:(users:User[])=>void,
+    //record last message state
+    lastMessageState:Record<number, number>;
+    setLastMessagesState:(userId:number, messageId:number)=>void,
+    viewMessage:(userId:number, messageId:number)=>void,
+    unreadMessages:number,
+    setUnreadMessage:(unreadMessages:number)=>void
 }
 
 export const useChatStore = create<ChatStore>((set)=>({
@@ -57,14 +63,46 @@ export const useChatStore = create<ChatStore>((set)=>({
                     createdAt:lastMessage.createdAt
                 },
                 ...state.lastConversations.filter(chat=>chat.user.id!==userId)
-            ]
+            ],
+            lastMessageState:{
+                ...state.lastMessageState,
+                [userId]:messages[0].id
+            }
         };
     }),
-    addLastConversations:(lastConversation:LastConversation[])=>set((state)=>({
+    addLastConversations:(lastConversation:LastConversation[])=>set(()=>({
         lastConversations:lastConversation
     })),
     users:[],
     addUsers:(users:User[])=>set((state)=>({
         users:[...state.users, ...users]
+    })),
+    lastMessageState:{},
+    setLastMessagesState:(userId:number, messageId:number)=>set((state)=>({
+        lastMessageState:{
+            ...state.lastMessageState,
+            [userId]:messageId
+        }
+    })),
+    viewMessage:(userId:number, messageId:number)=>set((state)=>{
+        const lastConversations = state.lastConversations.map(c=>c.user.id===userId ? ({
+            ...c,
+            isRead:true
+        }):c);
+        const conversations = state.conversations[userId].map(
+            message=>message.id===messageId?({...message, isRead:true}):message
+        )
+        return {
+            lastConversations,
+            conversations:{
+                ...state.conversations,
+                [userId]:conversations
+            }
+        }
+    }),
+    // set to negative to indicate the need to fetch
+    unreadMessages:-1,
+    setUnreadMessage:(unreadMessages:number)=>set(()=>({
+        unreadMessages
     }))
 }));

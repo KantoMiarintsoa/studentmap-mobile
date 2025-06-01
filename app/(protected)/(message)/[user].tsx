@@ -20,7 +20,7 @@ const ChatScreen = () => {
     const { user:id } = useLocalSearchParams<{
         user:string
     }>();
-    const {users, addUsers, conversations, addMessages} = useChatStore();
+    const {users, addUsers, unreadMessages, addMessages, setUnreadMessage} = useChatStore();
     const [user, setUser]=useState<User|undefined>(()=>{
         return users.find(u=>u.id===parseInt(id))
     });
@@ -73,6 +73,13 @@ const ChatScreen = () => {
     }, [userId]);
 
     useEffect(()=>{
+        if(!socket) return;
+
+        handleViewMessage();
+        
+    }, [user, socket])
+
+    useEffect(()=>{
         // there are messages that are cached
         if(activeConversation)return;
 
@@ -93,12 +100,46 @@ const ChatScreen = () => {
     }, [activeConversation]);
 
     const handleSendMessage = ()=>{
-        if(!socket || !inputRef)return;
+        if(!socket || !inputRef || content.trim()==="")return;
         socket.emit("sendMessage", {
             content,
             receiverId:userId
         });
         inputRef.current?.clear();
+    }
+
+    const text = useMemo(()=>{
+        if(unreadMessages<0)return '';
+
+        if(unreadMessages>9) return '9+';
+
+        return unreadMessages;
+
+    }, [unreadMessages]);
+
+    const handleViewMessage = ()=>{
+        if(!socket) return;
+
+        // check last image 
+        // in our case, it's the first element in the array
+        const lastMessage = activeConversation[0];
+
+        console.log(lastMessage);
+
+        if(!lastMessage) return;
+
+        if(
+            lastMessage.receiverId===userId ||
+            (lastMessage.senderId===userId && lastMessage.isRead)
+        )
+            return;
+
+        // decrement mannualy by one to optimize
+        setUnreadMessage(unreadMessages-1);
+
+        socket.emit("viewMessage", {
+            receiverId:userId
+        });
     }
 
   return (
@@ -130,7 +171,7 @@ const ChatScreen = () => {
                         alignItems:'center'
                     }}
                     >
-                        <Text style={{color:"#fff"}}>4</Text>
+                        <Text style={{color:"#fff"}}>{text}</Text>
                     </View>
                 </View>
             </TouchableOpacity>
@@ -190,6 +231,9 @@ const ChatScreen = () => {
                     }}
                     onChangeText={text=>setContent(text)}
                     ref={inputRef}
+                    onFocus={()=>{
+                        handleViewMessage()
+                    }}
                 />
                 <Button variants='link'
                     onPress={()=>handleSendMessage()}
