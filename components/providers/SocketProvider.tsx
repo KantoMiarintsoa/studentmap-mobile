@@ -50,7 +50,6 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     socket.on("newMessage", (newMessage:Message)=>{
       // get the other user
       const userId = details.id===newMessage.senderId?newMessage.receiverId:newMessage.senderId;
-      console.log('called');
       addMessages(userId, [newMessage]);
     })
 

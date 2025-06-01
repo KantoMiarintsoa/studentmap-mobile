@@ -1,5 +1,6 @@
 import { useAuth } from '@/components/providers/AuthProvider';
 import { SocketProvider } from '@/components/providers/SocketProvider';
+import { useMeStore } from '@/store/store';
 import { Session } from '@/types/user';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Stack, useRouter } from 'expo-router';
@@ -10,13 +11,16 @@ const ProtectedLayout = () => {
   const [appIsReady, setAppIsReady] = useState(false);
   const router = useRouter();
   const {session, updateSession}=useAuth();
+  const {setDetails} = useMeStore();
     
   useEffect(()=>{
     async function prepare(){
       try{
           const sessionStored = await AsyncStorage.getItem("session");
           if(sessionStored){
-          updateSession(JSON.parse(sessionStored) as Session);
+            const details = JSON.parse(sessionStored) as Session;
+            updateSession(details);
+            setDetails((details.user));
           }
           // wait 2s
           await new Promise(resolve=>setTimeout(resolve, 2000));
