@@ -58,7 +58,7 @@ const LastConversationComponennt = ({conversation}:LastConversationProps) => {
                     name={`${conversation.user.firstName} ${conversation.user.lastName}`}
                 />
             )}
-            {!conversation.isSender && (
+            {(conversation.isSender && !conversation.isRead) && (
                 <AntDesign name="checkcircleo" size={15} color={colors.secondaryColor} />
             )}
         </View>

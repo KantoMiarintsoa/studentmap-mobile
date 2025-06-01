@@ -52,7 +52,7 @@ export const useChatStore = create<ChatStore>((set)=>({
                 {
                     user:lastMessageUser,
                     isRead:false,
-                    isSender:lastMessage.senderId===userId,
+                    isSender:lastMessage.senderId!==userId,
                     content:lastMessage.content,
                     createdAt:lastMessage.createdAt
                 },
