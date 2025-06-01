@@ -1,4 +1,5 @@
 import { colors, size } from '@/const/const'
+import { normalizeUrl } from '@/libs/utils'
 import { useChatStore, useMeStore } from '@/store/store'
 import { Message } from '@/types/message'
 import AntDesign from '@expo/vector-icons/AntDesign'
@@ -52,7 +53,7 @@ const MessageItem = ({message}:{message:Message}) => {
             (isSender && message.isRead) && (
               <Avatar
                   size={17}
-                  {...(user.profilePicture && {image:{uri:user.profilePicture}})}
+                  {...(user.profilePicture && {image:{uri:normalizeUrl(user.profilePicture)}})}
                   name={`${user.firstName} ${user.lastName}`}
               />
             ) 

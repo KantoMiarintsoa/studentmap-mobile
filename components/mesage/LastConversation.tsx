@@ -1,4 +1,5 @@
 import { colors, size } from '@/const/const'
+import { normalizeUrl } from '@/libs/utils'
 import { LastConversation } from '@/types/message'
 import AntDesign from '@expo/vector-icons/AntDesign'
 import { useRouter } from 'expo-router'
@@ -34,7 +35,7 @@ const LastConversationComponennt = ({conversation}:LastConversationProps) => {
         >
             <Avatar
                 name={`${conversation.user.firstName} ${conversation.user.lastName}`}
-                {...(conversation.user.profilePicture && {image:{uri:conversation.user.profilePicture}})}
+                {...(conversation.user.profilePicture && {image:{uri:normalizeUrl(conversation.user.profilePicture)}})}
                 size={70}
             />
 
@@ -54,7 +55,7 @@ const LastConversationComponennt = ({conversation}:LastConversationProps) => {
             {(conversation.isSender && conversation.isRead) && (
                 <Avatar
                     size={17}
-                    {...(conversation.user.profilePicture && {image:{uri:conversation.user.profilePicture}})}
+                    {...(conversation.user.profilePicture && {image:{uri:normalizeUrl(conversation.user.profilePicture)}})}
                     name={`${conversation.user.firstName} ${conversation.user.lastName}`}
                 />
             )}

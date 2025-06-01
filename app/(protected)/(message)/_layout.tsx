@@ -7,9 +7,7 @@ const MessageLayout = () => {
         screenOptions={{
             headerShown:false
         }}
-    >
-        <Stack.Screen name='index'/>
-    </Stack>
+    />
   )
 }
 

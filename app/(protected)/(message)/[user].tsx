@@ -4,6 +4,7 @@ import Avatar from '@/components/ui/avatar';
 import Button from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { colors, size } from '@/const/const';
+import { normalizeUrl } from '@/libs/utils';
 import { getConversation, getUserDetails } from '@/services/api';
 import { useChatStore } from '@/store/store';
 import { User } from '@/types/user';
@@ -20,7 +21,7 @@ const ChatScreen = () => {
     const { user:id } = useLocalSearchParams<{
         user:string
     }>();
-    const {users, addUsers, unreadMessages, addMessages, setUnreadMessage} = useChatStore();
+    const {users, addUsers, unreadMessages, addMessages, setUnreadMessage, conversations} = useChatStore();
     const [user, setUser]=useState<User|undefined>(()=>{
         return users.find(u=>u.id===parseInt(id))
     });
@@ -73,13 +74,6 @@ const ChatScreen = () => {
     }, [userId]);
 
     useEffect(()=>{
-        if(!socket) return;
-
-        handleViewMessage();
-        
-    }, [user, socket])
-
-    useEffect(()=>{
         // there are messages that are cached
         if(activeConversation)return;
 
@@ -98,6 +92,13 @@ const ChatScreen = () => {
         }
         fetchMessage();
     }, [activeConversation]);
+
+    useEffect(()=>{
+        if(!socket) return;
+
+        handleViewMessage();
+        
+    }, [user, socket, activeConversation])
 
     const handleSendMessage = ()=>{
         if(!socket || !inputRef || content.trim()==="")return;
@@ -118,13 +119,13 @@ const ChatScreen = () => {
     }, [unreadMessages]);
 
     const handleViewMessage = ()=>{
-        if(!socket) return;
+        if(!socket || !activeConversation) return;
 
         // check last image 
         // in our case, it's the first element in the array
         const lastMessage = activeConversation[0];
 
-        console.log(lastMessage);
+        // console.log(lastMessage);
 
         if(!lastMessage) return;
 
@@ -183,6 +184,7 @@ const ChatScreen = () => {
                     <Avatar
                         name={`${user.firstName} ${user.lastName}`}
                         size={30}
+                        {...(user.profilePicture && {image:{uri:normalizeUrl(user.profilePicture)}})}
                     />
                     <Text style={{fontWeight:600, color:colors.secondaryColor, fontSize:size.lg}}>{user.firstName} {user.lastName}</Text>
                 </>
