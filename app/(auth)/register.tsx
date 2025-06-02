@@ -98,6 +98,7 @@ const RegisterScreen = () => {
                         onChangeText={onChange}
                         onBlur={onBlur}
                         value={value}
+                        keyboardType='email-address'
                     />
                     {(errors.root) && <Text style={style.textError}>Email ou mot de passe incorrect</Text>}
                   </View>
