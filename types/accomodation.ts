@@ -1,3 +1,5 @@
+import { User } from "./user";
+
 export const accomodationTypes = {
     "APARTEMENT":"Appartement",
     "GUEST":"Guest",
@@ -16,5 +18,7 @@ export type Accomodation ={
     receptionCapacity:string;
     media:{
         images:string[]
-    }
+    },
+    owner:User,
+    currency:string;
 }

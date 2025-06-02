@@ -1,3 +1,4 @@
+import { Accomodation } from "@/types/accomodation";
 import { LastConversation, Message } from "@/types/message";
 import { User } from "@/types/user";
 import { create } from "zustand";
@@ -104,5 +105,20 @@ export const useChatStore = create<ChatStore>((set)=>({
     unreadMessages:-1,
     setUnreadMessage:(unreadMessages:number)=>set(()=>({
         unreadMessages
+    }))
+}));
+
+type AccomodationStore = {
+    accomodations:Accomodation[];
+    addAccomodations:(accomodations:Accomodation[])=>void;
+}
+
+export const useAccomodationStore = create<AccomodationStore>((set)=>({
+    accomodations:[],
+    addAccomodations:(accomodations:Accomodation[])=>set((state)=>({
+        accomodations:[
+            ...state.accomodations,
+            ...accomodations
+        ]
     }))
 }));

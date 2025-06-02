@@ -5,6 +5,7 @@ import { ConfirmPaymentSchema } from "@/schema/payment";
 import { UpdatePasswordSchema, UpdateUserSchema } from "@/schema/user";
 import { Accomodation } from "@/types/accomodation";
 import { Message } from "@/types/message";
+import { University } from "@/types/university";
 import { PaymentMethod, Session, User } from "@/types/user";
 import axios from "axios";
 
@@ -157,4 +158,13 @@ export const getConversation = async(userId:number)=>{
 
 export const getUnreadMessages = async()=>{
     return (await axiosInstance.get<{count:number}>('messages/unread')).data;
+}
+
+// for home screen student
+export const getAccomodationSuggestion = async ()=>{
+    return (await axiosInstance.get<Accomodation[]>('accommodation/lists')).data;
+}
+
+export const getUniversitySuggestion = async ()=>{
+    return (await axiosInstance.get<University[]>('university/lists')).data;
 }

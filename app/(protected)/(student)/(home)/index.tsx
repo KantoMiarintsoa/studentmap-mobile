@@ -1,17 +1,69 @@
+import AccomodationItem from '@/components/accomodation/accomodation';
 import Header from '@/components/ui/header';
-import { useMeStore } from '@/store/store';
-import React from 'react';
+import { colors } from '@/const/const';
+import { normalizeUrl } from '@/libs/utils';
+import { getAccomodationSuggestion } from '@/services/api';
+import { useAccomodationStore, useMeStore } from '@/store/store';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const HomeScreen = () => {
 
     const {details} = useMeStore();
+    const {accomodations, addAccomodations} = useAccomodationStore();
+    const [loading, setLoading] = useState(false);
+
+    useEffect(()=>{
+        async function fetchAccomodations(){
+            if(accomodations.length>0)return;
+            console.log("fetching");
+            try{
+                setLoading(true);
+                const response =(await getAccomodationSuggestion())
+                    .map(accomodation=>({
+                            ...accomodation,
+                            media:{
+                              images:accomodation.media.images.map(image=>normalizeUrl(image))
+                            }
+                          }))
+                ;
+                addAccomodations(response);
+                console.log(response)
+            }
+            catch(error){
+                console.log(error);
+            }
+            finally{
+                setLoading(false);
+            }
+        }
+        fetchAccomodations();
+    }, [])
 
   return (
     <SafeAreaView style={{
-        flex:1
+        flex:1,
+        paddingBottom:80
     }}>
         <Header user={details}/>
+        {
+            loading?(
+                <ActivityIndicator size={"large"} color={colors.primaryColor} style={{margin:"auto"}}/>
+            ):(
+                <FlatList
+                    data={accomodations}
+                    keyExtractor={(item)=>`${item.id}`}
+                    renderItem={({item})=>(
+                        <AccomodationItem accomodation={item} isOwner={false} key={item.id}/>
+                    )}
+                    style={{paddingHorizontal:20}}
+                    contentContainerStyle={{
+                        gap:20
+                    }}
+                />
+            )
+        }
     </SafeAreaView>
   )
 }
