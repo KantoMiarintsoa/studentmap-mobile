@@ -6,4 +6,5 @@ export type University = {
     address:string;
     mention:string[];
     type:"public"|"prive";
+    webSite:string;
 }

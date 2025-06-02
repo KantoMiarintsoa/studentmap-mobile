@@ -2,6 +2,7 @@ import { getSession } from "@/libs/utils";
 import { AddAccomodationSchema } from "@/schema/accomodation";
 import { LoginSchema, RegisterSchema } from "@/schema/auth";
 import { ConfirmPaymentSchema } from "@/schema/payment";
+import { SearchUniversitySchema } from "@/schema/search";
 import { UpdatePasswordSchema, UpdateUserSchema } from "@/schema/user";
 import { Accomodation } from "@/types/accomodation";
 import { Message } from "@/types/message";
@@ -175,4 +176,9 @@ export const getUniversitySuggestion = async ()=>{
 
 export const getAccomodationDetails = async (id:number)=>{
     return (await axiosInstance.get<Accomodation>(`accommodation/${id}/details`)).data;
+}
+
+export const getFilteredUniversity = async (params:SearchUniversitySchema)=>{
+    const url = new URLSearchParams(params);
+    return (await axiosInstance.get<University[]>(`university/filter?${url.toString()}`)).data;
 }
