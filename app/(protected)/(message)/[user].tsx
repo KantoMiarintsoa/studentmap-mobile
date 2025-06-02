@@ -65,6 +65,7 @@ const ChatScreen = () => {
                 addUsers(
                     [response]
                 );
+                setUser(response);
             }
             catch(error){
                 console.log(error)
