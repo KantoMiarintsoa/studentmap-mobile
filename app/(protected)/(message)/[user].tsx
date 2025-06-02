@@ -3,6 +3,7 @@ import { useSocket } from '@/components/providers/SocketProvider';
 import Avatar from '@/components/ui/avatar';
 import Button from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import CustomKeyboardAvoidingView from '@/components/ui/keyboard-avoiding-view';
 import { colors, size } from '@/const/const';
 import { normalizeUrl } from '@/libs/utils';
 import { getConversation, getUserDetails } from '@/services/api';
@@ -12,7 +13,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { ActivityIndicator, FlatList, Keyboard, KeyboardAvoidingView, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, FlatList, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const ChatScreen = () => {
@@ -37,24 +38,24 @@ const ChatScreen = () => {
 
     const {socket} = useSocket();
 
-    useEffect(()=>{
+    // useEffect(()=>{
 
-        function onKeyboardHide(){
-            setKeyboardAvoidingViewKey("keyboardAvoidingViewKey"+new Date().getTime());
-        }
+    //     function onKeyboardHide(){
+    //         setKeyboardAvoidingViewKey("keyboardAvoidingViewKey"+new Date().getTime());
+    //     }
 
-        const keyboardHideListener = Keyboard.addListener(
-            Platform.OS === 'android' 
-                ? 'keyboardDidHide'
-                : 'keyboardWillHide', 
-                onKeyboardHide
-        );
+    //     const keyboardHideListener = Keyboard.addListener(
+    //         Platform.OS === 'android' 
+    //             ? 'keyboardDidHide'
+    //             : 'keyboardWillHide', 
+    //             onKeyboardHide
+    //     );
 
-        return ()=>{
-            keyboardHideListener.remove();
-        }
+    //     return ()=>{
+    //         keyboardHideListener.remove();
+    //     }
 
-    }, [])
+    // }, [])
     
     useEffect(()=>{
         if(user) return;
@@ -192,11 +193,8 @@ const ChatScreen = () => {
             )}
             
         </View>
-        <KeyboardAvoidingView
-            behavior='height'
-            keyboardVerticalOffset={Platform.OS==="ios"?60:0}
+        <CustomKeyboardAvoidingView
             style={{flex:1}}
-            key={keyboardAvoidingViewKey}
         >
             {
                 loadingMessage ? (
@@ -244,7 +242,7 @@ const ChatScreen = () => {
                     <Ionicons name="send-sharp" size={24} color={colors.primaryColor} />
                 </Button>
             </View>
-        </KeyboardAvoidingView>
+        </CustomKeyboardAvoidingView>
     </SafeAreaView>
   )
 }
