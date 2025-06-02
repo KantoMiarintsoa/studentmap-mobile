@@ -33,11 +33,11 @@ const AccomodationItem = ({accomodation, isOwner=false}:AccomodationItemProps) =
         {!isOwner && (
           <View style={{flexDirection:"row", gap:10, alignItems:"center", marginBottom:10}}>
             <Avatar
-              name={`${accomodation.owner.firstName} ${accomodation.owner.lastName}`}
-              {...(accomodation.owner.profilePicture && {image:{uri:normalizeUrl(accomodation.owner.profilePicture)}})}
+              name={`${accomodation.owner?.firstName} ${accomodation.owner?.lastName}`}
+              {...(accomodation.owner?.profilePicture && {image:{uri:normalizeUrl(accomodation.owner?.profilePicture)}})}
             />
             <Text style={{fontWeight:600, flex:1}}>
-              {`${accomodation.owner.firstName} ${accomodation.owner.lastName}`}
+              {`${accomodation.owner?.firstName} ${accomodation.owner?.lastName}`}
             </Text>
             <Text>7j</Text>
           </View>

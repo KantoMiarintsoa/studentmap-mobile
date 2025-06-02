@@ -40,7 +40,7 @@ const OwnerHome = () => {
         data={accomodations}
         keyExtractor={(item)=>item.id.toString()}
         renderItem={({item})=>(
-          <AccomodationItem accomodation={item}/>
+          <AccomodationItem accomodation={item} isOwner={true}/>
         )}
         style={{paddingHorizontal:20}}
         ItemSeparatorComponent={()=>(
