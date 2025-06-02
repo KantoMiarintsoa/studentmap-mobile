@@ -53,7 +53,7 @@ const HomeScreen = () => {
             ):(
                 <FlatList
                     data={accomodations}
-                    keyExtractor={(item)=>`${item.id}`}
+                    keyExtractor={(item, index)=>`${item.id}_${index}`}
                     renderItem={({item})=>(
                         <AccomodationItem accomodation={item} isOwner={false} key={item.id}/>
                     )}
