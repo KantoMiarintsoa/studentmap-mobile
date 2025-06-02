@@ -108,6 +108,10 @@ const MessageIndex = () => {
         fetchLastConversations();
     }, [session])
 
+    const redirectToSearch = ()=>{
+        router.push("/(protected)/(message)/search");
+    }
+
   return (
     <SafeAreaView
         style={{
@@ -147,6 +151,7 @@ const MessageIndex = () => {
                     borderColor:"transparent"
                 }}
                 placeholder='Rechercher une personne'
+                onFocus={()=>redirectToSearch()}
             />
             {/* <FlatList
                 horizontal

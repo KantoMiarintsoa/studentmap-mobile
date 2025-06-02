@@ -7,7 +7,11 @@ const MessageLayout = () => {
         screenOptions={{
             headerShown:false
         }}
-    />
+    >
+      <Stack.Screen name='search' options={{
+        presentation:"fullScreenModal"
+      }}/>
+    </Stack>
   )
 }
 

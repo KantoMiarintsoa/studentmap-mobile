@@ -33,7 +33,8 @@ const OwnerHome = () => {
 
   return (
     <SafeAreaView style={{
-      flex:1
+      flex:1,
+      paddingBottom:80
     }}>
       <Header user={session.user}/>
       <FlatList

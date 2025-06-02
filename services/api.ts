@@ -160,6 +160,10 @@ export const getUnreadMessages = async()=>{
     return (await axiosInstance.get<{count:number}>('messages/unread')).data;
 }
 
+export const getUsersByFirstName = async (firstName:string)=>{
+    return (await axiosInstance.get<User[]>(`users/search?firstName=${firstName}`)).data;
+}
+
 // for home screen student
 export const getAccomodationSuggestion = async ()=>{
     return (await axiosInstance.get<Accomodation[]>('accommodation/lists')).data;
