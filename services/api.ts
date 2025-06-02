@@ -168,3 +168,7 @@ export const getAccomodationSuggestion = async ()=>{
 export const getUniversitySuggestion = async ()=>{
     return (await axiosInstance.get<University[]>('university/lists')).data;
 }
+
+export const getAccomodationDetails = async (id:number)=>{
+    return (await axiosInstance.get<Accomodation>(`accommodation/${id}/details`)).data;
+}
