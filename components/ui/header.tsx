@@ -37,7 +37,7 @@ const Header = ({user}:{user:User}) => {
 
       return unreadMessages;
 
-    }, [unreadMessages])
+    }, [unreadMessages]);
 
   return (
     <View style={{flexDirection:"row", paddingVertical:10, paddingHorizontal:20, alignItems:"center", gap:10}}>
@@ -45,9 +45,28 @@ const Header = ({user}:{user:User}) => {
         name={`${user.firstName} ${user.lastName}`}
         {...(user.profilePicture && {image:{uri:user.profilePicture}})}
       />
-      <Input
+      {user.role==="STUDENT"?(
+        <Input
         style={{flex:1, height:40, fontSize:size.sm, borderRadius:0, borderColor:colors.lightGray}}
+        onFocus={()=>router.push("/(protected)/(student)/(search)")}
       />
+      ):(
+        <View style={{
+          flex:1,
+          justifyContent:'center',
+          flexDirection:'row'
+        }}>
+          <Text style={{
+            fontWeight:600,
+            fontSize:size.xl
+          }}>Student</Text>
+          <Text style={{
+            fontWeight:600,
+            fontSize:size.xl,
+            color:colors.primaryColor
+          }}>Map</Text>
+        </View>
+      )}
       <TouchableOpacity style={{position:"relative"}}
         onPress={()=>router.push('/(protected)/(message)')}
       >
