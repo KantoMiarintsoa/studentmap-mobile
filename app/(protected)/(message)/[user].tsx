@@ -3,6 +3,7 @@ import { useSocket } from '@/components/providers/SocketProvider';
 import Avatar from '@/components/ui/avatar';
 import Button from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { UserSkeleton } from '@/components/ui/skeleton';
 import { colors, size } from '@/const/const';
 import { normalizeUrl } from '@/libs/utils';
 import { getConversation, getUserDetails } from '@/services/api';
@@ -180,8 +181,7 @@ const ChatScreen = () => {
                 </View>
             </TouchableOpacity>
             {!user?(
-                // skeleton later
-                <></>
+                <UserSkeleton/>
             ):(
                 <>
                     <Avatar

@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { ActivityIndicator, Alert, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import Toast from 'react-native-toast-message'
 import Button from '../ui/button'
+import { SkeletonBase } from '../ui/skeleton'
 
 type BillingMethod = {
   id: string
@@ -18,6 +19,16 @@ type Props = {
   showDelete?: boolean,
   onDelete?: (id: string) => void,
   style?:StyleProp<ViewStyle>
+}
+
+export function BillingMethodSkeleton(){
+  return (
+    <View style={{flexDirection:'column', gap:10}}>
+      <SkeletonBase width={"100%"} height={50}/>
+      <SkeletonBase width={"100%"} height={50}/>
+      <SkeletonBase width={"100%"} height={50}/>
+    </View>
+  )
 }
 
 const BillingMethod = ({method, showDelete=true, onDelete, style}:Props) => {

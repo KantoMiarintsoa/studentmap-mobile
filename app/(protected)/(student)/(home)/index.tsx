@@ -16,7 +16,6 @@ const HomeScreen = () => {
     useEffect(()=>{
         async function fetchAccomodations(){
             if(accomodations.length>0)return;
-            console.log("fetching");
             try{
                 setLoading(true);
                 const response =(await getAccomodationSuggestion())

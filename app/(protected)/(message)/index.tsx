@@ -1,4 +1,4 @@
-import LastConversationComponennt from '@/components/mesage/LastConversation';
+import LastConversationComponennt, { LastConversationSkeleton } from '@/components/mesage/LastConversation';
 import { useAuth } from '@/components/providers/AuthProvider';
 import Avatar from '@/components/ui/avatar';
 import { Input } from '@/components/ui/input';
@@ -10,7 +10,7 @@ import { UserRole } from '@/types/user';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 type UserAvatarProps = {
@@ -170,9 +170,10 @@ const MessageIndex = () => {
             padding:10
         }}>
             {loading ? (
-                <View style={{margin:'auto'}}>
-                    <ActivityIndicator size={"large"} color={colors.primaryColor}/>
-                </View>
+                // <View style={{margin:'auto'}}>
+                //     <ActivityIndicator size={"large"} color={colors.primaryColor}/>
+                // </View>
+                <LastConversationSkeleton/>
             ):(
                 <FlatList
                     data={lastConversations}

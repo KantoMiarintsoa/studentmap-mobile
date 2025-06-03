@@ -1,4 +1,4 @@
-import AccomodationItem from '@/components/accomodation/accomodation'
+import AccomodationItem, { AccomodationListSkeleton } from '@/components/accomodation/accomodation'
 import { useAuth } from '@/components/providers/AuthProvider'
 import Header from '@/components/ui/header'
 import { normalizeUrl } from '@/libs/utils'
@@ -12,9 +12,11 @@ const OwnerHome = () => {
 
   const {session} = useAuth();
   const [accomodations, setAccomodations] = useState<Accomodation[]>([]);
+  const [loading, setLoading] = useState(false)
 
   useEffect(()=>{
     async function fetchData(){
+      setLoading(true);
       const response = (await getOwnerAccomodation())
         .map(accomodation=>({
         ...accomodation,
@@ -23,6 +25,7 @@ const OwnerHome = () => {
         }
       }));
       setAccomodations(response);
+      setLoading(false);
     }
     fetchData();
   }, [])
@@ -37,6 +40,11 @@ const OwnerHome = () => {
       paddingBottom:80
     }}>
       <Header user={session.user}/>
+      {
+        loading && (
+          <AccomodationListSkeleton isOwner/>
+        )
+      }
       <FlatList
         data={accomodations}
         keyExtractor={(item)=>item.id.toString()}

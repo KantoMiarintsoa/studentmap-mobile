@@ -1,4 +1,4 @@
-import BillingMethod from '@/components/payment/BillingMethod'
+import BillingMethod, { BillingMethodSkeleton } from '@/components/payment/BillingMethod'
 import Button from '@/components/ui/button'
 import { colors } from '@/const/const'
 import { listPaymentMethods } from '@/services/api'
@@ -46,16 +46,20 @@ const Payments = () => {
             </Button>
         </View>
         <ScrollView>
-            <View style={{flexDirection:"column", borderColor:colors.lightGray, borderWidth:1, borderRadius:8, backgroundColor:"#fff"}}>
-            {paymentMethods.map((method) => (
-                <BillingMethod key={method.id} method={{
-                    ...method.card,
-                    id:method.id
-                }} 
-                    onDelete={onDeletePaymentMethod}
-                />
-            ))}
-            </View>
+            {loading ? (
+                <BillingMethodSkeleton/>
+            ):(
+                <View style={{flexDirection:"column", borderColor:colors.lightGray, borderWidth:1, borderRadius:8, backgroundColor:"#fff"}}> 
+                {paymentMethods.map((method) => (
+                    <BillingMethod key={method.id} method={{
+                        ...method.card,
+                        id:method.id
+                    }} 
+                        onDelete={onDeletePaymentMethod}
+                    />
+                ))}
+                </View>
+            )}
         </ScrollView>
     </SafeAreaView>
   )

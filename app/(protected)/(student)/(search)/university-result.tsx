@@ -1,4 +1,4 @@
-import UniversityItem from '@/components/university/university-item';
+import UniversityItem, { UniversityListSkeleton } from '@/components/university/university-item';
 import { colors, size } from '@/const/const';
 import { SearchUniversitySchema } from '@/schema/search';
 import { getFilteredUniversity } from '@/services/api';
@@ -21,7 +21,6 @@ const UniversityResult = () => {
                 setLoading(true);
                 const response = await getFilteredUniversity(params);
                 setUniversity(response);
-                console.log(response)
             }
             catch(error){
                 console.log(error)
@@ -76,6 +75,9 @@ const UniversityResult = () => {
             )}
             <View style={{height:1, backgroundColor:colors.lightGray, width:"100%", marginVertical:10}}/>
         </View>
+        {loading && (
+            <UniversityListSkeleton/>
+        )}
         <FlatList
             data={university}
             keyExtractor={(item, index)=>`${item.id}_${index}`}

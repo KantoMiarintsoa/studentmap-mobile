@@ -8,14 +8,16 @@ import { Controller, useForm } from 'react-hook-form';
 import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 import Button from '../ui/button';
+import { BillingMethodSkeleton } from './BillingMethod';
 
 type BuyCreditProps = {
     paymentMethods: PaymentMethod[];
     credits: number;
     onPaymentSuccess?: (credits: number) => void;
+    loading?:boolean
 }
 
-const BuyCredit = ({paymentMethods, credits, onPaymentSuccess}:BuyCreditProps) => {
+const BuyCredit = ({paymentMethods, credits, onPaymentSuccess, loading=false}:BuyCreditProps) => {
 
     const {
         formState: { isValid, isSubmitting },
@@ -56,20 +58,26 @@ const BuyCredit = ({paymentMethods, credits, onPaymentSuccess}:BuyCreditProps) =
         control={form.control}
         render={({field:{value}})=>(
             <View style={{flexDirection:"column", borderColor:colors.lightGray, borderWidth:1, borderRadius:8, backgroundColor:"#fff", width:"100%"}}>
-                {paymentMethods.map(method=>(
-                    <TouchableOpacity  
-                        key={method.id} 
-                        onPress={()=>form.setValue("paymentMethod", method.id)}
-                        style={{width:"100%", padding:16, backgroundColor:value === method.id ? colors.lightGray : "transparent"}}
-                    >
-                        <Text style={styles.brand}>{method.card.brand.toUpperCase()}</Text>
-                        <Text>**** **** **** {method.card.last4}</Text>
-                        <Text>
-                            Exp: {method.card.exp_month}/{method.card.exp_year}
-                        </Text>
-                        {/* <Text>{method.id}</Text> */}
-                    </TouchableOpacity>
-                ))}
+                {loading ?(
+                    <BillingMethodSkeleton/>
+                ):(
+                    <>
+                        {paymentMethods.map(method=>(
+                            <TouchableOpacity  
+                                key={method.id} 
+                                onPress={()=>form.setValue("paymentMethod", method.id)}
+                                style={{width:"100%", padding:16, backgroundColor:value === method.id ? colors.lightGray : "transparent"}}
+                            >
+                                <Text style={styles.brand}>{method.card.brand.toUpperCase()}</Text>
+                                <Text>**** **** **** {method.card.last4}</Text>
+                                <Text>
+                                    Exp: {method.card.exp_month}/{method.card.exp_year}
+                                </Text>
+                                {/* <Text>{method.id}</Text> */}
+                            </TouchableOpacity>
+                        ))}
+                    </>
+                )}
             </View>
         )}
       />

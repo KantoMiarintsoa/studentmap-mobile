@@ -1,4 +1,4 @@
-import AccomodationItem from '@/components/accomodation/accomodation'
+import AccomodationItem, { AccomodationListSkeleton } from '@/components/accomodation/accomodation'
 import { colors, size } from '@/const/const'
 import { getFilteredAccommodations } from '@/services/api'
 import { Accomodation } from '@/types/accomodation'
@@ -82,26 +82,29 @@ const ResultScreen = () => {
         )}
         <View style={{height:1, backgroundColor:colors.lightGray, width:"100%", marginVertical:10}}/>
     </View>
+    {loading && (
+        <AccomodationListSkeleton isOwner={false}/>
+    )}
     <FlatList
-            data={accommodations}
-            keyExtractor={(item, index)=>`${item.id}_${index}`}
-            renderItem={({item})=>(
-                <AccomodationItem accomodation={item} isOwner={false}/>
-            )}
-            style={{paddingHorizontal:20}}
-            contentContainerStyle={{
-                gap:10
-            }}
-            ListEmptyComponent={()=>(
-                (accommodations.length===0 && !loading) && (
-                    <Text style={{
-                        fontSize:size.lg,
-                        color:colors.secondaryColor,
-                        textAlign:"center"
-                    }}>Aucun logement correspond à votre recherche</Text>
-                )
-            )}
-        />
+        data={accommodations}
+        keyExtractor={(item, index)=>`${item.id}_${index}`}
+        renderItem={({item})=>(
+            <AccomodationItem accomodation={item} isOwner={false}/>
+        )}
+        style={{paddingHorizontal:20}}
+        contentContainerStyle={{
+            gap:10
+        }}
+        ListEmptyComponent={()=>(
+            (accommodations.length===0 && !loading) && (
+                <Text style={{
+                    fontSize:size.lg,
+                    color:colors.secondaryColor,
+                    textAlign:"center"
+                }}>Aucun logement correspond à votre recherche</Text>
+            )
+        )}
+    />
     </SafeAreaView>
   )
 }

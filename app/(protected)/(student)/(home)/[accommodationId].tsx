@@ -1,5 +1,6 @@
 import Avatar from '@/components/ui/avatar';
 import Button from '@/components/ui/button';
+import { UserSkeleton } from '@/components/ui/skeleton';
 import Stars from '@/components/ui/stars';
 import { colors, size } from '@/const/const';
 import { normalizeUrl } from '@/libs/utils';
@@ -62,7 +63,7 @@ const AccomodationDetails = () => {
         </TouchableOpacity>
         {!user?(
             // skeleton later
-            <></>
+            <UserSkeleton/>
         ):(
             <>
                 <Avatar

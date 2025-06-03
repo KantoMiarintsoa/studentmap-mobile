@@ -1,4 +1,4 @@
-import LastConversationComponennt from '@/components/mesage/LastConversation'
+import LastConversationComponennt, { LastConversationSkeleton } from '@/components/mesage/LastConversation'
 import Button from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { colors, size } from '@/const/const'
@@ -31,7 +31,7 @@ const SearchUser = () => {
             setUsers([]);
             return;
         };
-
+        setUsers([]);
         try{
             setLoading(true);
             const response = await getUsersByFirstName(firstName);
@@ -82,7 +82,9 @@ const SearchUser = () => {
         </View>
         {loading && (
             // skeleton here
-            <></>
+            <View style={{paddingHorizontal:20}}>
+                <LastConversationSkeleton length={6}/>
+            </View>
         )}
         <FlatList
             data={users}

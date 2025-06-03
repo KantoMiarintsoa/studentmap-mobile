@@ -108,6 +108,7 @@ const Credits = () => {
             setCredits(prev => prev + credits);
             setOpenModal(false);
           }}
+          loading={loading}
         />
       </Modal>
     </KeyboardAvoidingView>
