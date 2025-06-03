@@ -1,11 +1,10 @@
-import AccomodationItem from '@/components/accomodation/accomodation';
+import AccomodationItem, { AccomodationListSkeleton } from '@/components/accomodation/accomodation';
 import Header from '@/components/ui/header';
-import { colors } from '@/const/const';
 import { normalizeUrl } from '@/libs/utils';
 import { getAccomodationSuggestion } from '@/services/api';
 import { useAccomodationStore, useMeStore } from '@/store/store';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList } from 'react-native';
+import { FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const HomeScreen = () => {
@@ -48,7 +47,8 @@ const HomeScreen = () => {
         <Header user={details}/>
         {
             loading?(
-                <ActivityIndicator size={"large"} color={colors.primaryColor} style={{margin:"auto"}}/>
+                // <ActivityIndicator size={"large"} color={colors.primaryColor} style={{margin:"auto"}}/>
+                <AccomodationListSkeleton isOwner={false}/>
             ):(
                 <FlatList
                     data={accomodations}

@@ -1,3 +1,4 @@
+import { SkeletonBase, SkeletonCircle } from "@/components/ui/skeleton";
 import { colors, size } from '@/const/const';
 import { normalizeUrl } from '@/libs/utils';
 import { Accomodation } from '@/types/accomodation';
@@ -11,6 +12,34 @@ type AccomodationItemProps = {
     accomodation:Accomodation;
     isOwner?:boolean;
 };
+
+export function AccomodationItemSkeleton({isOwner=false}:{isOwner?:boolean}){
+  return (
+    <View style={{flexDirection:"column", width:"100%"}}>
+      {!isOwner && (
+          <View style={{flexDirection:"row", gap:10, alignItems:"center", marginBottom:10}}>
+            <SkeletonCircle size={50}/>
+            <SkeletonBase width={"100%"} height={30} />
+          </View>
+        )}
+        <SkeletonBase width={"100%"} height={150}/>
+        <View style={{flexDirection:"row", gap:10, alignItems:"flex-end"}}>
+          <SkeletonBase width={"100%"} height={25}/>
+          <SkeletonBase width={"100%"} height={18}/>
+          <SkeletonBase width={"100%"} height={18}/>
+        </View>
+    </View>
+  )
+}
+
+export function AccomodationListSkeleton({isOwner=false}:{isOwner?:boolean}){
+  return (
+    <View style={{paddingHorizontal:20, gap:20}}>
+      <AccomodationItemSkeleton isOwner={isOwner}/>
+      <AccomodationItemSkeleton isOwner={isOwner}/>
+    </View>
+  )
+}
 
 const AccomodationItem = ({accomodation, isOwner=false}:AccomodationItemProps) => {
 
