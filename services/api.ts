@@ -182,3 +182,13 @@ export const getFilteredUniversity = async (params:SearchUniversitySchema)=>{
     const url = new URLSearchParams(params);
     return (await axiosInstance.get<University[]>(`university/filter?${url.toString()}`)).data;
 }
+
+export const getFilteredAccommodations = async (params:{
+      nameUniversity?:string,
+      address?:string,
+      budget?:string,
+      type?:string
+  })=>{
+    const url = new URLSearchParams(params);
+    return (await axiosInstance.get<Accomodation[]>(`accommodation/advanced-search?${url.toString()}`)).data;
+  }

@@ -1,13 +1,13 @@
 import { colors, size } from '@/const/const';
 import { University } from '@/types/university';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import React, { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import { Linking, Text, TouchableOpacity, View } from 'react-native';
 import Collapsible from 'react-native-collapsible';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 import Button from '../ui/button';
 
-const UniversityItem = ({university}:{university:University}) => {
+const UniversityItem = ({university, children}:{university:University, children?:ReactNode}) => {
     const [collapse, setCollapse] = useState(false);
     const duration = 1500;
 
@@ -35,6 +35,7 @@ const UniversityItem = ({university}:{university:University}) => {
             <View style={{flexDirection:"column", flex:1}}>
                 <Text style={{fontSize:size.lg}}>{university.name}</Text>
                 <Text style={{color:colors.secondaryColor}}>{university.address}</Text>
+                {children}
             </View>
             <TouchableOpacity onPress={()=>toggleCollapsed()}>
                 <Animated.View style={animatedArrow}>

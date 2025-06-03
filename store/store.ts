@@ -1,5 +1,6 @@
 import { Accomodation } from "@/types/accomodation";
 import { LastConversation, Message } from "@/types/message";
+import { University } from "@/types/university";
 import { User } from "@/types/user";
 import { create } from "zustand";
 
@@ -120,5 +121,17 @@ export const useAccomodationStore = create<AccomodationStore>((set)=>({
             ...state.accomodations,
             ...accomodations
         ]
+    }))
+}));
+
+type SelectUniversityStore = {
+    university?:University;
+    setUniversity:(university?:University)=>void;
+}
+
+export const useSelectUniversityStore = create<SelectUniversityStore>((set)=>({
+    university:undefined,
+    setUniversity:(university?:University)=>set(()=>({
+        university
     }))
 }));

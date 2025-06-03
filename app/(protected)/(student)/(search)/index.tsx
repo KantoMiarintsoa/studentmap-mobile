@@ -1,11 +1,11 @@
+import SearchAccommodationForm from '@/components/forms/search-accommodation-form';
 import SearchUniversityForm from '@/components/forms/search-university-form';
 import Button from '@/components/ui/button';
-import CustomKeyboardAvoidingView from '@/components/ui/keyboard-avoiding-view';
 import { colors, size } from '@/const/const';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { KeyboardAvoidingView, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Search = () => {
@@ -16,7 +16,8 @@ const Search = () => {
 
   return (
     <SafeAreaView style={{
-        flex:1
+        flex:1,
+        paddingBottom:80
     }}>
         <View style={{width:"100%", flexDirection:"row", gap:10, alignItems:'center', padding:10}}>
             <TouchableOpacity onPress={()=>router.back()}>
@@ -29,10 +30,10 @@ const Search = () => {
                 fontWeight:600
             }}>Recherche</Text>
         </View>
-        <CustomKeyboardAvoidingView
-            style={{flex:1, paddingHorizontal:20}}
+        <KeyboardAvoidingView
+            style={{flex:1, paddingHorizontal:20, flexDirection:"column"}}
         >
-            <View style={{display:"flex", flexDirection:"column", gap:10, width:"100%"}}>
+            <ScrollView style={{display:"flex", flexDirection:"column", gap:10, width:"100%"}}>
                 <Text style={[{
                     color:colors.secondaryColor, fontWeight:500, fontSize:size.md
                 }]}>Je cherche un(e)</Text>
@@ -53,12 +54,14 @@ const Search = () => {
                     </Button>
                 </View>
                 {
-                    query==="UNIVERSITY" && (
+                    query==="UNIVERSITY" ? (
                         <SearchUniversityForm/>
+                    ):(
+                        <SearchAccommodationForm/>
                     )
                 }
-            </View>
-        </CustomKeyboardAvoidingView>
+            </ScrollView>
+        </KeyboardAvoidingView>
     </SafeAreaView>
   )
 }

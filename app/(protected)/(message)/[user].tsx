@@ -3,7 +3,6 @@ import { useSocket } from '@/components/providers/SocketProvider';
 import Avatar from '@/components/ui/avatar';
 import Button from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import CustomKeyboardAvoidingView from '@/components/ui/keyboard-avoiding-view';
 import { colors, size } from '@/const/const';
 import { normalizeUrl } from '@/libs/utils';
 import { getConversation, getUserDetails } from '@/services/api';
@@ -11,9 +10,10 @@ import { useChatStore } from '@/store/store';
 import { User } from '@/types/user';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { useHeaderHeight } from '@react-navigation/elements';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { ActivityIndicator, FlatList, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, FlatList, KeyboardAvoidingView, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const ChatScreen = () => {
@@ -144,11 +144,12 @@ const ChatScreen = () => {
             receiverId:userId
         });
     }
+    const headerHeight = useHeaderHeight();
 
   return (
     <SafeAreaView style={{
         flex:1,
-        flexDirection:"column"
+        flexDirection:"column",
     }}>
         {/* header */}
         <View style={{
@@ -193,8 +194,11 @@ const ChatScreen = () => {
             )}
             
         </View>
-        <CustomKeyboardAvoidingView
+        <KeyboardAvoidingView
             style={{flex:1}}
+            keyboardVerticalOffset={0}
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            enabled
         >
             {
                 loadingMessage ? (
@@ -213,6 +217,7 @@ const ChatScreen = () => {
                             padding:10
                         }}
                         inverted
+                        style={{flex:1}}
                     />
                 )
             }
@@ -242,7 +247,7 @@ const ChatScreen = () => {
                     <Ionicons name="send-sharp" size={24} color={colors.primaryColor} />
                 </Button>
             </View>
-        </CustomKeyboardAvoidingView>
+        </KeyboardAvoidingView>
     </SafeAreaView>
   )
 }

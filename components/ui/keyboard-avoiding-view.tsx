@@ -1,14 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import { Keyboard, KeyboardAvoidingView, KeyboardAvoidingViewProps, Platform } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { Keyboard, KeyboardAvoidingView, KeyboardAvoidingViewProps, LayoutChangeEvent, Platform } from 'react-native';
 
 const CustomKeyboardAvoidingView = (props:KeyboardAvoidingViewProps) => {
-    
-    const [keyboardAvoidingViewKey, setKeyboardAvoidingViewKey] = useState<string>("keyboardAvoidingViewKey");
+
+    const viewHeightRef = useRef<number | null>(null);
+    const [viewHeight, setViewHeight] = useState<number | undefined>(undefined);
+
+    const handleLayout = (event: LayoutChangeEvent) => {
+        const { height } = event.nativeEvent.layout;
+        if(viewHeightRef.current===null){
+            viewHeightRef.current = height;
+            console.log('onLayout view height:', height);
+        }
+    };
 
     useEffect(()=>{
     
         function onKeyboardHide(){
-            setKeyboardAvoidingViewKey("keyboardAvoidingViewKey"+new Date().getTime());
+            console.log("called")
+            if (viewHeightRef.current !== null) {
+                console.log('Restoring height to:', viewHeightRef.current);
+                setViewHeight(viewHeightRef.current);
+            }
         }
 
         const keyboardHideListener = Keyboard.addListener(
@@ -27,9 +40,10 @@ const CustomKeyboardAvoidingView = (props:KeyboardAvoidingViewProps) => {
   return (
     <KeyboardAvoidingView 
         keyboardVerticalOffset={Platform.OS==="ios"?60:0}
-        behavior='height'
-        key={keyboardAvoidingViewKey}
+        // behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         {...props}
+        // onLayout={handleLayout}
+        // style={[{height:viewHeight}, props.style]}
     />
   )
 }

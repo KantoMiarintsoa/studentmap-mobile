@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const TypeEnum = z.enum(["APARTEMENT", "GUEST", "BUNGALOW", "DORTOIR"]);
+export const TypeEnum = z.enum(["APARTEMENT", "GUEST", "BUNGALOW", "DORTOIR"]);
 
 export const addAccomodationSchema = z.object({
     name:z.string(),
