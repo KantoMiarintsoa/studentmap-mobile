@@ -12,6 +12,10 @@ export type Message = {
     receiver:User;
     createdAt:string;
     isRead:boolean;
+    replyTo?:{
+        id:number;
+        content:string;
+    }
 }
 
 export type LastConversation = {

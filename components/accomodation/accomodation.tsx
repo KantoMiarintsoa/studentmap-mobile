@@ -19,7 +19,7 @@ export function AccomodationItemSkeleton({isOwner=false}:{isOwner?:boolean}){
       {!isOwner && (
           <View style={{flexDirection:"row", gap:10, alignItems:"center", marginBottom:10}}>
             <SkeletonCircle size={50}/>
-            <SkeletonBase width={"100%"} height={30} />
+            <SkeletonBase width={200} height={30} />
           </View>
         )}
         <SkeletonBase width={"100%"} height={150}/>

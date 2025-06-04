@@ -155,3 +155,21 @@ export const useOwnerAccomodationStore = create<OwnerAccomodationStore>((set)=>(
         accomodations
     }))
 }))
+
+type MessageStore = {
+    replyTo:Message|undefined;
+    setReplyTo: (message:Message|undefined)=>void;
+    selectedMessage:Message|undefined;
+    setSelectedMessage:(message:Message|undefined)=>void;
+}
+
+export const useMessageStore = create<MessageStore>((set)=>({
+    replyTo:undefined,
+    setReplyTo:(message:Message|undefined)=>set(()=>({
+        replyTo:message
+    })),
+    selectedMessage:undefined,
+    setSelectedMessage:(message:Message|undefined)=>set(()=>({
+        selectedMessage:message
+    }))
+}));
