@@ -52,6 +52,8 @@ function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
               ? options.title
               : route.name;
 
+        console.log(index)
+
         const isFocused = state.index === index;
 
         const onPress = () => {

@@ -7,6 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'expo-router'
 import React, { useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import Button from '../ui/button'
 import { Input } from '../ui/input'
@@ -20,6 +21,8 @@ const SearchAccommodationForm = () => {
     const form = useForm<SearchAccommodationSchema>({
         resolver:zodResolver(searchAccommodationSchema)
     });
+
+    const {t} = useTranslation();
 
     useEffect(()=>{
         if(university){
@@ -47,7 +50,7 @@ const SearchAccommodationForm = () => {
                 <Text style={[{
                     color:colors.secondaryColor, fontWeight:500, fontSize:size.md
                 }]}>
-                    Adresse
+                    {t("post.address")}
                 </Text>
                 <Input
                     onChangeText={onChange}
@@ -66,7 +69,7 @@ const SearchAccommodationForm = () => {
                         <Text style={[{
                             color:colors.secondaryColor, fontWeight:500, fontSize:size.md
                         }]}>
-                            Budget
+                            {t("search.budget")}
                         </Text>
                         <Input
                             onChangeText={(text) => {
@@ -89,7 +92,7 @@ const SearchAccommodationForm = () => {
                         <Text style={[{
                             color:colors.secondaryColor, fontWeight:500, fontSize:size.md
                         }]}>
-                            Devise
+                            {t("search.currency")}
                         </Text>
                         <Input
                             onChangeText={onChange}
@@ -105,7 +108,7 @@ const SearchAccommodationForm = () => {
             <Text style={[{
                 color:colors.secondaryColor, fontWeight:500, fontSize:size.md
             }]}>
-                Université (Rechercher les logements aux alentours de l'université)
+                {t("search.universityNear")}
             </Text>
             <View style={style.viewAsInput}>
                 {university?(
@@ -145,7 +148,7 @@ const SearchAccommodationForm = () => {
                     <Text style={[{
                         color:colors.secondaryColor, fontWeight:500, fontSize:size.md
                     }]}>
-                        Type
+                        {t("accomodationType.type")}
                     </Text>
                     <View style={{
                         flexDirection: 'row',
@@ -159,14 +162,14 @@ const SearchAccommodationForm = () => {
                                 key={index}
                                 onPress={()=>form.setValue("type", type as keyof typeof accomodationTypes)}
                             >
-                                <Text style={{color:value===type?"#fff":colors.secondaryColor}}>{type}</Text>
+                                <Text style={{color:value===type?"#fff":colors.secondaryColor}}>{t(`accomodationType.${type}`)}</Text>
                             </Button>
                         ))}
                         <Button 
                             style={[style.item, {backgroundColor:value===undefined?colors.secondaryColor:colors.lightGray}]}
                             onPress={()=>form.setValue("type", undefined)}
                         >
-                            <Text style={{color:value===undefined?"#fff":colors.secondaryColor}}>Tout</Text>
+                            <Text style={{color:value===undefined?"#fff":colors.secondaryColor}}>{t("university.all")}</Text>
                         </Button>
                     </View>
                 </View>

@@ -5,6 +5,7 @@ import { colors, size } from '@/const/const';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { KeyboardAvoidingView, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -13,6 +14,8 @@ const Search = () => {
     const router = useRouter();
 
     const [query, setQuery] = useState<"ACCOMMODATION"|"UNIVERSITY">("ACCOMMODATION");
+    
+    const {t} = useTranslation();
 
   return (
     <SafeAreaView style={{
@@ -28,7 +31,7 @@ const Search = () => {
             <Text style={{
                 fontSize:size['2xl'],
                 fontWeight:600
-            }}>Recherche</Text>
+            }}>{t("tabs.search")}</Text>
         </View>
         <KeyboardAvoidingView
             style={{flex:1, paddingHorizontal:20, flexDirection:"column"}}
@@ -36,21 +39,21 @@ const Search = () => {
             <ScrollView style={{display:"flex", flexDirection:"column", gap:10, width:"100%"}}>
                 <Text style={[{
                     color:colors.secondaryColor, fontWeight:500, fontSize:size.md
-                }]}>Je cherche un(e)</Text>
+                }]}>{t("search.goals")}</Text>
                 <View style={{width:"100%", display:"flex", flexDirection:"row", gap:10}}>
                     <Button
                         onPress={()=>setQuery("ACCOMMODATION")}
                         variants={query==="ACCOMMODATION"?"secondary":"outline"}
                         style={{flex:1}}
                         >
-                        <Text style={{color:query==="ACCOMMODATION"?"#fff":colors.secondaryColor}}>Logement</Text>
+                        <Text style={{color:query==="ACCOMMODATION"?"#fff":colors.secondaryColor}}>{t("search.accommodation")}</Text>
                     </Button>
                     <Button
                         onPress={()=>setQuery("UNIVERSITY")}
                         variants={query==="UNIVERSITY"?"secondary":"outline"}
                         style={{flex:1}}
                         >
-                        <Text style={{color:query==="UNIVERSITY"?"#fff":colors.secondaryColor}}>Université</Text>
+                        <Text style={{color:query==="UNIVERSITY"?"#fff":colors.secondaryColor}}>{t("search.university")}</Text>
                     </Button>
                 </View>
                 {

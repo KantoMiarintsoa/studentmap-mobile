@@ -5,11 +5,13 @@ import { colors, size } from '@/const/const'
 import { normalizeUrl } from '@/libs/utils'
 import { updateUserSchema, UpdateUserSchema } from '@/schema/user'
 import { updateUser } from '@/services/api'
+import { useMeStore } from '@/store/store'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as ImagePicker from 'expo-image-picker'
 import React, { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Toast from 'react-native-toast-message'
@@ -24,23 +26,20 @@ const ProfileForm = () => {
         resolver:zodResolver(updateUserSchema)
     });
 
-    const {session, updateSession} = useAuth();
+    const { updateSession, session} = useAuth();
     const [image, setImage] = useState<string|undefined>();
-
-    if(!session)
-        return null;
+    const {details} = useMeStore();
+    const {t} = useTranslation();
 
     useEffect(()=>{
-        if(!session)
-            return;
-        const {user}=session;
         form.reset({
-            firstName:user.firstName,
-            lastName:user.lastName,
-            contact:user.contact
+            firstName:details.firstName,
+            lastName:details.lastName,
+            contact:details.contact
         });
-        setImage(user.profilePicture);
-    }, [session]);
+        setImage(details.profilePicture);
+    }, [details]);
+
 
     const updateImage = async (action?:"galery")=>{
         
@@ -66,7 +65,7 @@ const ProfileForm = () => {
             }
         }
         catch{
-            Alert.alert("Error", "Oups, Il y a eu un erreur. Ne vous inquietez pas, on est sur le coup", [
+            Alert.alert("Error", t("global.handlingError"), [
                 {
                     text:"OK",
                     style:"default"
@@ -91,7 +90,7 @@ const ProfileForm = () => {
             }
         }
         catch{
-            Alert.alert("Error", "Oups, Il y a eu un erreur. Ne vous inquietez pas, on est sur le coup", [
+            Alert.alert("Error", t("global.handlingError"), [
                 {
                     text:"OK",
                     style:"default"
@@ -118,13 +117,13 @@ const ProfileForm = () => {
 
             Toast.show({
                 type:"success",
-                text1:"Profil mis à jour",
-                text2:"Votre profil à été mis à jour"
+                text1:t("profile.updated"),
+                text2:t("profile.updatedSuccessfully")
             });
         }
         catch(error){
             console.log("eto", error)
-            Alert.alert("Error", "Oups, Il y a eu un erreur. Ne vous inquietez pas, on est sur le coup", [
+            Alert.alert("Error", t("global.handlingError"), [
                 {
                     text:"OK",
                     style:"default"
@@ -153,7 +152,7 @@ const ProfileForm = () => {
                 }}>
                     <View style={style.avatarContainer}>
                         <Avatar
-                            name={`${session.user.firstName} ${session.user.lastName}`}
+                            name={`${details.firstName} ${details.lastName}`}
                             size={200}
                             {...(image && {image:{uri:image}})}
                             onPress={()=>updateImage("galery")}
@@ -169,7 +168,7 @@ const ProfileForm = () => {
                         control={form.control}
                         render={({field:{onChange, onBlur, value}})=>(
                             <View style={style.inputContainer}>
-                                <Text style={style.label}>Prenom</Text>
+                                <Text style={style.label}>{t("profile.firstname")}</Text>
                                 <Input
                                     onChangeText={onChange}
                                     onBlur={onBlur}
@@ -183,7 +182,7 @@ const ProfileForm = () => {
                         control={form.control}
                         render={({field:{onChange, onBlur, value}})=>(
                             <View style={style.inputContainer}>
-                                <Text style={style.label}>Nom</Text>
+                                <Text style={style.label}>{t("profile.lastname")}</Text>
                                 <Input
                                     onChangeText={onChange}
                                     onBlur={onBlur}
@@ -197,7 +196,7 @@ const ProfileForm = () => {
                         control={form.control}
                         render={({field:{onChange, onBlur, value}})=>(
                             <View style={style.inputContainer}>
-                                <Text style={style.label}>Contact</Text>
+                                <Text style={style.label}>{t("profile.contact")}</Text>
                                 <Input
                                     onChangeText={onChange}
                                     onBlur={onBlur}
@@ -208,7 +207,7 @@ const ProfileForm = () => {
                     />
                     <Button onPress={form.handleSubmit(handleUpdate)}>
                         {isSubmitting && <ActivityIndicator color={"#fff"} size={24}/>}
-                        <Text style={{color:"#fff", fontSize:size.md}}>Enregistrer</Text>
+                        <Text style={{color:"#fff", fontSize:size.md}}>{t("global.save")}</Text>
                     </Button>
                 </View>
             </ScrollView>

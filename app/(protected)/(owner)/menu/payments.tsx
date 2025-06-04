@@ -6,6 +6,7 @@ import { PaymentMethod } from '@/types/user'
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6'
 import { useRouter } from 'expo-router'
 import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { ScrollView, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
@@ -14,6 +15,8 @@ const Payments = () => {
     const router = useRouter();
     const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
+
+    const {t} = useTranslation();
 
     useEffect(()=>{
         async function fetchPaymentMethods(){
@@ -37,12 +40,12 @@ const Payments = () => {
   return (
     <SafeAreaView style={{flex:1, padding: 20, flexDirection:'column', gap:10}}>
         <View style={{flexDirection:"row", justifyContent:"space-between", alignItems:'center'}}>
-            <Text style={{fontSize: 18, fontWeight: 'bold', marginBottom: 16}}>Mode de paiements</Text>
+            <Text style={{fontSize: 18, fontWeight: 'bold', marginBottom: 16}}>{t("payment.paymentMethods")}</Text>
             <Button variants='primary' style={{borderColor:colors.primaryColor, borderRadius:0, alignItems:"center"}}
                 onPress={() => router.push("/(protected)/(owner)/menu/add-method")}
             >
                 <FontAwesome6 name="add" size={20} color="#fff" />     
-                <Text style={{color:"#fff"}}>Ajouter</Text>
+                <Text style={{color:"#fff"}}>{t("payment.add")}</Text>
             </Button>
         </View>
         <ScrollView>

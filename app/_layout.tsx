@@ -1,4 +1,5 @@
 import { AuthProvider } from "@/components/providers/AuthProvider";
+import "@/localization/i18n";
 import { StripeProvider } from "@stripe/stripe-react-native";
 import { Stack } from "expo-router";
 import Toast from "react-native-toast-message";

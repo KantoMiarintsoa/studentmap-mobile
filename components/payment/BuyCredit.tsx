@@ -5,6 +5,7 @@ import { PaymentMethod } from '@/types/user';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 import Button from '../ui/button';
@@ -29,6 +30,8 @@ const BuyCredit = ({paymentMethods, credits, onPaymentSuccess, loading=false}:Bu
         }
     });
 
+    const {t} =useTranslation();
+
     useEffect(()=>{
         form.reset({
             credits: credits
@@ -52,7 +55,7 @@ const BuyCredit = ({paymentMethods, credits, onPaymentSuccess, loading=false}:Bu
 
   return (
     <View style={{flex:1, justifyContent:'center', alignItems:'center', flexDirection:"column", gap:10, padding:20}}>
-      <Text style={{fontSize:size.lg, fontWeight:500}}>Choisisser un moyen de paiement</Text>
+      <Text style={{fontSize:size.lg, fontWeight:500}}>{t("credit.choose")}</Text>
       <Controller
         name='paymentMethod'
         control={form.control}
@@ -87,7 +90,7 @@ const BuyCredit = ({paymentMethods, credits, onPaymentSuccess, loading=false}:Bu
         onPress={form.handleSubmit(handlePayment)}
       >
         {isSubmitting && <ActivityIndicator color={"#fff"} size={"small"}/>}
-        <Text style={{color:"#fff", fontSize:size.md}}>Acheter {credits} crédits ({credits * 10}$)</Text>
+        <Text style={{color:"#fff", fontSize:size.md}}>{t("credit.buy")} {credits} {t("credit.credits")} ({credits * 10}$)</Text>
       </Button>
     </View>
   )

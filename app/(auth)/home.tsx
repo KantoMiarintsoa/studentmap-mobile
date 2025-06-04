@@ -2,11 +2,14 @@ import Button from '@/components/ui/button'
 import { colors, size } from '@/const/const'
 import { useRouter } from 'expo-router'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { Image, SafeAreaView, Text, View } from 'react-native'
 
 const Home = () => {
 
   const router = useRouter();
+
+  const {t} = useTranslation();
 
   return (
     <SafeAreaView
@@ -34,7 +37,7 @@ const Home = () => {
           color:colors.secondaryColor,
           textAlign:'center'
         }}>
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Neque, cupiditate.
+          {t("global.description")}
         </Text>
 
         <Image
@@ -42,14 +45,14 @@ const Home = () => {
           style={{width:250, height:250}}
         />
 
-        <Button variants="secondary"
+        <Button variants="primary"
           style={{width:"100%"}}
           onPress={()=>router.push("/register")}
         >
           <Text style={{
             color:"white",
             textAlign:'center'
-          }}>COMMENCER</Text>
+          }}>{t("global.start")}</Text>
         </Button>
 
         <View style={{
@@ -58,11 +61,11 @@ const Home = () => {
           gap:5,
           marginTop:10
         }}>
-          <Text style={{color:colors.secondaryColor}}>Vous avez un compte?</Text>
+          <Text style={{color:colors.secondaryColor}}>{t("register.haveAccount")}</Text>
           <Button variants="link" 
             onPress={()=>router.push("/login")}
           >
-            <Text style={{color:colors.primaryColor, fontWeight:500}}>Connecter vous</Text>
+            <Text style={{color:colors.primaryColor, fontWeight:500}}>{t("register.connect")}</Text>
           </Button>
         </View>
 

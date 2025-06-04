@@ -11,6 +11,7 @@ import Fontisto from '@expo/vector-icons/Fontisto';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -26,7 +27,9 @@ const AccomodationDetails = () => {
   const router = useRouter();
   const user = useMemo(()=>{
     return accomodation?.owner;
-  }, [accomodation])
+  }, [accomodation]);
+
+  const {t} = useTranslation();
 
   useEffect(()=>{
     async function fetchAccomodation(){
@@ -105,15 +108,15 @@ const AccomodationDetails = () => {
                     router.push(`/(protected)/(message)/${accomodation.owner.id}`);
                   }}
                 >
-                  <Text style={{color:"#fff"}}>Je suis interessé</Text>
+                  <Text style={{color:"#fff"}}>{t("accommodation.interested")}</Text>
                 </Button>
                 <Button style={{backgroundColor:colors.lightGray}}>
-                    <Text style={{fontWeight:600}}>Noter</Text>
+                    <Text style={{fontWeight:600}}>{t("accommodation.note")}</Text>
                 </Button>
               </View>
               {/* gallery */}
               <Text style={{fontWeight:600, color:colors.secondaryColor, fontSize:size['lg'], textAlign:"center"}}>
-                Galléries
+                {t("accommodation.gallery")}
               </Text>
               <FlatList
                 data={accomodation.media.images}

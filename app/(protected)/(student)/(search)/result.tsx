@@ -5,6 +5,7 @@ import { Accomodation } from '@/types/accomodation'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import { router, useLocalSearchParams } from 'expo-router'
 import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FlatList, Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
@@ -19,6 +20,8 @@ const ResultScreen = () => {
 
   const [loading, setLoading] = useState(false);
   const [accommodations, setAccommodations] = useState<Accomodation[]>([]);
+
+  const {t} = useTranslation();
 
   useEffect(()=>{
       async function fetchFilteredAccommodation(){
@@ -53,30 +56,30 @@ const ResultScreen = () => {
         <Text style={{
             fontSize:size['xl'],
             fontWeight:600
-        }}>Resultats</Text>
+        }}>{t('search.results')}</Text>
       </View>
       <View style={{flexDirection:"column", gap:10, padding:20}}>
         {params.nameUniversity && (
             <View style={{flexDirection:"row", gap:5, alignItems:"flex-end"}}>
-                <Text style={{fontWeight:600}}>Nom:</Text>
+                <Text style={{fontWeight:600}}>{t("profile.lastname")}:</Text>
                 <Text style={{color:colors.secondaryColor}}>{params.nameUniversity}</Text>
             </View>
         )}
         {params.address && (
             <View style={{flexDirection:"row", gap:5, alignItems:"flex-end"}}>
-                <Text style={{fontWeight:600, color:colors.secondaryColor}}>Adresse:</Text>
+                <Text style={{fontWeight:600, color:colors.secondaryColor}}>{t("post.address")}:</Text>
                 <Text style={{color:colors.secondaryColor}}>{params.address}</Text>
             </View>
         )}
         {params.budget && (
             <View style={{flexDirection:"row", gap:5, alignItems:"flex-end"}}>
-                <Text style={{fontWeight:600, color:colors.secondaryColor}}>Budget:</Text>
+                <Text style={{fontWeight:600, color:colors.secondaryColor}}>{t("search.budget")}:</Text>
                 <Text style={{color:colors.secondaryColor}}>{params.budget}</Text>
             </View>
         )}
         {params.type && (
             <View style={{flexDirection:"row", gap:5, alignItems:"flex-end"}}>
-                <Text style={{fontWeight:600, fontSize:size.lg}}>Type:</Text>
+                <Text style={{fontWeight:600, fontSize:size.lg}}>{t("accomodationType.type")}:</Text>
                 <Text style={{color:colors.secondaryColor}}>{params.type}</Text>
             </View>
         )}
@@ -101,7 +104,7 @@ const ResultScreen = () => {
                     fontSize:size.lg,
                     color:colors.secondaryColor,
                     textAlign:"center"
-                }}>Aucun logement correspond à votre recherche</Text>
+                }}>{t("search.noAccomodation")}</Text>
             )
         )}
     />

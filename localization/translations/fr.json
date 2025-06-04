@@ -1,0 +1,142 @@
+{
+    "tabs":{
+        "home":"Accueil",
+        "post":"Poster",
+        "menu":"Menu",
+        "search":"Recherche"
+    },
+    "menu":{
+        "security":"Sécurité",
+        "payments":"Mes paiements",
+        "credits":"Crédits",
+        "language":"Langue",
+        "logOut":"Se déconnecter",
+        "manageSpace":"Gérer votre espace"
+    },
+    "security":{
+        "label":"Sécurité",
+        "passwordChanged":"Mot de passe changé avec succès",
+        "oldPasswordError":"L'ancien mot de passe ne correspond pas",
+        "title":"Changer votre mot de passe",
+        "oldPassword":"Ancien mot de passe",
+        "newPassword":"Nouveau mot de passe",
+        "confirmPassword":"Confirmer mot de passe",
+        "save":"Enregistrer"
+    },
+    "payment":{
+        "paymentMethods":"Mode de paiements",
+        "add":"Ajouter",
+        "delete":"Supprimer",
+        "addCard":"Ajouter une carte",
+        "fillFields":"Veuillez remplir tous les champs de la carte.",
+        "error":"Impossible de créer la méthode de paiement. Veuillez réessayer plus tard.",
+        "paymentMethodAdded":"Méthode de paiement ajoutée",
+        "success":"Votre méthode de paiement a été ajoutée avec succès.",
+        "uknownError":"Une erreur est survenue lors de l'ajout de la méthode de paiement. Veuillez réessayer plus tard."
+    },
+    "credit":{
+        "credits":"crédits",
+        "having":"Vous avez",
+        "buyCredits":"Acheter des credits pour poster plus",
+        "label":"Nombre de credits (1 credit/ 1$)",
+        "buy":"Acheter",
+        "choose":"Choisisser un moyen de paiement"
+    },
+    "profile":{
+        "firstname":"Prénom",
+        "lastname":"Nom",
+        "contact":"Contact",
+        "updated":"Profil mis à jour",
+        "updatedSuccessfully":"Votre profil à été mis à jour",
+        "email":"Email",
+        "password":"Mot de passe"
+    },
+    "global":{
+        "save":"Enregistrer",
+        "handlingError":"Oups, Il y a eu un erreur. Ne vous inquietez pas, on est sur le coup",
+        "cancel":"Annuler",
+        "withGoogle":"Connecter avec google",
+        "or":"Ou",
+        "description":"Bienvenue sur StudentMap – votre guide intelligent du logement étudiant.",
+        "start":"COMMENCER"
+    },
+    "post":{
+        "accommodationAdded":"Logement ajouté",
+        "insertImage":"Veuillez inserer au moins une image",
+        "title":"Publier votre logement à loyer",
+        "addImages":"Ajouter des photos",
+        "name":"Nom*",
+        "address":"Adresse",
+        "addressPicked":"Adresse* Cet adresse est deja pris",
+        "area":"Surface*",
+        "receptionCapacity":"Capacité de reception",
+        "rentMin":"Loyer min",
+        "rentMax":"Loyer max",
+        "publish":"Publier"
+    },
+    "header":{
+        "profile":"Profil",
+        "security":"Sécurité",
+        "credits":"Crédits",
+        "payment":"Paiements"
+    },
+    "accomodationType":{
+        "APARTEMENT":"Apartement",
+        "GUEST":"Guest",
+        "BUNGALOW":"Bungalow",
+        "DORTOIR":"Dortoir",
+        "type":"Type"
+    },
+    "university":{
+        "public":"Public",
+        "private":"Privé",
+        "all":"Tout"
+    },
+    "message":{
+        "header":"Message",
+        "search":"Rechercher une personne",
+        "reachGoals":"Atteignez votre objectif et commencez à discuter avec d'autres personnes",
+        "noUsers":"Aucun utilisateur trouvé"
+    },
+    "login":{
+        "welcome":"Bienvenue sur StudentMap",
+        "description":"Trouvez facilement un logement étudiant avec StudentMap.",
+        "logIn":"Connecter",
+        "noAccount":"Vous n'avez pas de compte?",
+        "register":"Inscriver vous",
+        "invalidEmail":"Email* invalide",
+        "email":"Email*",
+        "credentialsInvalid":"Email ou mot de passe incorrect",
+        "password":"Mot de passe*",
+        "invalidPassword":"Mot de passe* invalide"
+    },
+    "register":{
+        "welcome":"Bienvenue sur StudentMap",
+        "description":"Trouvez facilement un logement étudiant avec StudentMap.",
+        "emailIncorrect":"Email ou mot de passe incorrect",
+        "passwordNotMatch":"Confimer* Les mots de passes ne correspondent pas",
+        "student":"Etudiant",
+        "owner":"Propriétaire",
+        "haveAccount":"Vous avez deja un compte?",
+        "connect":"Connecter vous"
+    },
+    "accommodation":{
+        "interested":"Je suis interessé",
+        "note":"Noter",
+        "gallery":"Galléries"
+    },
+    "search":{
+        "goals":"Je cherche",
+        "accommodation":"Logement",
+        "university":"Université",
+        "search":"Rechercher",
+        "budget":"Budget",
+        "currency":"Devise",
+        "universityNear":"Université (Rechercher les logements aux alentours de l'université)",
+        "noAccomodation":"Aucun logement correspond à votre recherche",
+        "select":"Selectionner",
+        "searchUniversity":"Rechercher une université",
+        "noUniversity":"Aucune université correspond à votre recherche",
+        "results":"Resultats"
+    }
+}

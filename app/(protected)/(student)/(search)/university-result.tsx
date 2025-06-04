@@ -6,6 +6,7 @@ import { University } from '@/types/university';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { router, useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -15,10 +16,15 @@ const UniversityResult = () => {
     const [loading, setLoading] = useState(false);
     const [university, setUniversity] = useState<University[]>([]);
 
+    const {t} = useTranslation();
+
     useEffect(()=>{
         async function fetchUniverity(){
             try{
                 setLoading(true);
+                if(params.type==="all"){
+                    delete params.type;
+                }
                 const response = await getFilteredUniversity(params);
                 setUniversity(response);
             }
@@ -33,12 +39,7 @@ const UniversityResult = () => {
     }, [JSON.stringify(params)]);
 
     function tranformType(type:string){
-        if(type==="public")
-            return "Public";
-        else if(type==="prive")
-            return "Privé";
-        else
-            return "Tout";
+        return t(`university.${type}`)
     }
 
   return (
@@ -52,24 +53,24 @@ const UniversityResult = () => {
             <Text style={{
                 fontSize:size['xl'],
                 fontWeight:600
-            }}>Resultats</Text>
+            }}>{t("search.results")}</Text>
         </View>
         <View style={{flexDirection:"column", gap:10, padding:20}}>
             {params.name && (
                 <View style={{flexDirection:"row", gap:5, alignItems:"flex-end"}}>
-                    <Text style={{fontWeight:600}}>Nom:</Text>
+                    <Text style={{fontWeight:600}}>{t("profile.lastname")}:</Text>
                     <Text style={{color:colors.secondaryColor}}>{params.name}</Text>
                 </View>
             )}
             {params.address && (
                 <View style={{flexDirection:"row", gap:5, alignItems:"flex-end"}}>
-                    <Text style={{fontWeight:600, color:colors.secondaryColor}}>Adresse:</Text>
+                    <Text style={{fontWeight:600, color:colors.secondaryColor}}>{t("post.address")}:</Text>
                     <Text style={{color:colors.secondaryColor}}>{params.address}</Text>
                 </View>
             )}
             {params.type && (
                 <View style={{flexDirection:"row", gap:5, alignItems:"flex-end"}}>
-                    <Text style={{fontWeight:600, fontSize:size.lg}}>Type:</Text>
+                    <Text style={{fontWeight:600, fontSize:size.lg}}>{t("accomodationType.type")}:</Text>
                     <Text style={{color:colors.secondaryColor}}>{tranformType(params.type)}</Text>
                 </View>
             )}
@@ -94,7 +95,7 @@ const UniversityResult = () => {
                         fontSize:size.lg,
                         color:colors.secondaryColor,
                         textAlign:"center"
-                    }}>Aucune université correspond à votre recherche</Text>
+                    }}>{t("search.noUniversity")}</Text>
                 )
             )}
         />

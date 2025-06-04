@@ -1,0 +1,142 @@
+{
+    "tabs": {
+        "home": "Home",
+        "post": "Post",
+        "menu": "Menu",
+        "search": "Search"
+    },
+    "menu": {
+        "security": "Security",
+        "payments": "My payments",
+        "credits": "Credits",
+        "language": "Language",
+        "logOut": "Log out",
+        "manageSpace": "Manage your space"
+    },
+    "security": {
+        "label": "Security",
+        "passwordChanged": "Password changed successfully",
+        "oldPasswordError": "Old password does not match",
+        "title": "Change your password",
+        "oldPassword": "Old password",
+        "newPassword": "New password",
+        "confirmPassword": "Confirm password",
+        "save": "Save"
+    },
+    "payment": {
+        "paymentMethods": "Payment methods",
+        "add": "Add",
+        "delete": "Delete",
+        "addCard": "Add a card",
+        "fillFields": "Please fill in all card fields.",
+        "error": "Unable to create payment method. Please try again later.",
+        "paymentMethodAdded": "Payment method added",
+        "success": "Your payment method was successfully added.",
+        "uknownError": "An error occurred while adding the payment method. Please try again later."
+    },
+    "credit": {
+        "credits": "credits",
+        "having": "You have",
+        "buyCredits": "Buy credits to post more",
+        "label": "Number of credits (1 credit/ 1$)",
+        "buy": "Buy",
+        "choose": "Choose a payment method"
+    },
+    "profile": {
+        "firstname": "First name",
+        "lastname": "Last name",
+        "contact": "Contact",
+        "updated": "Profile updated",
+        "updatedSuccessfully": "Your profile has been updated",
+        "email": "Email",
+        "password": "Password"
+    },
+    "global": {
+        "save": "Save",
+        "handlingError": "Oops, an error occurred. Don't worry, we're on it.",
+        "cancel": "Cancel",
+        "withGoogle": "Connect with Google",
+        "or": "Or",
+        "description": "Welcome to StudentMap – your smart guide to student housing.",
+        "start": "START"
+    },
+    "post": {
+        "accommodationAdded": "Accommodation added",
+        "insertImage": "Please insert at least one image",
+        "title": "Post your rental accommodation",
+        "addImages": "Add photos",
+        "name": "Name*",
+        "address": "Address",
+        "addressPicked": "Address* This address is already taken",
+        "area": "Area*",
+        "receptionCapacity": "Reception capacity",
+        "rentMin": "Min rent",
+        "rentMax": "Max rent",
+        "publish": "Publish"
+    },
+    "header": {
+        "profile": "Profile",
+        "security": "Security",
+        "credits": "Credits",
+        "payment": "Payments"
+    },
+    "accomodationType": {
+        "APARTEMENT": "Apartment",
+        "GUEST": "Guest",
+        "BUNGALOW": "Bungalow",
+        "DORTOIR": "Dormitory",
+        "type": "Type"
+    },
+    "university": {
+        "public": "Public",
+        "private": "Private",
+        "all": "All"
+    },
+    "message": {
+        "header": "Message",
+        "search": "Search for a person",
+        "reachGoals": "Reach your goal and start chatting with others",
+        "noUsers": "No users found"
+    },
+    "login": {
+        "welcome": "Welcome to StudentMap",
+        "description": "Easily find student housing with StudentMap.",
+        "logIn": "Log in",
+        "noAccount": "Don't have an account?",
+        "register": "Register",
+        "invalidEmail": "Invalid email*",
+        "email": "Email*",
+        "credentialsInvalid": "Incorrect email or password",
+        "password": "Password*",
+        "invalidPassword": "Invalid password*"
+    },
+    "register": {
+        "welcome": "Welcome to StudentMap",
+        "description": "Easily find student housing with StudentMap.",
+        "emailIncorrect": "Incorrect email or password",
+        "passwordNotMatch": "Confirm* Passwords do not match",
+        "student": "Student",
+        "owner": "Owner",
+        "haveAccount": "Already have an account?",
+        "connect": "Log in"
+    },
+    "accommodation": {
+        "interested": "I am interested",
+        "note": "Rate",
+        "gallery": "Galleries"
+    },
+    "search": {
+        "goals": "I’m looking for",
+        "accommodation": "Accommodation",
+        "university": "University",
+        "search": "Search",
+        "budget": "Budget",
+        "currency": "Currency",
+        "universityNear": "University (Search for accommodations near the university)",
+        "noAccomodation": "No accommodation matches your search",
+        "select": "Select",
+        "searchUniversity": "Search for a university",
+        "noUniversity": "No university matches your search",
+        "results": "Results"
+    }
+}
