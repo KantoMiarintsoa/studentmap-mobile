@@ -9,7 +9,8 @@ export const addAccomodationSchema = z.object({
     receptionCapacity:z.string(),
     rentMin:z.number(),
     rentMax:z.number(),
-    type:TypeEnum
+    type:TypeEnum,
+    city:z.string()
 });
 
 export type AddAccomodationSchema = z.infer<typeof addAccomodationSchema>;

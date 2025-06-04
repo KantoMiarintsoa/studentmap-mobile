@@ -1,9 +1,10 @@
 import Button from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { colors, size } from '@/const/const';
+import { normalizeUrl } from '@/libs/utils';
 import { addAccomodationSchema, AddAccomodationSchema } from '@/schema/accomodation';
 import { addAccomodation } from '@/services/api';
-import { useMeStore } from '@/store/store';
+import { useMeStore, useOwnerAccomodationStore } from '@/store/store';
 import { accomodationTypes } from '@/types/accomodation';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -49,7 +50,9 @@ const Post = () => {
     }
   });
 
-  const {details} = useMeStore();
+  const {addAccomodations} = useOwnerAccomodationStore();
+
+  const {details, setDetails} = useMeStore();
 
   const selectImages = async()=>{
     try{
@@ -87,7 +90,10 @@ const Post = () => {
 
       try{
         const response = await addAccomodation(data, images);
-        console.log(response);
+        setDetails({
+          ...details,
+          serviceRemainders:response.serviceRemainders
+        });
         form.reset({
           type:"APARTEMENT"
         });
@@ -96,10 +102,17 @@ const Post = () => {
           type:"success",
           text1:t("post.accommodationAdded")
         });
+        
+        addAccomodations([{
+          ...response,
+          media:{
+            images:response.media.images.map(image=>normalizeUrl(image))
+          }
+        }]);
       }
       catch(error){
         console.log(error);
-
+ 
         const axiosError = error as AxiosError;
         console.log(axiosError.response?.data);
       }
@@ -186,6 +199,22 @@ const Post = () => {
                     <View style={style.inputContainer}>
                         <Text style={[style.label, errors.address && style.textError]}>
                           {errors.address ?t("post.addressPicked"):t("post.address")}
+                        </Text>
+                        <Input
+                          onChangeText={onChange}
+                          onBlur={onBlur}
+                          value={value}
+                        />
+                    </View>
+                  )}
+              />
+              <Controller
+                  name='city'
+                  control={form.control}
+                  render={({field:{onChange, onBlur, value}})=>(
+                    <View style={style.inputContainer}>
+                        <Text style={[style.label, errors.city && style.textError]}>
+                          {errors.city ?t("post.cityRequired"):t("post.city")}
                         </Text>
                         <Input
                           onChangeText={onChange}

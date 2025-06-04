@@ -74,7 +74,9 @@
         "rentMax":"Loyer max",
         "publish":"Publier",
         "notEnoughCredits":"Vous n'avez pas assez de credits",
-        "buyCredits":"Acheter des crédits"
+        "buyCredits":"Acheter des crédits",
+        "city":"Ville",
+        "cityRequired":"Ville* est requise"
     },
     "header":{
         "profile":"Profil",

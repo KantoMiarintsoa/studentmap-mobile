@@ -103,6 +103,7 @@ export const addAccomodation = async (data:AddAccomodationSchema, images:string[
     formData.append("rentMin", data.rentMin.toString());
     formData.append("rentMax", data.rentMax.toString());
     formData.append("type", data.type);
+    formData.append("city", data.city);
 
     for(const imageUri of images){
         const filename = imageUri.split('/').pop();
@@ -115,7 +116,7 @@ export const addAccomodation = async (data:AddAccomodationSchema, images:string[
         } as any);
     }
 
-    return (await axiosInstance.post<Accomodation>(`accommodation/add`, formData, {
+    return (await axiosInstance.post<Accomodation&{serviceRemainders:number}>(`accommodation/add`, formData, {
         headers:{
             Accept: 'application/json',
             'Content-Type': 'multipart/form-data',

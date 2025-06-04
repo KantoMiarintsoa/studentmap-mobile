@@ -15,7 +15,7 @@ type AccomodationItemProps = {
 
 export function AccomodationItemSkeleton({isOwner=false}:{isOwner?:boolean}){
   return (
-    <View style={{flexDirection:"column", width:"100%"}}>
+    <View style={{flexDirection:"column", width:"100%", gap:10}}>
       {!isOwner && (
           <View style={{flexDirection:"row", gap:10, alignItems:"center", marginBottom:10}}>
             <SkeletonCircle size={50}/>

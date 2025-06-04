@@ -1,4 +1,5 @@
 import BuyCredit from '@/components/payment/BuyCredit';
+import { useAuth } from '@/components/providers/AuthProvider';
 import Button from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { colors, size } from '@/const/const';
@@ -17,6 +18,7 @@ const Credits = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
   const {details, setDetails} = useMeStore();
+  const {updateSession, session} = useAuth();
 
   const credits = details.serviceRemainders;
 
@@ -109,6 +111,12 @@ const Credits = () => {
           credits={credit}
           paymentMethods={paymentMethods}
           onPaymentSuccess={(credits) => {
+            if(session){
+              updateSession({...session, user:{
+                ...session.user,
+                serviceRemainders:details.serviceRemainders+credits
+              }})
+            }
             setDetails({...details, serviceRemainders:details.serviceRemainders+credits})
             setOpenModal(false);
           }}

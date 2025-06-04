@@ -112,6 +112,7 @@ export const useChatStore = create<ChatStore>((set)=>({
 type AccomodationStore = {
     accomodations:Accomodation[];
     addAccomodations:(accomodations:Accomodation[])=>void;
+    setAccomodations:(accomodations:Accomodation[])=>void;
 }
 
 export const useAccomodationStore = create<AccomodationStore>((set)=>({
@@ -121,6 +122,9 @@ export const useAccomodationStore = create<AccomodationStore>((set)=>({
             ...state.accomodations,
             ...accomodations
         ]
+    })),
+    setAccomodations:(accomodations:Accomodation[])=>set(()=>({
+        accomodations
     }))
 }));
 
@@ -135,3 +139,19 @@ export const useSelectUniversityStore = create<SelectUniversityStore>((set)=>({
         university
     }))
 }));
+
+type OwnerAccomodationStore = {
+    accomodations:Accomodation[];
+    addAccomodations:(accomodations:Accomodation[])=>void;
+    setAccomodations:(accomodations:Accomodation[])=>void;
+}
+
+export const useOwnerAccomodationStore = create<OwnerAccomodationStore>((set)=>({
+    accomodations:[],
+    addAccomodations:(accomodations:Accomodation[])=>set((state)=>({
+        accomodations:[...accomodations, ...state.accomodations]
+    })),
+    setAccomodations:(accomodations:Accomodation[])=>set(()=>({
+        accomodations
+    }))
+}))
