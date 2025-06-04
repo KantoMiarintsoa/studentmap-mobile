@@ -1,4 +1,5 @@
 import RateView from '@/components/accomodation/rate';
+import { useSocket } from '@/components/providers/SocketProvider';
 import Avatar from '@/components/ui/avatar';
 import Button from '@/components/ui/button';
 import { UserSkeleton } from '@/components/ui/skeleton';
@@ -34,6 +35,8 @@ const AccomodationDetails = () => {
 
   const {t} = useTranslation();
 
+  const {socket} = useSocket();
+
   useEffect(()=>{
     async function fetchAccomodation(){
       if(accomodation)return;
@@ -47,6 +50,16 @@ const AccomodationDetails = () => {
     }
     fetchAccomodation();
   }, [accommodationId]);
+
+  const sendInterest = ()=>{
+    if(!socket) return;
+    if(!accomodation) return;
+    socket.emit("sendMessage", {
+      receiverId:accomodation.owner.id,
+      content:`Bonjour, je suis interessé par votre publication: ${accomodation.name}, à l'adresse ${accomodation.address}`
+    });
+    router.push(`/(protected)/(message)/${accomodation.owner.id}`);
+  }
 
   return (
     <SafeAreaView style={{
@@ -108,7 +121,8 @@ const AccomodationDetails = () => {
               <View style={{flexDirection:"row", gap:10}}>
                 <Button style={{flex:1}}
                   onPress={()=>{
-                    router.push(`/(protected)/(message)/${accomodation.owner.id}`);
+                    // router.push(`/(protected)/(message)/${accomodation.owner.id}`);
+                    sendInterest();
                   }}
                 >
                   <Text style={{color:"#fff"}}>{t("accommodation.interested")}</Text>

@@ -11,7 +11,6 @@ import { useChatStore } from '@/store/store';
 import { User } from '@/types/user';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import { useHeaderHeight } from '@react-navigation/elements';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, FlatList, KeyboardAvoidingView, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
@@ -145,7 +144,6 @@ const ChatScreen = () => {
             receiverId:userId
         });
     }
-    const headerHeight = useHeaderHeight();
 
   return (
     <SafeAreaView style={{
