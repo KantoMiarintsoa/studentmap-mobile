@@ -84,7 +84,7 @@ const AccomodationItem = ({accomodation, isOwner=false}:AccomodationItemProps) =
               </Text>
               <Text style={{color:colors.secondaryColor, fontSize:size.md}}>{accomodation.receptionCapacity}</Text>
             </View>
-            <Stars rating={4.5} maxStars={5}/>
+            <Stars rating={accomodation.rating} maxStars={5}/>
         </View>
         
       </View>

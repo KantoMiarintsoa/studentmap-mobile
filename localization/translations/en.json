@@ -127,7 +127,8 @@
     "accommodation": {
         "interested": "I am interested",
         "note": "Rate",
-        "gallery": "Galleries"
+        "gallery": "Galleries",
+        "errorRating":"Rating should be between 0 and 5"
     },
     "search": {
         "goals": "I’m looking for",

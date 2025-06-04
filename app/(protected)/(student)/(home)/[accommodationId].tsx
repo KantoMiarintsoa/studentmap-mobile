@@ -1,3 +1,4 @@
+import RateView from '@/components/accomodation/rate';
 import Avatar from '@/components/ui/avatar';
 import Button from '@/components/ui/button';
 import { UserSkeleton } from '@/components/ui/skeleton';
@@ -12,7 +13,7 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, Image, Modal, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const AccomodationDetails = () => {
@@ -28,6 +29,8 @@ const AccomodationDetails = () => {
   const user = useMemo(()=>{
     return accomodation?.owner;
   }, [accomodation]);
+
+  const [open, setOpen] = useState(false);
 
   const {t} = useTranslation();
 
@@ -100,7 +103,7 @@ const AccomodationDetails = () => {
                   </Text>
                   <Text style={{color:colors.secondaryColor, fontSize:size.md}}>{accomodation.receptionCapacity}</Text>
                 </View>
-                <Stars rating={4.5} maxStars={5}/>
+                <Stars rating={accomodation.rating} maxStars={5}/>
               </View>
               <View style={{flexDirection:"row", gap:10}}>
                 <Button style={{flex:1}}
@@ -110,7 +113,10 @@ const AccomodationDetails = () => {
                 >
                   <Text style={{color:"#fff"}}>{t("accommodation.interested")}</Text>
                 </Button>
-                <Button style={{backgroundColor:colors.lightGray}}>
+                <Button 
+                  style={{backgroundColor:colors.lightGray}}
+                  onPress={()=>setOpen(true)}
+                >
                     <Text style={{fontWeight:600}}>{t("accommodation.note")}</Text>
                 </Button>
               </View>
@@ -134,6 +140,20 @@ const AccomodationDetails = () => {
             </View>
           )
         }
+        <Modal
+          onRequestClose={()=>setOpen(false)}
+          visible={open}
+          animationType='slide'
+        >
+          {accomodation && (
+            // <View style={{fled}}>
+              <RateView accommodation={accomodation} onClose={()=>setOpen(false)}
+              
+                onSuccess={(newRating)=>setAccomodation({...accomodation, rating:newRating})}
+              />
+            // </View>
+          )}
+        </Modal>
     </SafeAreaView>
   )
 }

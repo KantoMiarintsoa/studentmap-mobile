@@ -193,3 +193,9 @@ export const getFilteredAccommodations = async (params:{
     const url = new URLSearchParams(params);
     return (await axiosInstance.get<Accomodation[]>(`accommodation/advanced-search?${url.toString()}`)).data;
   }
+
+export const reviewAccommodation = async (id:number, rating:number)=>{
+    return (await axiosInstance.put<Accomodation>(`accommodation/${id}/review`, {
+        rating
+    })).data;
+}

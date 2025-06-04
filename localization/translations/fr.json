@@ -127,7 +127,8 @@
     "accommodation":{
         "interested":"Je suis interessé",
         "note":"Noter",
-        "gallery":"Galléries"
+        "gallery":"Galléries",
+        "errorRating":"La note doit etre entre 0 et 5"
     },
     "search":{
         "goals":"Je cherche",
