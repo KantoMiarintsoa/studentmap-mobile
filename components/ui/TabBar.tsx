@@ -1,6 +1,6 @@
 import { colors } from '@/const/const';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { LayoutChangeEvent, StyleSheet, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 import TabBarButton from './TabBarButton';
@@ -28,6 +28,10 @@ function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
         }
     })
 
+    useEffect(()=>{
+        tabPositionX.value = withSpring(buttonWidth * state.index, {duration:1500});
+    }, [state.index, buttonWidth])
+
   return (
     <View style={style.tabBar}
         onLayout={onTabLayout}
@@ -52,12 +56,11 @@ function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
               ? options.title
               : route.name;
 
-        console.log(index)
 
         const isFocused = state.index === index;
+        console.log(index, route.name, isFocused)
 
         const onPress = () => {
-            tabPositionX.value = withSpring(buttonWidth * index, {duration:1500});
             const event = navigation.emit({
                 type: 'tabPress',
                 target: route.key,
@@ -85,26 +88,6 @@ function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
                 routeName={route.name}
                 key={index}
             />
-        //   <PlatformPressable
-        //     href={buildHref(route.name, route.params)}
-        //     accessibilityState={isFocused ? { selected: true } : {}}
-        //     accessibilityLabel={options.tabBarAccessibilityLabel}
-        //     testID={options.tabBarButtonTestID}
-        //     onPress={onPress}
-        //     onLongPress={onLongPress}
-        //     style={style.tabBarItem}
-        //     key={index}
-        //   >
-        //     {icons[route.name as keyof typeof icons]({
-        //         color:isFocused ? colors.primaryColor : colors.secondaryColor 
-        //     })}
-        //     <Text style={{ 
-        //         color: isFocused ? colors.primaryColor : colors.secondaryColor, 
-        //         fontWeight: isFocused?700:200
-        //     }}>
-        //       {label}
-        //     </Text>
-        //   </PlatformPressable>
         );
       })}
     </View>
