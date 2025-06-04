@@ -72,7 +72,9 @@
         "receptionCapacity": "Reception capacity",
         "rentMin": "Min rent",
         "rentMax": "Max rent",
-        "publish": "Publish"
+        "publish": "Publish",
+        "notEnoughCredits":"You don't have enough credits",
+        "buyCredits":"Buy credits"
     },
     "header": {
         "profile": "Profile",

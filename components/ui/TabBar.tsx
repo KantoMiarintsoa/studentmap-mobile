@@ -58,7 +58,6 @@ function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
 
 
         const isFocused = state.index === index;
-        console.log(index, route.name, isFocused)
 
         const onPress = () => {
             const event = navigation.emit({

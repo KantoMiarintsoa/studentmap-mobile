@@ -3,7 +3,8 @@ import Button from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { colors, size } from '@/const/const';
 import { buyCreditSchema, BuyCreditSchema } from '@/schema/payment';
-import { getMe, listPaymentMethods } from '@/services/api';
+import { listPaymentMethods } from '@/services/api';
+import { useMeStore } from '@/store/store';
 import { PaymentMethod } from '@/types/user';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -13,9 +14,11 @@ import { KeyboardAvoidingView, Modal, Platform, ScrollView, StyleSheet, Text, Vi
 
 const Credits = () => {
 
-  const [credits, setCredits] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
+  const {details, setDetails} = useMeStore();
+
+  const credits = details.serviceRemainders;
 
   const {
     formState:{errors},
@@ -41,8 +44,6 @@ const Credits = () => {
     async function fetchCredits(){
       try{
         setLoading(true);
-        const response = await getMe();
-        setCredits(response.serviceRemainders);
         const methods = await listPaymentMethods();
         setPaymentMethods(methods);
         setLoading(false);
@@ -108,7 +109,7 @@ const Credits = () => {
           credits={credit}
           paymentMethods={paymentMethods}
           onPaymentSuccess={(credits) => {
-            setCredits(prev => prev + credits);
+            setDetails({...details, serviceRemainders:details.serviceRemainders+credits})
             setOpenModal(false);
           }}
           loading={loading}

@@ -72,7 +72,9 @@
         "receptionCapacity":"Capacité de reception",
         "rentMin":"Loyer min",
         "rentMax":"Loyer max",
-        "publish":"Publier"
+        "publish":"Publier",
+        "notEnoughCredits":"Vous n'avez pas assez de credits",
+        "buyCredits":"Acheter des crédits"
     },
     "header":{
         "profile":"Profil",

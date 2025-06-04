@@ -3,11 +3,13 @@ import { Input } from '@/components/ui/input';
 import { colors, size } from '@/const/const';
 import { addAccomodationSchema, AddAccomodationSchema } from '@/schema/accomodation';
 import { addAccomodation } from '@/services/api';
+import { useMeStore } from '@/store/store';
 import { accomodationTypes } from '@/types/accomodation';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AxiosError } from 'axios';
 import * as ImagePicker from 'expo-image-picker';
+import { useRouter } from 'expo-router';
 import React, { useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -35,6 +37,8 @@ const Post = () => {
   const [images, setImages] = useState<string[]>([]);
   const {t} = useTranslation();
 
+  const router = useRouter();
+
   const {
     formState:{errors, isSubmitting},
     ...form
@@ -44,6 +48,8 @@ const Post = () => {
       type:"APARTEMENT"
     }
   });
+
+  const {details} = useMeStore();
 
   const selectImages = async()=>{
     try{
@@ -105,6 +111,27 @@ const Post = () => {
       }
       return undefined
     }, [errors, images])
+
+  if(details.serviceRemainders<1){
+    return (
+      <SafeAreaView
+        style={{flex:1, flexDirection:"row", alignItems:"center", justifyContent:"center"}}
+      >
+        <View style={{flexDirection:"column", gap:10, alignItems:'center'}}>
+          <Image
+            source={require("@/assets/images/buy-credit.png")}
+            style={{height:350, aspectRatio:1}}
+          />
+          <Text style={{fontSize:size['lg'], color:colors.secondaryColor}}>{t("post.notEnoughCredits")}</Text>
+          <Button
+            onPress={()=>router.push("/(protected)/(owner)/menu/credits")}
+          >
+            <Text style={{color:"#fff"}}>{t("post.buyCredits")}</Text>
+          </Button>
+        </View>
+      </SafeAreaView>
+    )
+  }
 
   return (
     <SafeAreaView style={{flex:1, padding:20, flexDirection:"column", gap:20, paddingBottom:70}}>

@@ -21,7 +21,7 @@ type BuyCreditProps = {
 const BuyCredit = ({paymentMethods, credits, onPaymentSuccess, loading=false}:BuyCreditProps) => {
 
     const {
-        formState: { isValid, isSubmitting },
+        formState: { errors, isSubmitting },
         ...form
     } = useForm<ConfirmPaymentSchema>({
         resolver: zodResolver(confirmPaymentSchema),
@@ -33,6 +33,7 @@ const BuyCredit = ({paymentMethods, credits, onPaymentSuccess, loading=false}:Bu
     const {t} =useTranslation();
 
     useEffect(()=>{
+        console.log(credits)
         form.reset({
             credits: credits
         });
@@ -40,7 +41,7 @@ const BuyCredit = ({paymentMethods, credits, onPaymentSuccess, loading=false}:Bu
 
     const handlePayment = async (data:ConfirmPaymentSchema)=>{
         try{
-            const response = await buyCredits(data);
+            await buyCredits(data);
             Toast.show({
                 type:'success',
                 text1: 'Achat réussi',
@@ -60,7 +61,7 @@ const BuyCredit = ({paymentMethods, credits, onPaymentSuccess, loading=false}:Bu
         name='paymentMethod'
         control={form.control}
         render={({field:{value}})=>(
-            <View style={{flexDirection:"column", borderColor:colors.lightGray, borderWidth:1, borderRadius:8, backgroundColor:"#fff", width:"100%"}}>
+            <View style={{flexDirection:"column", borderColor:colors.lightGray, borderWidth:loading?0:1, borderRadius:8, backgroundColor:"#fff", width:"100%"}}>
                 {loading ?(
                     <BillingMethodSkeleton/>
                 ):(
@@ -84,6 +85,9 @@ const BuyCredit = ({paymentMethods, credits, onPaymentSuccess, loading=false}:Bu
             </View>
         )}
       />
+      
+    {errors.paymentMethod && (<Text style={{color:"red"}}>Please, choose a payment method</Text>)}
+
       <Button
         style={{width:"100%"}}
         disabled={isSubmitting || paymentMethods.length === 0}
