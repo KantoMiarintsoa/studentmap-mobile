@@ -47,6 +47,7 @@ const HomeScreen = () => {
                         images:accomodation.media.images.map(image=>normalizeUrl(image))
                     }
         }));
+        console.log(accomodations[0].media.images[0])
         setAccomodations(response);
         setRefreshing(false);
     },[])

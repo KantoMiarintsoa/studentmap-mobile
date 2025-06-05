@@ -100,7 +100,9 @@
         "header": "Message",
         "search": "Search for a person",
         "reachGoals": "Reach your goal and start chatting with others",
-        "noUsers": "No users found"
+        "noUsers": "No users found",
+        "replyingTo":"Replying to",
+        "yourself":"yourself"
     },
     "login": {
         "welcome": "Welcome to StudentMap",

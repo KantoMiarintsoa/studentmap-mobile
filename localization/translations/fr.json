@@ -100,7 +100,10 @@
         "header":"Message",
         "search":"Rechercher une personne",
         "reachGoals":"Atteignez votre objectif et commencez à discuter avec d'autres personnes",
-        "noUsers":"Aucun utilisateur trouvé"
+        "noUsers":"Aucun utilisateur trouvé",
+        "reply":"Répondre",
+        "replyingTo":"Répondre à",
+        "yourself":"vous-même"
     },
     "login":{
         "welcome":"Bienvenue sur StudentMap",

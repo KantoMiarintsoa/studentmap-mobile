@@ -15,6 +15,7 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import BottomSheet from '@gorhom/bottom-sheet';
 import { useLocalSearchParams, useRouter } from 'expo-router';
+import { t } from 'i18next';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, FlatList, KeyboardAvoidingView, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -233,18 +234,21 @@ const ChatScreen = () => {
             <View style={{flexDirection:"column"}}>
                 {replyTo && (
                     <View style={{
-                        padding:10, 
-                        backgroundColor:colors.lightGray,
+                        padding:10,
                         flexDirection:"row",
-                        alignItems:"center"
+                        alignItems:"center",
+                        borderTopWidth:1,
+                        borderBottomWidth:1,
+                        borderTopColor:colors.lightGray,
+                        borderBottomColor:colors.lightGray
                     }}>
                         <View style={{flexDirection:"column", flex:1}}>
                             <View style={{flexDirection:"row", gap:5}}>
-                                <Text style={{fontWeight:300}}>Replying to</Text>
+                                <Text style={{fontWeight:300}}>{t("message.replying")}</Text>
                                 <Text style={{
                                     fontWeight:replyTo.senderId===userId?600:300
                                 }}>
-                                    {replyTo.senderId===userId ?`${replyTo.sender.firstName} ${replyTo.sender.lastName}`:"You"}
+                                    {replyTo.senderId===userId ?`${replyTo.sender.firstName} ${replyTo.sender.lastName}`:t("message.yourself")}
                                 </Text>
                             </View>
                             <Text style={{fontWeight:200}}>{replyTo.content}</Text>
