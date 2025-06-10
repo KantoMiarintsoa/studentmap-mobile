@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "student-map-mobile",
+    "name": "StudentMap",
     "slug": "student-map-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -9,14 +9,23 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "runtimeVersion": {
+        "policy": "appVersion"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.anonymous.studentmapmobile",
+      "runtimeVersion": "1.0.0"
     },
     "web": {
       "bundler": "metro",
@@ -49,6 +58,15 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "f5fb30d2-7258-4ff5-94ec-41b3d2545582"
+      }
+    },
+    "updates": {
+      "url": "https://u.expo.dev/f5fb30d2-7258-4ff5-94ec-41b3d2545582"
     }
   }
 }
