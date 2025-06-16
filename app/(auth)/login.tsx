@@ -11,6 +11,7 @@ import { AxiosError } from 'axios'
 import { useRouter } from 'expo-router'
 import React from 'react'
 import { Controller, useForm } from "react-hook-form"
+import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, Alert, Image, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
@@ -22,6 +23,8 @@ const LoginScreen = () => {
     } = useForm<LoginSchema>({
         resolver:zodResolver(loginSchema)
     });
+
+    const {t} = useTranslation();
 
     const router = useRouter();
 
@@ -53,7 +56,7 @@ const LoginScreen = () => {
             const axiosError = error as AxiosError;
             if(axiosError.status===500){
                 // dialog
-                Alert.alert("Error", "Oups, Il y a eu un erreur. Ne vous inquietez pas, on est sur le coup", [
+                Alert.alert("Error", t("global.handlingError"), [
                     {
                         text:"OK",
                         style:"default"
@@ -86,8 +89,8 @@ const LoginScreen = () => {
                 marginTop:40,
                 paddingHorizontal:20
             }}>
-                <Text style={{fontSize:size.xl, color:colors.primaryColor, fontWeight:500}}>Bienvenue sur StudentMap</Text>
-                <Text style={{color:colors.secondaryColor, textAlign:'center'}}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate, expedita!</Text>
+                <Text style={{fontSize:size.xl, color:colors.primaryColor, fontWeight:500}}>{t("login.welcome")}</Text>
+                <Text style={{color:colors.secondaryColor, textAlign:'center'}}>{t("login.description")}</Text>
 
                 <Controller
                     name='email'
@@ -97,7 +100,7 @@ const LoginScreen = () => {
                             <Text style={[{
                                 color:colors.secondaryColor, fontWeight:500, fontSize:size.md
                             }, errors.email && style.textError]}>
-                                {errors.email ? "Email* invalide":"Email*"}
+                                {errors.email ? t("login.invalidEmail"):t("login.email")}
                             </Text>
                             <Input
                                 onChangeText={onChange}
@@ -105,7 +108,7 @@ const LoginScreen = () => {
                                 value={value}
                                 keyboardType='email-address'
                             />
-                            {(errors.root) && <Text style={style.textError}>Email ou mot de passe incorrect</Text>}
+                            {(errors.root) && <Text style={style.textError}>{t("login.credentialsInvalid")}</Text>}
                         </View>
                     )}
                 />
@@ -119,7 +122,7 @@ const LoginScreen = () => {
                                 {color:colors.secondaryColor, fontWeight:500, fontSize:size.md},
                                 errors.password && style.textError
                             ]}>
-                                {errors.password ? "Mot de passe* invalide":"Mot de passe*"}
+                                {errors.password ? t("login.passwordInvalid"):t("login.password")}
                             </Text>
                             <PasswordInput
                                 onChangeText={onChange}
@@ -137,7 +140,7 @@ const LoginScreen = () => {
                     {isSubmitting && (
                         <ActivityIndicator size={"small"} color={"#fff"}/>
                     )}
-                    <Text style={{color:"#fff", textAlign:"center"}}>Connecter</Text>
+                    <Text style={{color:"#fff", textAlign:"center"}}>{t("login.logIn")}</Text>
                 </Button>
 
                 <View style={{
@@ -146,11 +149,11 @@ const LoginScreen = () => {
                     gap:5,
                     marginTop:10
                     }}>
-                    <Text style={{color:colors.secondaryColor}}>Vous n'avez pas de compte?</Text>
+                    <Text style={{color:colors.secondaryColor}}>{t("login.noAccount")}</Text>
                     <Button variants="link" 
                         onPress={()=>router.push("/register")}
                     >
-                        <Text style={{color:colors.primaryColor, fontWeight:500}}>Inscriver vous</Text>
+                        <Text style={{color:colors.primaryColor, fontWeight:500}}>{t("login.register")}</Text>
                     </Button>
                     </View>
 
@@ -158,7 +161,7 @@ const LoginScreen = () => {
 
                 <View style={{marginVertical:10, display:'flex', flexDirection:"row", gap:10, width:"100%", alignItems:"center"}}>
                     <View style={{height:2, backgroundColor:colors.lightGray, flex:1}}/>
-                    <Text style={{color:colors.secondaryColor}}>Ou</Text>
+                    <Text style={{color:colors.secondaryColor}}>{t("global.or")}</Text>
                     <View style={{height:2, backgroundColor:colors.lightGray, flex:1}}/>
                 </View>
 
@@ -167,7 +170,7 @@ const LoginScreen = () => {
                         source={require("@/assets/icons/google.png")}
                         style={{width:25, height:25}}
                     />
-                    <Text>Connecter avec google</Text>
+                    <Text>{t("global.withGoogle")}</Text>
                 </Button>
 
             </View>

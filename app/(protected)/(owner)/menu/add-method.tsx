@@ -4,6 +4,7 @@ import { setupIntentApi } from '@/services/api'
 import { CardField, useStripe } from '@stripe/stripe-react-native'
 import { Details } from '@stripe/stripe-react-native/lib/typescript/src/types/components/CardFieldInput'
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, Alert, ScrollView, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Toast from 'react-native-toast-message'
@@ -13,12 +14,13 @@ const AddMethod = () => {
     const {confirmSetupIntent } = useStripe();
     const [cardDetails, setCardDetails] = useState<Details|null>(null);
     const [loading, setLoading] = useState(false);
+    const {t} = useTranslation();
 
     const handleAdd = async ()=>{
         if(!cardDetails?.complete){
             Alert.alert(
                 'Erreur',
-                'Veuillez remplir tous les champs de la carte.',
+                t("payment.fillFields"),
                 [{ text: 'OK' }]
             );
         }
@@ -30,7 +32,7 @@ const AddMethod = () => {
             if(!clientSecret){
                 Alert.alert(
                     'Erreur',
-                    'Impossible de créer la méthode de paiement. Veuillez réessayer plus tard.',
+                    t("payment.error"),
                     [{ text: 'OK' }]
                 );
                 setLoading(false);
@@ -43,8 +45,8 @@ const AddMethod = () => {
             if(!error){
                 Toast.show({
                     type:"success",
-                    text1:"Méthode de paiement ajoutée",
-                    text2:"Votre méthode de paiement a été ajoutée avec succès."
+                    text1:t("payment.paymentMethodAdded"),
+                    text2:t("payment.success")
                 });
             }
         }
@@ -52,7 +54,7 @@ const AddMethod = () => {
             console.log(error);
             Alert.alert(
                 'Erreur',
-                'Une erreur est survenue lors de l\'ajout de la méthode de paiement. Veuillez réessayer plus tard.',
+                t("payment.uknownerror"),
                 [{ text: 'OK' }]
             );
         }
@@ -64,7 +66,7 @@ const AddMethod = () => {
   return (
     <SafeAreaView style={{flex:1, padding:20, flexDirection:"column", gap:10}}>
         <GoBackButton/>
-        <Text style={{fontSize:size.xl, marginHorizontal:"auto"}}>Ajouter une carte</Text>
+        <Text style={{fontSize:size.xl, marginHorizontal:"auto"}}>{t("payment.addCard")}</Text>
         <ScrollView style={{flex:1, gap:10}}>
             <CardField
                 postalCodeEnabled={false}
@@ -77,7 +79,7 @@ const AddMethod = () => {
                 onPress={()=>handleAdd()}
             >
                 {loading && <ActivityIndicator size="small" color="#fff" />}
-                <Text style={{color:"#fff"}}>Ajouter</Text>
+                <Text style={{color:"#fff"}}>{t("payment.add")}</Text>
             </Button>
         </ScrollView>
     </SafeAreaView>

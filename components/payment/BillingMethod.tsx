@@ -1,9 +1,11 @@
 import { size } from '@/const/const'
 import { removePaymentMethod } from '@/services/api'
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, Alert, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import Toast from 'react-native-toast-message'
 import Button from '../ui/button'
+import { SkeletonBase } from '../ui/skeleton'
 
 type BillingMethod = {
   id: string
@@ -20,9 +22,21 @@ type Props = {
   style?:StyleProp<ViewStyle>
 }
 
+export function BillingMethodSkeleton(){
+  return (
+    <View style={{flexDirection:'column', gap:10}}>
+      <SkeletonBase width={"100%"} height={50}/>
+      <SkeletonBase width={"100%"} height={50}/>
+      <SkeletonBase width={"100%"} height={50}/>
+    </View>
+  )
+}
+
 const BillingMethod = ({method, showDelete=true, onDelete, style}:Props) => {
 
     const [loading, setLoading] = useState<boolean>(false);
+
+    const {t} = useTranslation();
 
     const handleDeletePaymentMethod = async()=>{
         try{
@@ -61,7 +75,7 @@ const BillingMethod = ({method, showDelete=true, onDelete, style}:Props) => {
                     style={{flexDirection:"row", justifyContent:"center", alignItems:'center'}}
                 >
                     {loading && <ActivityIndicator size="small" color="red" />}
-                    <Text style={{color:"red", fontWeight:"bold", fontSize:size.sm}}>Supprimer</Text>
+                    <Text style={{color:"red", fontWeight:"bold", fontSize:size.sm}}>{t("payment.delete")}</Text>
                 </Button>
             )
         }

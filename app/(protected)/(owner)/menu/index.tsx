@@ -7,12 +7,14 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useRouter } from 'expo-router';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Menu = () => {
 
   const {session, updateSession} = useAuth();
+  const {t, i18n} = useTranslation();
 
   if(!session)
     return null;
@@ -30,7 +32,7 @@ const Menu = () => {
       flex:1,
       padding:20
     }}>
-      <Text style={{fontWeight:600, fontSize:size['2xl']}}>Gerer votre espace</Text>
+      <Text style={{fontWeight:600, fontSize:size['2xl']}}>{t("menu.manageSpace")}</Text>
       <ScrollView style={{flex:1}}>
         <View style={style.menu}>
           <TouchableOpacity style={style.menuItem} onPress={()=>router.push("/(protected)/(owner)/menu/profile")}>
@@ -46,7 +48,7 @@ const Menu = () => {
           <TouchableOpacity style={style.menuItem} onPress={()=>router.push("/(protected)/(owner)/menu/security")}>
             <View style={style.menuItemRight}>
               <MaterialCommunityIcons name="security" size={24} color={colors.secondaryColor} />
-              <Text style={{color:colors.secondaryColor, fontWeight:600}}>Securité</Text>
+              <Text style={{color:colors.secondaryColor, fontWeight:600}}>{t("menu.security")}</Text>
             </View>
             <MaterialIcons name="keyboard-arrow-right" size={24} color={colors.secondaryColor} />
           </TouchableOpacity>
@@ -54,19 +56,42 @@ const Menu = () => {
             onPress={()=>router.push("/(protected)/(owner)/menu/payments")}>
             <View style={style.menuItemRight}>
               <Entypo name="credit-card" size={24} color={colors.secondaryColor}/>
-              <Text style={{color:colors.secondaryColor, fontWeight:600}}>Mes paiements</Text>
+              <Text style={{color:colors.secondaryColor, fontWeight:600}}>{t("menu.payments")}</Text>
             </View>
             <MaterialIcons name="keyboard-arrow-right" size={24} color={colors.secondaryColor} />
           </TouchableOpacity>
           <TouchableOpacity style={style.menuItem} onPress={()=>router.push("/(protected)/(owner)/menu/credits")}>
             <View style={style.menuItemRight}>
               <Entypo name="credit" size={24} color={colors.secondaryColor} />
-              <Text style={{color:colors.secondaryColor, fontWeight:600}}>Credits</Text>
+              <Text style={{color:colors.secondaryColor, fontWeight:600}}>{t("menu.credits")}</Text>
             </View>
             <MaterialIcons name="keyboard-arrow-right" size={24} color={colors.secondaryColor} />
           </TouchableOpacity>
+          <View style={{flexDirection:'column', gap:5}}>
+              <Text style={{color:colors.secondaryColor, fontWeight:600, marginStart:10}}>{t("menu.language")}</Text>
+              <View style={{flexDirection:"row", gap:5}}>
+                <Button
+                  style={{
+                    flex: 1,
+                    backgroundColor: i18n.language === "fr" ? colors.secondaryColor : colors.lightGray
+                  }}
+                  onPress={()=>i18n.changeLanguage("fr")}
+                >
+                  <Text style={{color:i18n.language==="fr"?"#fff":colors.secondaryColor}}>Français</Text>
+                </Button>
+                <Button
+                  style={{
+                    flex: 1,
+                    backgroundColor: i18n.language === "en" ? colors.secondaryColor : colors.lightGray
+                  }}
+                  onPress={()=>i18n.changeLanguage("en")}
+                >
+                  <Text style={{color:i18n.language==="en"?"#fff":colors.secondaryColor}}>English</Text>
+                </Button>
+              </View>
+          </View>
           <Button style={{width:"100%"}} onPress={()=>logOut()}>
-            <Text style={{color:"#fff", fontSize:size.md }}>Se deconnecter</Text>
+            <Text style={{color:"#fff", fontSize:size.md }}>{t("menu.logOut")}</Text>
           </Button>
         </View>
       </ScrollView>

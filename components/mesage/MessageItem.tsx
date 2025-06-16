@@ -1,6 +1,6 @@
 import { colors, size } from '@/const/const'
 import { normalizeUrl } from '@/libs/utils'
-import { useChatStore, useMeStore } from '@/store/store'
+import { useChatStore, useMessageStore, useMeStore } from '@/store/store'
 import { Message } from '@/types/message'
 import AntDesign from '@expo/vector-icons/AntDesign'
 import React, { useMemo } from 'react'
@@ -13,6 +13,11 @@ const MessageItem = ({message}:{message:Message}) => {
   const isSender = useMemo(()=>details.id===message.senderId, [details, message]);
   const user = useMemo(()=>isSender?message.receiver:message.sender, [isSender]);
   const lastMessageState = useChatStore(state=>state.lastMessageState[user.id]);
+  const {setSelectedMessage} = useMessageStore();
+
+  const handleLongPress = () => {
+    setSelectedMessage(message);
+  };
 
   return (
     <View
@@ -22,8 +27,22 @@ const MessageItem = ({message}:{message:Message}) => {
         alignItems:"flex-end"
       }}
     >
+      {message.replyTo && (
+        <View
+          style={{
+            maxWidth:"80%",
+            paddingHorizontal:15,
+            paddingVertical:5,
+            borderTopLeftRadius:size.md,
+            borderTopRightRadius:size.md,
+            backgroundColor:"#e6e7e8"
+        }}
+        >
+          <Text style={{color:"#858585"}}>{message.replyTo.content}</Text>
+        </View>
+      )}
       <Pressable
-        onLongPress={()=>console.log("pressed")}
+        onLongPress={()=>handleLongPress()}
         style={{
           maxWidth:"80%",
           alignSelf:isSender?"flex-end":"flex-start",

@@ -6,6 +6,17 @@ import { Linking, Text, TouchableOpacity, View } from 'react-native';
 import Collapsible from 'react-native-collapsible';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 import Button from '../ui/button';
+import { SkeletonBase } from '../ui/skeleton';
+
+export function UniversityListSkeleton(){
+    return (
+        <View style={{flexDirection:"column", gap:10, paddingHorizontal:20}}>
+            <SkeletonBase width={"100%"} height={50}/>
+            <SkeletonBase width={"100%"} height={50}/>
+            <SkeletonBase width={"100%"} height={50}/>
+        </View>
+    )
+}
 
 const UniversityItem = ({university, children}:{university:University, children?:ReactNode}) => {
     const [collapse, setCollapse] = useState(false);

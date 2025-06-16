@@ -1,34 +1,36 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import React from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { View } from 'react-native';
 
-const Stars = ({maxStars, rating}:{maxStars:number, rating:number}) => {
+const Stars = ({ maxStars, rating }: { maxStars: number; rating: number }) => {
+  const [stars, setStars] = useState<ReactNode[]>([]);
 
-    const stars = [];
+  useEffect(() => {
+    const temp: ReactNode[] = [];
 
     for (let i = 1; i <= maxStars; i++) {
-        let iconName:"star"|"star-half-empty" = 'star';
-        if (i <= rating) {
-            iconName = 'star';
-        } else if (i - 0.5 === rating) {
-            iconName = 'star-half-empty';
-        }
+      let iconName: 'star' | 'star-half-empty' | 'star-o' = 'star-o';
 
-        stars.push(
-            <FontAwesome
-                key={i}
-                name={iconName}
-                size={24}
-                color={"#f0e513"}
-            />
-            );
+      if (i <= rating) {
+        iconName = 'star'; // Full star
+      } else if (i - 0.5 <= rating) {
+        iconName = 'star-half-empty'; // Half star
+      }
+
+      temp.push(
+        <FontAwesome
+          key={i}
+          name={iconName}
+          size={24}
+          color="#f0e513"
+        />
+      );
     }
 
-  return (
-    <View style={{flexDirection:"row"}}>
-        {stars}
-    </View>
-  )
-}
+    setStars(temp);
+  }, [rating, maxStars]);
 
-export default Stars
+  return <View style={{ flexDirection: 'row' }}>{stars}</View>;
+};
+
+export default Stars;

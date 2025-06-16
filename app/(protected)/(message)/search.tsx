@@ -1,4 +1,4 @@
-import LastConversationComponennt from '@/components/mesage/LastConversation'
+import LastConversationComponennt, { LastConversationSkeleton } from '@/components/mesage/LastConversation'
 import Button from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { colors, size } from '@/const/const'
@@ -7,6 +7,7 @@ import { User } from '@/types/user'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import { useRouter } from 'expo-router'
 import React, { useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FlatList, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
@@ -18,6 +19,7 @@ const SearchUser = () => {
     const [users, setUsers] = useState<User[]>([]);
     const [loading, setLoading] = useState(false);
     const [query, setQuery] = useState("");
+    const {t} =useTranslation();
 
     useEffect(()=>{
         if(searchRef.current){
@@ -27,11 +29,10 @@ const SearchUser = () => {
 
     const searchUser = async (firstName:string)=>{
         setQuery(firstName);
+        setUsers([]);
         if(firstName.trim()===""){
-            setUsers([]);
             return;
         };
-
         try{
             setLoading(true);
             const response = await getUsersByFirstName(firstName);
@@ -69,7 +70,7 @@ const SearchUser = () => {
                         borderColor:"transparent",
                         flex:1
                     }}
-                    placeholder='Rechercher une personne'
+                    placeholder={t("message.search")}
                     ref={searchRef}
                     onChangeText={(text)=>searchUser(text)}
                 />
@@ -77,12 +78,14 @@ const SearchUser = () => {
             <Button variants='link'
                 onPress={()=>router.back()}
             >
-                <Text style={{fontWeight:600, color:colors.primaryColor}}>Annuler</Text>
+                <Text style={{fontWeight:600, color:colors.primaryColor}}>{t("global.cancel")}</Text>
             </Button>
         </View>
         {loading && (
             // skeleton here
-            <></>
+            <View style={{paddingHorizontal:20}}>
+                <LastConversationSkeleton length={6}/>
+            </View>
         )}
         <FlatList
             data={users}
@@ -109,7 +112,7 @@ const SearchUser = () => {
                             fontSize:size.md,
                             textAlign:"center",
                             marginTop:20
-                        }}>Atteignez votre objectif et commencez à discuter avec d'autres personnes</Text>
+                        }}>{t("message.reachGoals")}</Text>
                     )
                 }
                 else if(query.trim().length>0 && !loading){
@@ -120,7 +123,7 @@ const SearchUser = () => {
                             fontSize:size.md,
                             textAlign:"center",
                             marginTop:20
-                        }}>Aucun utilisateur trouvé</Text>
+                        }}>{t("message.noUsers")}</Text>
                     )
                 }
             }}

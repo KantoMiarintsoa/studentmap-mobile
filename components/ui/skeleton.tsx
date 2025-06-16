@@ -32,8 +32,18 @@ const SkeletonCircle = ({ size = 50 }: SkeletonCircleProps) => {
   );
 };
 
+function UserSkeleton(){
+  return (
+    <>
+      <SkeletonCircle size={35}/>
+      <SkeletonBase width={200} height={20}/>
+    </>
+  )
+}
+
 export {
-    SkeletonBase,
-    SkeletonCircle
+  SkeletonBase,
+  SkeletonCircle,
+  UserSkeleton
 };
 

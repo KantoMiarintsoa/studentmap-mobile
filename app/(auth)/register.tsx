@@ -9,6 +9,7 @@ import { AxiosError } from 'axios'
 import { useRouter } from 'expo-router'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
@@ -27,6 +28,8 @@ const RegisterScreen = () => {
   const router = useRouter();
 
   const {updateSession} = useAuth();
+
+  const {t} = useTranslation();
 
   const handleRegister = async (data:RegisterSchema)=>{
     try{
@@ -80,8 +83,8 @@ const RegisterScreen = () => {
               paddingHorizontal:20,
               paddingBottom:20
             }}>
-              <Text style={{fontSize:size.xl, color:colors.primaryColor, fontWeight:500}}>Bienvenue sur StudentMap</Text>
-              <Text style={{color:colors.secondaryColor, textAlign:'center'}}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate, expedita!</Text>
+              <Text style={{fontSize:size.xl, color:colors.primaryColor, fontWeight:500}}>{t("register.welcome")}</Text>
+              <Text style={{color:colors.secondaryColor, textAlign:'center'}}>{t("register.description")}</Text>
 
               {/* inputs */}
               <Controller
@@ -92,7 +95,7 @@ const RegisterScreen = () => {
                     <Text style={[{
                         color:colors.secondaryColor, fontWeight:500, fontSize:size.md
                     }, errors.email && style.textError]}>
-                        {errors.email ? `Email* ${errors.email.message}`:"Email*"}
+                        {errors.email ? `${t("profile.email")} ${errors.email.message}`:t("profile.email")}
                     </Text>
                     <Input
                         onChangeText={onChange}
@@ -100,7 +103,7 @@ const RegisterScreen = () => {
                         value={value}
                         keyboardType='email-address'
                     />
-                    {(errors.root) && <Text style={style.textError}>Email ou mot de passe incorrect</Text>}
+                    {(errors.root) && <Text style={style.textError}>{t("register.emailIncorrect")}</Text>}
                   </View>
                   )}
                 />
@@ -113,7 +116,7 @@ const RegisterScreen = () => {
                     <Text style={[{
                         color:colors.secondaryColor, fontWeight:500, fontSize:size.md
                     }, errors.firstName && style.textError]}>
-                        Prenoms*
+                        {t("profile.firstname")}
                     </Text>
                     <Input
                         onChangeText={onChange}
@@ -131,7 +134,7 @@ const RegisterScreen = () => {
                       <Text style={[{
                           color:colors.secondaryColor, fontWeight:500, fontSize:size.md
                       }, errors.lastName && style.textError]}>
-                          Nom*
+                          {t("profile.lastname")}
                       </Text>
                       <Input
                           onChangeText={onChange}
@@ -149,7 +152,7 @@ const RegisterScreen = () => {
                         <Text style={[{
                             color:colors.secondaryColor, fontWeight:500, fontSize:size.md
                         }, errors.contact && style.textError]}>
-                            Contact*
+                            {t("profile.contact")}
                         </Text>
                         <Input
                             onChangeText={onChange}
@@ -168,7 +171,7 @@ const RegisterScreen = () => {
                         <Text style={[{
                             color:colors.secondaryColor, fontWeight:500, fontSize:size.md
                         }, errors.password && style.textError]}>
-                            Mot de passe*
+                            {t("profile.password")}
                         </Text>
                         <PasswordInput
                             onChangeText={onChange}
@@ -186,7 +189,7 @@ const RegisterScreen = () => {
                         <Text style={[{
                             color:colors.secondaryColor, fontWeight:500, fontSize:size.md
                         }, errors.confirmPassword && style.textError]}>
-                            {errors.confirmPassword?"Confimer* Les mots de passes ne correspondent pas":"Confimer*"}
+                            {errors.confirmPassword?t("register.passwordNotMatch"):t("security.confirmPassword")}
                         </Text>
                         <PasswordInput
                             onChangeText={onChange}
@@ -211,14 +214,14 @@ const RegisterScreen = () => {
                             variants={value==="STUDENT"?"secondary":"outline"}
                             style={{flex:1}}
                           >
-                            <Text style={{color:value==="STUDENT"?"#fff":colors.secondaryColor}}>Etudiant</Text>
+                            <Text style={{color:value==="STUDENT"?"#fff":colors.secondaryColor}}>{t("register.student")}</Text>
                           </Button>
                           <Button
                             onPress={()=>form.setValue("role", "OWNER")}
                             variants={value==="OWNER"?"secondary":"outline"}
                             style={{flex:1}}
                           >
-                            <Text style={{color:value==="OWNER"?"#fff":colors.secondaryColor}}>Proprietaire</Text>
+                            <Text style={{color:value==="OWNER"?"#fff":colors.secondaryColor}}>{t("register.owner")}</Text>
                           </Button>
                         </View>
                       </View>
@@ -233,7 +236,7 @@ const RegisterScreen = () => {
                   {isSubmitting && (
                       <ActivityIndicator size={"small"} color={"#fff"}/>
                   )}
-                  <Text style={{color:"#fff", textAlign:"center"}}>Connecter</Text>
+                  <Text style={{color:"#fff", textAlign:"center"}}>{t("login.logIn")}</Text>
                 </Button>
 
                 <View style={{
@@ -242,11 +245,11 @@ const RegisterScreen = () => {
                     gap:5,
                     marginTop:10
                     }}>
-                    <Text style={{color:colors.secondaryColor}}>Vous avez deja un compte?</Text>
+                    <Text style={{color:colors.secondaryColor}}>{t("register.haveAccount")}</Text>
                     <Button variants="link" 
                         onPress={()=>router.push("/login")}
                     >
-                        <Text style={{color:colors.primaryColor, fontWeight:500}}>Connecter vous</Text>
+                        <Text style={{color:colors.primaryColor, fontWeight:500}}>{t("register.connect")}</Text>
                     </Button>
                     </View>
 
@@ -254,7 +257,7 @@ const RegisterScreen = () => {
 
                 <View style={{marginVertical:10, display:'flex', flexDirection:"row", gap:10, width:"100%", alignItems:"center"}}>
                     <View style={{height:2, backgroundColor:colors.lightGray, flex:1}}/>
-                    <Text style={{color:colors.secondaryColor}}>Ou</Text>
+                    <Text style={{color:colors.secondaryColor}}>{t("global.or")}</Text>
                     <View style={{height:2, backgroundColor:colors.lightGray, flex:1}}/>
                 </View>
 
@@ -263,7 +266,7 @@ const RegisterScreen = () => {
                         source={require("@/assets/icons/google.png")}
                         style={{width:25, height:25}}
                     />
-                    <Text>Connecter avec google</Text>
+                    <Text>{t("global.withGoogle")}</Text>
                 </Button>
             </View>
           </ScrollView>

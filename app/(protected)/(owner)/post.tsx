@@ -1,15 +1,19 @@
 import Button from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { colors, size } from '@/const/const';
+import { normalizeUrl } from '@/libs/utils';
 import { addAccomodationSchema, AddAccomodationSchema } from '@/schema/accomodation';
 import { addAccomodation } from '@/services/api';
+import { useMeStore, useOwnerAccomodationStore } from '@/store/store';
 import { accomodationTypes } from '@/types/accomodation';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AxiosError } from 'axios';
 import * as ImagePicker from 'expo-image-picker';
+import { useRouter } from 'expo-router';
 import React, { useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, Alert, FlatList, Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
@@ -32,6 +36,9 @@ function UploadedImage({source, onRemoveImage}:{source:string, onRemoveImage?:(s
 const Post = () => {
 
   const [images, setImages] = useState<string[]>([]);
+  const {t} = useTranslation();
+
+  const router = useRouter();
 
   const {
     formState:{errors, isSubmitting},
@@ -42,6 +49,10 @@ const Post = () => {
       type:"APARTEMENT"
     }
   });
+
+  const {addAccomodations} = useOwnerAccomodationStore();
+
+  const {details, setDetails} = useMeStore();
 
   const selectImages = async()=>{
     try{
@@ -56,7 +67,7 @@ const Post = () => {
       }
     }
     catch{
-      Alert.alert("Error", "Oups, Il y a eu un erreur. Ne vous inquietez pas, on est sur le coup", [
+      Alert.alert("Error", t("global.handlingError"), [
           {
             text:"OK",
             style:"default"
@@ -79,19 +90,29 @@ const Post = () => {
 
       try{
         const response = await addAccomodation(data, images);
-        console.log(response);
+        setDetails({
+          ...details,
+          serviceRemainders:response.serviceRemainders
+        });
         form.reset({
           type:"APARTEMENT"
         });
         setImages([]);
         Toast.show({
           type:"success",
-          text1:"Logement ajouté"
+          text1:t("post.accommodationAdded")
         });
+        
+        addAccomodations([{
+          ...response,
+          media:{
+            images:response.media.images.map(image=>normalizeUrl(image))
+          }
+        }]);
       }
       catch(error){
         console.log(error);
-
+ 
         const axiosError = error as AxiosError;
         console.log(axiosError.response?.data);
       }
@@ -99,10 +120,31 @@ const Post = () => {
 
     const imageError = useMemo(()=>{
       if(images.length===0 && errors.root && errors.root.message?.includes("images")){
-        return "Veuillez inserer au moins une image";
+        return t("post.insertImage");
       }
       return undefined
     }, [errors, images])
+
+  if(details.serviceRemainders<1){
+    return (
+      <SafeAreaView
+        style={{flex:1, flexDirection:"row", alignItems:"center", justifyContent:"center"}}
+      >
+        <View style={{flexDirection:"column", gap:10, alignItems:'center'}}>
+          <Image
+            source={require("@/assets/images/buy-credit.png")}
+            style={{height:350, aspectRatio:1}}
+          />
+          <Text style={{fontSize:size['lg'], color:colors.secondaryColor}}>{t("post.notEnoughCredits")}</Text>
+          <Button
+            onPress={()=>router.push("/(protected)/(owner)/menu/credits")}
+          >
+            <Text style={{color:"#fff"}}>{t("post.buyCredits")}</Text>
+          </Button>
+        </View>
+      </SafeAreaView>
+    )
+  }
 
   return (
     <SafeAreaView style={{flex:1, padding:20, flexDirection:"column", gap:20, paddingBottom:70}}>
@@ -110,7 +152,7 @@ const Post = () => {
           behavior={Platform.OS==="ios" ?"padding":"height"}
           keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 30}
       >
-      <Text style={{fontSize:size.xl, fontWeight:600, textAlign:'center', marginTop:20}}>Publier votre logement à loyer</Text>
+      <Text style={{fontSize:size.xl, fontWeight:600, textAlign:'center', marginTop:20}}>{t("post.title")}</Text>
       <View style={{flexDirection:"column", gap:10}}>
         <FlatList
           horizontal
@@ -124,7 +166,7 @@ const Post = () => {
         <Button variants='outline' style={{width:'auto', alignSelf:"center", ...(imageError && {borderColor:"red"})}}
           onPress={()=>selectImages()}
         >
-          <Text>Ajouter des photos</Text>
+          <Text>{t("post.addImages")}</Text>
         </Button>
         {imageError && <Text style={[style.textError, {textAlign:'center'}]}>{imageError}</Text>}
       </View>
@@ -141,7 +183,7 @@ const Post = () => {
                   control={form.control}
                   render={({field:{onChange, onBlur, value}})=>(
                     <View style={style.inputContainer}>
-                        <Text style={[style.label, errors.name && style.textError]}>Nom*</Text>
+                        <Text style={[style.label, errors.name && style.textError]}>{t("post.name")}</Text>
                         <Input
                           onChangeText={onChange}
                           onBlur={onBlur}
@@ -156,7 +198,23 @@ const Post = () => {
                   render={({field:{onChange, onBlur, value}})=>(
                     <View style={style.inputContainer}>
                         <Text style={[style.label, errors.address && style.textError]}>
-                          {errors.address ?"Adresse* Cet adresse est deja pris":"Adresse*"}
+                          {errors.address ?t("post.addressPicked"):t("post.address")}
+                        </Text>
+                        <Input
+                          onChangeText={onChange}
+                          onBlur={onBlur}
+                          value={value}
+                        />
+                    </View>
+                  )}
+              />
+              <Controller
+                  name='city'
+                  control={form.control}
+                  render={({field:{onChange, onBlur, value}})=>(
+                    <View style={style.inputContainer}>
+                        <Text style={[style.label, errors.city && style.textError]}>
+                          {errors.city ?t("post.cityRequired"):t("post.city")}
                         </Text>
                         <Input
                           onChangeText={onChange}
@@ -171,7 +229,7 @@ const Post = () => {
                   control={form.control}
                   render={({field:{onChange, onBlur, value}})=>(
                     <View style={style.inputContainer}>
-                        <Text style={[style.label, errors.name && style.textError]}>Suface*</Text>
+                        <Text style={[style.label, errors.name && style.textError]}>{t("post.area")}</Text>
                         <Input
                           onChangeText={(text) => {
                             const numericValue = parseFloat(text);
@@ -191,7 +249,7 @@ const Post = () => {
                   render={({field:{onChange, onBlur, value}})=>(
                     <View style={style.inputContainer}>
                         <Text style={[style.label, errors.address && style.textError]}>
-                          Capacite de reception
+                          {t("post.receptionCapacity")}
                         </Text>
                         <Input
                           onChangeText={onChange}
@@ -208,7 +266,7 @@ const Post = () => {
                     control={form.control}
                     render={({field:{onChange, onBlur, value}})=>(
                       <View style={{flex:1}}>
-                        <Text style={style.label}>Loyer min</Text>
+                        <Text style={style.label}>{t("post.rentMin")}</Text>
                         <Input
                           onChangeText={(text) => {
                             const numericValue = parseFloat(text);
@@ -226,7 +284,7 @@ const Post = () => {
                     control={form.control}
                     render={({field:{onChange, onBlur, value}})=>(
                       <View style={{flex:1}}>
-                        <Text style={style.label}>Loyer max</Text>
+                        <Text style={style.label}>{t("post.rentMax")}</Text>
                         <Input
                           onChangeText={(text) => {
                             const numericValue = parseFloat(text);
@@ -253,7 +311,7 @@ const Post = () => {
                         key={index}
                         onPress={()=>form.setValue("type", type as keyof typeof accomodationTypes)}
                       >
-                        <Text style={{color:value===type?"#fff":colors.secondaryColor}}>{type}</Text>
+                        <Text style={{color:value===type?"#fff":colors.secondaryColor}}>{t(`accomodationType.${type}`)}</Text>
                       </Button>
                      ))}
                     </View>
@@ -264,7 +322,7 @@ const Post = () => {
           </ScrollView>
           <Button style={{marginTop:10}} onPress={form.handleSubmit(handlePostAccomodation)}>
             {isSubmitting && <ActivityIndicator color={"#fff"} size={"small"}/>}
-            <Text style={{color:"#fff"}}>Publier</Text>
+            <Text style={{color:"#fff"}}>{t("post.publish")}</Text>
           </Button>
         </View>
       </KeyboardAvoidingView>

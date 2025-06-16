@@ -1,5 +1,8 @@
+import RateView from '@/components/accomodation/rate';
+import { useSocket } from '@/components/providers/SocketProvider';
 import Avatar from '@/components/ui/avatar';
 import Button from '@/components/ui/button';
+import { UserSkeleton } from '@/components/ui/skeleton';
 import Stars from '@/components/ui/stars';
 import { colors, size } from '@/const/const';
 import { normalizeUrl } from '@/libs/utils';
@@ -10,7 +13,8 @@ import Fontisto from '@expo/vector-icons/Fontisto';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useMemo, useState } from 'react';
-import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { FlatList, Image, Modal, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const AccomodationDetails = () => {
@@ -25,7 +29,13 @@ const AccomodationDetails = () => {
   const router = useRouter();
   const user = useMemo(()=>{
     return accomodation?.owner;
-  }, [accomodation])
+  }, [accomodation]);
+
+  const [open, setOpen] = useState(false);
+
+  const {t} = useTranslation();
+
+  const {socket} = useSocket();
 
   useEffect(()=>{
     async function fetchAccomodation(){
@@ -40,6 +50,16 @@ const AccomodationDetails = () => {
     }
     fetchAccomodation();
   }, [accommodationId]);
+
+  const sendInterest = ()=>{
+    if(!socket) return;
+    if(!accomodation) return;
+    socket.emit("sendMessage", {
+      receiverId:accomodation.owner.id,
+      content:`Bonjour, je suis interessé par votre publication: ${accomodation.name}, à l'adresse ${accomodation.address}`
+    });
+    router.push(`/(protected)/(message)/${accomodation.owner.id}`);
+  }
 
   return (
     <SafeAreaView style={{
@@ -62,7 +82,7 @@ const AccomodationDetails = () => {
         </TouchableOpacity>
         {!user?(
             // skeleton later
-            <></>
+            <UserSkeleton/>
         ):(
             <>
                 <Avatar
@@ -96,23 +116,27 @@ const AccomodationDetails = () => {
                   </Text>
                   <Text style={{color:colors.secondaryColor, fontSize:size.md}}>{accomodation.receptionCapacity}</Text>
                 </View>
-                <Stars rating={4.5} maxStars={5}/>
+                <Stars rating={accomodation.rating} maxStars={5}/>
               </View>
               <View style={{flexDirection:"row", gap:10}}>
                 <Button style={{flex:1}}
                   onPress={()=>{
-                    router.push(`/(protected)/(message)/${accomodation.owner.id}`);
+                    // router.push(`/(protected)/(message)/${accomodation.owner.id}`);
+                    sendInterest();
                   }}
                 >
-                  <Text style={{color:"#fff"}}>Je suis interessé</Text>
+                  <Text style={{color:"#fff"}}>{t("accommodation.interested")}</Text>
                 </Button>
-                <Button style={{backgroundColor:colors.lightGray}}>
-                    <Text style={{fontWeight:600}}>Noter</Text>
+                <Button 
+                  style={{backgroundColor:colors.lightGray}}
+                  onPress={()=>setOpen(true)}
+                >
+                    <Text style={{fontWeight:600}}>{t("accommodation.note")}</Text>
                 </Button>
               </View>
               {/* gallery */}
               <Text style={{fontWeight:600, color:colors.secondaryColor, fontSize:size['lg'], textAlign:"center"}}>
-                Galléries
+                {t("accommodation.gallery")}
               </Text>
               <FlatList
                 data={accomodation.media.images}
@@ -130,6 +154,20 @@ const AccomodationDetails = () => {
             </View>
           )
         }
+        <Modal
+          onRequestClose={()=>setOpen(false)}
+          visible={open}
+          animationType='slide'
+        >
+          {accomodation && (
+            // <View style={{fled}}>
+              <RateView accommodation={accomodation} onClose={()=>setOpen(false)}
+              
+                onSuccess={(newRating)=>setAccomodation({...accomodation, rating:newRating})}
+              />
+            // </View>
+          )}
+        </Modal>
     </SafeAreaView>
   )
 }

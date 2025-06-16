@@ -21,4 +21,5 @@ export type Accomodation ={
     },
     owner:User,
     currency:string;
+    rating:number;
 }

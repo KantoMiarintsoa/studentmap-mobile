@@ -3,20 +3,20 @@ import Header from '@/components/ui/header';
 import { normalizeUrl } from '@/libs/utils';
 import { getAccomodationSuggestion } from '@/services/api';
 import { useAccomodationStore, useMeStore } from '@/store/store';
-import React, { useEffect, useState } from 'react';
-import { FlatList } from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { FlatList, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const HomeScreen = () => {
 
     const {details} = useMeStore();
-    const {accomodations, addAccomodations} = useAccomodationStore();
+    const {accomodations, addAccomodations, setAccomodations} = useAccomodationStore();
     const [loading, setLoading] = useState(false);
+    const [refresshing, setRefreshing] = useState(false);
 
     useEffect(()=>{
         async function fetchAccomodations(){
             if(accomodations.length>0)return;
-            console.log("fetching");
             try{
                 setLoading(true);
                 const response =(await getAccomodationSuggestion())
@@ -25,8 +25,7 @@ const HomeScreen = () => {
                             media:{
                               images:accomodation.media.images.map(image=>normalizeUrl(image))
                             }
-                          }))
-                ;
+                          }));
                 addAccomodations(response);
             }
             catch(error){
@@ -38,6 +37,20 @@ const HomeScreen = () => {
         }
         fetchAccomodations();
     }, [])
+
+    const onRefresh = useCallback(async()=>{
+        setRefreshing(true);
+        const response =(await getAccomodationSuggestion())
+            .map(accomodation=>({
+                    ...accomodation,
+                    media:{
+                        images:accomodation.media.images.map(image=>normalizeUrl(image))
+                    }
+        }));
+        console.log(accomodations[0].media.images[0])
+        setAccomodations(response);
+        setRefreshing(false);
+    },[])
 
   return (
     <SafeAreaView style={{
@@ -60,6 +73,9 @@ const HomeScreen = () => {
                     contentContainerStyle={{
                         gap:20
                     }}
+                    refreshControl={
+                        <RefreshControl refreshing={refresshing} onRefresh={onRefresh}/>
+                    }
                 />
             )
         }

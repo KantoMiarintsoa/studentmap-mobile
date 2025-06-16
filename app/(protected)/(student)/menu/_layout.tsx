@@ -1,17 +1,21 @@
-import { Stack } from 'expo-router'
-import React from 'react'
+import { Stack } from 'expo-router';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 const MenuLayout = () => {
+
+  const {t} = useTranslation();
+
   return (
     <Stack>
         <Stack.Screen name='index' options={{
             headerShown:false
         }}/>
         <Stack.Screen name='profile' options={{
-            headerTitle:"Profil"
+            headerTitle:t("header.profile")
         }}/>
         <Stack.Screen name='security' options={{
-            headerTitle:"Sécurité"
+            headerTitle:t("header.security")
         }}/>
     </Stack>
   )

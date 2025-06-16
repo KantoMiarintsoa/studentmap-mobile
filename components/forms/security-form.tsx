@@ -6,6 +6,7 @@ import { AxiosError } from 'axios'
 import { useRouter } from 'expo-router'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Toast from 'react-native-toast-message'
@@ -14,6 +15,8 @@ import Button from '../ui/button'
 import { PasswordInput } from '../ui/input'
 
 const SecurityForm = () => {
+
+    const {t} = useTranslation();
 
     const {
         formState:{errors, isSubmitting},
@@ -34,8 +37,8 @@ const SecurityForm = () => {
             await updatePassword(session.user.id, data);
             Toast.show({
                 type:"success",
-                text1:"Sécurité",
-                text2:"Mot de passe changé avec succès",
+                text1:t("security.label"),
+                text2:t("security.passwordChanged"),
                 position:"top"
             });
             router.back();
@@ -43,7 +46,7 @@ const SecurityForm = () => {
         catch(error){
             const axiosError = error as AxiosError;
             if(axiosError.status===400){
-                form.setError("oldPassword", {message:"L'ancien mot de passe ne correspond pas"});
+                form.setError("oldPassword", {message:t("security.oldPasswordError")});
             }
         }
     }
@@ -63,13 +66,13 @@ const SecurityForm = () => {
                     flexDirection:"column",
                     gap:10
                 }}>
-                    <Text style={{fontSize:size['2xl'], textAlign:'center', marginBottom:20}}>Changer votre mot de passe</Text>
+                    <Text style={{fontSize:size['2xl'], textAlign:'center', marginBottom:20}}>{t("security.title")}</Text>
                     <Controller
                         name='oldPassword'
                         control={form.control}
                         render={({field:{onChange, onBlur, value}})=>(
                             <View style={style.inputContainer}>
-                                <Text style={style.label}>Ancien mot de passe</Text>
+                                <Text style={style.label}>{t("security.oldPassword")}</Text>
                                 <PasswordInput
                                     onChangeText={onChange}
                                     onBlur={onBlur}
@@ -84,7 +87,7 @@ const SecurityForm = () => {
                         control={form.control}
                         render={({field:{onChange, onBlur, value}})=>(
                             <View style={style.inputContainer}>
-                                <Text style={style.label}>Nouveau mot de passe</Text>
+                                <Text style={style.label}>{t("security.newPassword")}</Text>
                                 <PasswordInput
                                     onChangeText={onChange}
                                     onBlur={onBlur}
@@ -99,7 +102,7 @@ const SecurityForm = () => {
                         control={form.control}
                         render={({field:{onChange, onBlur, value}})=>(
                             <View style={style.inputContainer}>
-                                <Text style={style.label}>Confirmer mot de passe</Text>
+                                <Text style={style.label}>{t("security.confirmPassword")}</Text>
                                 <PasswordInput
                                     onChangeText={onChange}
                                     onBlur={onBlur}
@@ -111,7 +114,7 @@ const SecurityForm = () => {
                     />
                     <Button onPress={form.handleSubmit(handleChangePassword)}>
                         {isSubmitting && <ActivityIndicator color={"#fff"} size={24}/>}
-                        <Text style={{color:"#fff", fontSize:size.md}}>Enregistrer</Text>
+                        <Text style={{color:"#fff", fontSize:size.md}}>{t("security.save")}</Text>
                     </Button>
                 </View>
             </ScrollView>

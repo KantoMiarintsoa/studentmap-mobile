@@ -6,9 +6,32 @@ import { useRouter } from 'expo-router'
 import React from 'react'
 import { Text, TouchableHighlight, View } from 'react-native'
 import Avatar from '../ui/avatar'
+import { SkeletonBase, SkeletonCircle } from '../ui/skeleton'
 
 type LastConversationProps = {
     conversation:LastConversation
+}
+
+export function LastConversationSkeleton({length=3}:{length?:number}){
+
+    const list = [];
+    for(let i=0; i<length; i++){
+        list.push(i);
+    }
+
+    return (
+        <View style={{flexDirection:'column', gap:5}}>
+            {list.map((item)=>(
+                <View style={{flexDirection:"row", alignItems:"center", gap:10}} key={item}>
+                    <SkeletonCircle size={70}/>
+                    <View style={{flexDirection:"column", gap:5}}>
+                        <SkeletonBase width={150} height={20}/>
+                        <SkeletonBase width={200} height={15}/>
+                    </View>
+                </View>
+            ))}
+        </View>
+    )
 }
 
 const LastConversationComponennt = ({conversation}:LastConversationProps) => {

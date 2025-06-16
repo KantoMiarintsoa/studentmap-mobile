@@ -15,11 +15,11 @@ type AccomodationItemProps = {
 
 export function AccomodationItemSkeleton({isOwner=false}:{isOwner?:boolean}){
   return (
-    <View style={{flexDirection:"column", width:"100%"}}>
+    <View style={{flexDirection:"column", width:"100%", gap:10}}>
       {!isOwner && (
           <View style={{flexDirection:"row", gap:10, alignItems:"center", marginBottom:10}}>
             <SkeletonCircle size={50}/>
-            <SkeletonBase width={"100%"} height={30} />
+            <SkeletonBase width={200} height={30} />
           </View>
         )}
         <SkeletonBase width={"100%"} height={150}/>
@@ -84,7 +84,7 @@ const AccomodationItem = ({accomodation, isOwner=false}:AccomodationItemProps) =
               </Text>
               <Text style={{color:colors.secondaryColor, fontSize:size.md}}>{accomodation.receptionCapacity}</Text>
             </View>
-            <Stars rating={4.5} maxStars={5}/>
+            <Stars rating={accomodation.rating} maxStars={5}/>
         </View>
         
       </View>

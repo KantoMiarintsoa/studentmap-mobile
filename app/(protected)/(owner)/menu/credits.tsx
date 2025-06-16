@@ -1,20 +1,26 @@
 import BuyCredit from '@/components/payment/BuyCredit';
+import { useAuth } from '@/components/providers/AuthProvider';
 import Button from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { colors, size } from '@/const/const';
 import { buyCreditSchema, BuyCreditSchema } from '@/schema/payment';
-import { getMe, listPaymentMethods } from '@/services/api';
+import { listPaymentMethods } from '@/services/api';
+import { useMeStore } from '@/store/store';
 import { PaymentMethod } from '@/types/user';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { KeyboardAvoidingView, Modal, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 const Credits = () => {
 
-  const [credits, setCredits] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
+  const {details, setDetails} = useMeStore();
+  const {updateSession, session} = useAuth();
+
+  const credits = details.serviceRemainders;
 
   const {
     formState:{errors},
@@ -34,12 +40,12 @@ const Credits = () => {
 
   const [openModal, setOpenModal] = useState<boolean>(false);
 
+  const {t} = useTranslation();
+
   useEffect(()=>{
     async function fetchCredits(){
       try{
         setLoading(true);
-        const response = await getMe();
-        setCredits(response.serviceRemainders);
         const methods = await listPaymentMethods();
         setPaymentMethods(methods);
         setLoading(false);
@@ -59,7 +65,7 @@ const Credits = () => {
       style={{flex:1, padding: 20, flexDirection:'column', gap:10}}
       behavior={Platform.OS==="ios"?"padding":"height"}
     >
-      <Text style={{fontSize: 18, fontWeight: '500', marginBottom: 16}}>Vous avez: {credits} credits</Text>
+      <Text style={{fontSize: 18, fontWeight: '500', marginBottom: 16}}>{t("credit.having")} {credits} {t("credit.credits")}</Text>
       {/* buy credits */}
       <ScrollView
         style={{flex:1}}
@@ -67,13 +73,13 @@ const Credits = () => {
         <View
           style={{backgroundColor:"#fff", elevation:2, padding:10, borderRadius:10, flexDirection:'column', gap:10}}
         >
-          <Text style={{fontSize:size.lg, fontWeight:500}}>Acheter des credits pour poster plus</Text>
+          <Text style={{fontSize:size.lg, fontWeight:500}}>{t("credit.buyCredits")}</Text>
           <Controller
             name='credit'
             control={form.control}
             render={({field:{onChange, onBlur, value}})=>(
               <View style={style.inputContainer}>
-                <Text style={style.label}>Nombre de credits (1 credit/ 1$)</Text>
+                <Text style={style.label}>{t("credit.label")}</Text>
                 <View style={{width:'100%', flexDirection:"row", gap:10, alignItems:'center'}}>
                   <Input
                     keyboardType='numeric'
@@ -91,7 +97,7 @@ const Credits = () => {
             )}
           />
           <Button onPress={()=>setOpenModal(true)}>
-            <Text style={{color:"#fff"}}>Acheter</Text>
+            <Text style={{color:"#fff"}}>{t("credit.buy")}</Text>
           </Button>
         </View>
       </ScrollView>
@@ -105,9 +111,16 @@ const Credits = () => {
           credits={credit}
           paymentMethods={paymentMethods}
           onPaymentSuccess={(credits) => {
-            setCredits(prev => prev + credits);
+            if(session){
+              updateSession({...session, user:{
+                ...session.user,
+                serviceRemainders:details.serviceRemainders+credits
+              }})
+            }
+            setDetails({...details, serviceRemainders:details.serviceRemainders+credits})
             setOpenModal(false);
           }}
+          loading={loading}
         />
       </Modal>
     </KeyboardAvoidingView>

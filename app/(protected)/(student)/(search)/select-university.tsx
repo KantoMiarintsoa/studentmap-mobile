@@ -8,6 +8,7 @@ import { University } from '@/types/university';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { FlatList, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -20,6 +21,8 @@ const SelectUniversity = () => {
     const [loading, setLoading] = useState(false);
     const [query, setQuery] = useState("");
     const {setUniversity} = useSelectUniversityStore();
+
+    const {t} = useTranslation()
 
     useEffect(()=>{
         if(searchRef.current){
@@ -66,7 +69,7 @@ const SelectUniversity = () => {
                         borderColor:"transparent",
                         flex:1
                     }}
-                    placeholder='Rechercher une université'
+                    placeholder={t("search.searhUniversity")}
                     ref={searchRef}
                     onChangeText={(text)=>searchUniversity(text)}
                 />
@@ -74,7 +77,7 @@ const SelectUniversity = () => {
             <Button variants='link'
                 onPress={()=>router.back()}
             >
-                <Text style={{fontWeight:600, color:colors.primaryColor}}>Annuler</Text>
+                <Text style={{fontWeight:600, color:colors.primaryColor}}>{t("global.cancel")}</Text>
             </Button>
         </View>
         {loading && (
@@ -92,7 +95,7 @@ const SelectUniversity = () => {
                   router.back();
                 }}
               >
-                <Text style={{color:"#fff"}}>Selectionner</Text>
+                <Text style={{color:"#fff"}}>{t("search.select")}</Text>
               </Button>
             </UniversityItem>
           )}
@@ -103,7 +106,7 @@ const SelectUniversity = () => {
                     fontSize:size.lg,
                     color:colors.secondaryColor,
                     textAlign:"center"
-                }}>Aucune université correspond à votre recherche</Text>
+                }}>{t("search.noUniversity")}</Text>
               )
             }
           }}
