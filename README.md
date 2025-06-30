@@ -25,6 +25,14 @@ In the output, you'll find options to open the app in a
 
 You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
+## Screenshots
+<p align="center">
+  <img src="https://i.postimg.cc/YS44cLrL/8a842fea-d3ea-4668-bb4e-b8d573d89279-portrait.png"Screenshot 3" width="300" />
+  <img src="https://i.postimg.cc/2SSbwXgw/2124ffda-1d89-44ce-b2f9-ac2838d6689a-portrait.png" alt="Screenshot 1" width="300" />
+  <img src="https://i.postimg.cc/13m6dzVD/7a69203e-b87e-4f7e-bd7c-7f338c6b55ff-portrait.png" alt="Screenshot 2" width="300" />
+  <img src="https://i.postimg.cc/yYP30zpx/80c8f8c3-7cae-4a17-9fe3-979f90c377db-portrait.png alt="Screenshot 3" width="300" />
+</p>
+
 ## Get a fresh project
 
 When you're ready, run:
